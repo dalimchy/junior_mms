@@ -1,0 +1,75 @@
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                <div class="sidebar-inner slimscrollleft">
+
+                    <!-- User -->
+                    <div class="user-box">
+                        <div class="user-img">
+                            <img src="/admin_assets/images/users/img.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                            <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
+                        </div>
+                        <h5><a href="#">user name</a> </h5>
+                        <ul class="list-inline">
+                            <li>
+                                <a href="#" >
+                                    <i class="zmdi zmdi-settings"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/logout" class="text-custom">
+                                    <i class="zmdi zmdi-power"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End User -->
+
+                    <!--- Sidemenu -->
+                    <div id="sidebar-menu">
+                        <ul>
+                        	<li class="text-muted menu-title">Navigation</li>
+
+                            <li class="<% if(title == 'Dashboard'){ %>active <% } %>" >
+                                <a href="/dashboard" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
+                            </li>
+                            <li class="" >
+                                <a href="/" class="waves-effect"><i class="fa fa-eye"></i> <span> Frontend </span> </a>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-invert-colors"></i> <span>Appearance</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/dashboard/menu"><i class="fa fa-bars"></i>Menu</a></li>
+                                    <li><a href="/dashboard/slider"><i class="fa fa-sliders"></i>Slider</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-th-large"></i> <span>Category</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/dashboard/main-category"><i class="fa  fa-th-list"></i>Main category</a></li>
+                                    <li><a href="/dashboard/sub-category"><i class="fa  fa-indent"></i>Sub category</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i> <span>Product</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/dashboard/add-product"><i class="fa fa-cube"></i>Add product </a></li>
+                                    <li><a href="/dashboard/manage-product"><i class="fa fa-cog"></i>Manage product</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="/dashboard/tags" class="waves-effect"><i class="fa fa-tags"></i> <span>Tags</span></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- Sidebar -->
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </div>
+            <!-- Left Sidebar End -->

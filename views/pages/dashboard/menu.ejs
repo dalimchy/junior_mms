@@ -1,0 +1,242 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                            	<div class="card-box">
+                            		<div class="row">
+                            			<div class="col-sm-12">
+                                            <h5><b>Add Menu</b></h5>
+                                            <% if(ses_msg !== null){ %>
+                                                <div class="alert alert-success alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <%= ses_msg %>
+                                                </div>
+                                            <%   } %>
+                                            
+                            				<form class="form-inline" method="POST" action="/dashboard/menu">
+												<div class="form-group m-r-10">
+													<input name="menu_title" type="text" class="form-control" id="menuTitle" placeholder="Menu Title..." required>
+                                                </div>
+												<div class="form-group m-r-10">
+                                                    <label>Assign Menu :</label>
+                                                    <div class="radio radio-info radio-inline">
+                                                        <input type="radio" id="inlineRadio4" value="category_menu" name="assginMenu" checked="">
+                                                        <label for="inlineRadio4">Category</label>
+                                                    </div>
+                                                    <div class="radio radio-info radio-inline">
+                                                        <input type="radio" id="inlineRadio1" value="primay_menu" name="assginMenu">
+                                                        <label for="inlineRadio1">Primary</label>
+                                                    </div>
+                                                    <div class="radio radio-purple radio-inline">
+                                                        <input type="radio" id="inlineRadio2" value="secondary_menu" name="assginMenu">
+                                                        <label for="inlineRadio2">Secondary</label>
+                                                    </div>
+                                                    <div class="radio radio-pink radio-inline">
+                                                        <input type="radio" id="inlineRadio3" value="footer_menu" name="assginMenu">
+                                                        <label for="inlineRadio3">Footer</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-r-10">
+                                                    <label>Status :   </label>
+                                                    <input type="checkbox" checked data-plugin="switchery" data-color="#10c469" data-size="small" data-switchery="true" style="display: none;" name="active_status">
+                                                </div>
+                                                <input name="menu_icon" type="text" id="menuIconName" style="display: none" value="fa fa-shopping-bag" required>
+                                                
+                                                <a href="#select_icon" class="btn btn-info waves-effect waves-light m-l-10 btn-md" data-animation="blur" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a">Select Icon</a>
+                                                <div id="v_s_i" class="btn btn-info waves-effect waves-light m-l-10 btn-md" style="display:none"></div>
+												<button type="submit" class="btn btn-success waves-effect waves-light m-l-10 btn-md">
+													Add
+												</button>
+											</form>
+                            			</div>
+
+                            		</div>
+                            	</div>
+                        	</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+    
+                                    <!-- <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div> -->
+                                    
+                                    <h4 class="header-title m-t-0 m-b-30">Menu Item List</h4>
+    
+                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap"
+                                        cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Menu Title</th>
+                                                <th>Menu Icon</th>
+                                                <th>Assign Menu</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% _.each(allMenu, function(v,k){ %> 
+                                                <tr id="_menu<%= v.appearance_id %>">
+                                                    <td><%= v.menu_title %></td>
+                                                    <td><i class="<%= v.menu_icon %>"></i></td>
+                                                    <td><%= v.assign_menu %></td>
+                                                    <td data-id="<%= v.appearance_id %>"><% if(v.status == 1){ %><button onclick="update_appear(this,'status')" type="button" class="btn btn-block btn--md btn-success waves-effect waves-light" data-status="active">Active</button><% }else{ %><button onclick="update_appear(this,'status')" type="button" class="btn btn-block btn--md btn-danger waves-effect waves-light" data-status="inactive">In-Active</button><% } %></td>
+                                                    <td data-id="<%= v.appearance_id %>" ><button class="btn btn-block btn--md btn-danger waves-effect waves-light" onclick="appearance_delete(this)"> <i class="fa fa-trash-o"></i> </button></td>
+                                                </tr>
+                                            <% }); %>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+            <!-- Modal -->
+			<div id="select_icon" class="modal-demo">
+                    <button type="button" class="close" onclick="Custombox.close();">
+                        <span>&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="custom-modal-title">Select your menu icon</h4>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <div class="card-box">
+                                        <section>
+                                            <div class="icon-list-demo row">
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-shopping-bag"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-shopping-cart"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-shopping-basket"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-suitcase"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-apple"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-android"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-address-book"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-user-circle"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-battery-full"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-amazon"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-diamond"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-bed"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-motorcycle"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-calculator"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-bicycle"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-birthday-cake"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-paint-brush"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa   fa-futbol-o"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa    fa-plug"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-camera"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-camera-retro"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-cube"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-desktop"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-cutlery"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-female"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa  fa-flag-checkered"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa   fa-keyboard-o"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa   fa-laptop"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-mobile"></i></button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                                    <button type="button" class="btn btn-info waves-effect waves-light m-b-5" onclick="selectMenuIcon(this)"><i class="fa fa-microphone"></i></button>
+                                                </div>
+                                            </div>
+                                        </section> 
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
+
+

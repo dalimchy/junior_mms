@@ -1,0 +1,302 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+<style type="text/css">
+    #viewProductImage .portlet-title{
+        white-space: nowrap;
+        overflow: hidden;
+        width: 115px;
+        text-overflow: ellipsis;
+    }
+</style>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="header-title m-t-0 m-b-30">Add Main Category</h4>
+                                    <% if(ses_msg !== null){ %>
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <%= ses_msg %>
+                                        </div>
+                                    <%   } %>
+                                    <div class="row">
+                                        <form action="/dashboard/add-product" class="form-horizontal" role="form"  method="POST" enctype="multipart/form-data">
+                                            <input type="text" name="productImage" id="hiddenProductImage" style="display: none">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product Name *</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" name="product_name" placeholder="Write product name..." required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product Model</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" name="product_model" placeholder="Write product model...">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product Quantity *</label>
+                                                    <div class="col-md-8">
+                                                        <input type="number" class="form-control" placeholder="Write Product Quantity..." name="product_qty" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Select main category *</label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control select2" name="main_category_id" id='select_main_category' required onchange="categoryOnchange(this)">
+                                                            <option value="" >Select</option>>
+                                                            <% _.each(category, function(v,k){ if(v.category_type == 'main_category'){ %> 
+                                                                <option value="<%= v.category_id%>"><%= v.category_name%></option>
+                                                            <% } });%>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Select sub category</label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control" id="select_sub_category" name="sub_category_id" >
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product orginal price *</label>
+                                                    <div class="col-md-8">
+                                                        <input type="number" class="form-control" name="product_orgianl_price" placeholder="Write orginal price..." required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product discount price</label>
+                                                    <div class="col-md-8">
+                                                        <input type="number" class="form-control" name="product_discount_price" placeholder="Write discount price...">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Product label</label>
+                                                    <div class="col-md-8">
+                                                        <div class="radio radio-info radio-inline">
+                                                        <input type="radio" id="inlineRadio1" value="Hot" name="product_label" >
+                                                        <label for="inlineRadio1">Hot</label>
+                                                    </div>
+                                                    <div class="radio radio-purple radio-inline">
+                                                        <input type="radio" id="inlineRadio2" value="Sale" name="product_label">
+                                                        <label for="inlineRadio2">Sale</label>
+                                                    </div>
+                                                    <div class="radio radio-pink radio-inline">
+                                                        <input type="radio" id="inlineRadio3" value="New" name="product_label">
+                                                        <label for="inlineRadio3">New</label>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end col -->
+                                            <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-12 text-center">Freature Image * </label>
+                                                        <div class="col-md-10 col-md-offset-1">
+                                                            <input type="file" class="dropify" data-default-file="" value="" required name="feature_image" accept="image/*">
+                                                        </div>
+                                                    </div>
+                                                    <div class="sortable">
+                                                        <div class="row">
+                                                            <div class="col-md-12" id="viewProductImage">
+                                                                
+                                                            </div>
+                                                        </div><!-- Row -->
+                                                    </div><!-- Sortable -->
+                                                    <div class="form-group">
+                                                        <div class="col-md-10 col-md-offset-1" onclick="openMoreImage(this)">
+                                                           <div class="btn btn-block btn-inverse btn-trans waves-effect w-md waves-inverse"><i class="fa fa-plus-circle"></i> Add More</div>
+                                                        </div>
+                                                    </div>
+
+                                            </div><!-- end col -->
+                                            <div class="col-lg-12 text-center">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Short Description</label>
+                                                    <div class="col-md-10">
+                                                        <textarea id="product_short_desc" name="sort_desc" class="form-control" rows="2" placeholder="Write short description..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Long Description</label>
+                                                    <div class="col-md-10">
+                                                        <textarea  id="product_long_desc" name="long_desc" class="form-control" rows="4" placeholder="Write long description..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-6 text-right">Status :</label>
+                                                    <div class="col-md-6 text-left">
+                                                        <input type="checkbox" checked data-plugin="switchery" data-color="#10c469" data-size="small" data-switchery="true" style="display: none;" name="active_status">
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light w-xs m-b-5"  id="productSubmitBtn">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div><!-- end row -->
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+<form id="uploadForm"
+         enctype="multipart/form-data"
+         method="post" >
+      <input id="moreImageInput" type="file" name="productImage" multiple accept="image/*" onchange="moreImageOnchange(event,this)"/>
+      <input type="submit" value="Upload Image" name="submit">
+</form>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script type="text/javascript">
+    function openMoreImage(ele){
+        $('#moreImageInput').click();
+    }
+    var product_imagesArray = [];
+    function moreImageOnchange(e,ele){
+        var files = ele.files;
+        for (var i = 0; i < files.length; i++) {
+            var formData = new FormData();
+            var entries = formData.entries();
+            for(var pair of entries )
+            {
+               formData.delete( pair[0] );
+            }
+            var slid = Number(moment().unix()) + i + 1;
+            formData.append('productImage', files[i]);
+            $.ajax({
+                // xhr: function() {
+                // var xhr = new XMLHttpRequest();
+                //     xhr.upload.addEventListener("loadstart", function(et) {
+                //         this.progressId = slid;
+                //         console.log(167,this.progressId)
+                        
+                //     });
+                //     xhr.upload.addEventListener("progress", function(evt) {
+                //         if (evt.lengthComputable) {
+                //             var percentComplete = evt.loaded / evt.total;
+                //             var percom = Math.ceil(percentComplete * 100);
+                //             console.log(174,percom);
+                            
+                //         }
+                //     }, false);
+                //     return xhr;
+                // },
+                type: 'POST',
+                url: '/dashboard/productImgUp',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data : formData,
+                error: function(err){
+                    console.log(err);
+                },
+                success: function(res){
+                    if(res !== null){
+                        product_imagesArray.push(res);
+                        $('#hiddenProductImage').val(product_imagesArray);
+                        $('#viewProductImage').append(imageviewDesign(res));
+                    }
+                }        
+            });
+
+
+        }
+
+    }
+    function unlinkThisImage(type,val){
+
+        var data = {
+            type:type,
+            value : val
+        }
+        console.log(data);
+        $.ajax({
+                type: 'POST',
+                url: '/dashboard/unlinkFile',
+                data :data,
+                error: function(err){
+                    console.log(err);
+                },
+                success: function(res){
+                    removeA(product_imagesArray, val);
+                    $('#hiddenProductImage').val(product_imagesArray);
+                }        
+            });
+    }
+
+    var customSerial = 0;
+    function imageviewDesign(value){
+        console.log(value)
+        customSerial = customSerial + 1;
+        var name = value.split('@');
+        var name2 = value.split('.');
+        var html = '';
+            html +=         '<div class="col-md-6">';
+            html +=            '<div class="portlet card-draggable">';
+            html +=             '<div class="portlet-heading bg-purple">';
+            html +=                 '<h3 class="portlet-title">'+name[0]+'</h3>';
+            html +=                 '<div class="portlet-widgets">';
+            html +=                     '<a data-toggle="collapse" data-parent="#accordion1" href="#bg-default'+customSerial+'"><i class="zmdi zmdi-minus"></i></a>';
+            html +=                     '<a onclick="unlinkThisImage(\'productImage\',\''+value+'\')" data-toggle="remove" style="cursor:pointer"><i class="zmdi zmdi-close"></i></a>';
+            html +=                 '</div>';
+            html +=                 '<div class="clearfix"></div>';
+            html +=             '</div>';
+            html +=             '<div id="bg-default'+customSerial+'" class="panel-collapse collapse in">';
+            html +=                 '<div class="portlet-body" style="border: 1px solid #5b68bc;">';
+            html +=                    '<img src="/admin_assets/images/product_images/'+value+'" alt="image" style="max-width:100%; max-height:100%;border-radius:4px;">'
+            html +=                 '</div>';
+            html +=             '</div>';
+            html +=            '</div>';
+            html +=        '</div>';
+
+            return html;
+    }
+
+    function categoryOnchange(ele){
+        var value = $(ele).val();
+        if(value !== ''){
+        $.ajax({
+                type: 'POST',
+                url: '/dashboard/findSubCate',
+                data :{data:value},
+                error: function(err){
+                    console.log(err);
+                },
+                success: function(res){
+                    if(res.msg == 'success'){
+                        $('#select_sub_category').html('');
+                        $('#select_sub_category').val('');
+                        $.each(res.data, (k,v)=>{
+                            $('#select_sub_category').append('<option value="'+v.cateId+'">'+v.name+'</option>');
+                        });
+                    }else{
+                        $('#select_sub_category').html('');
+                    }
+                }        
+            });
+        }else{
+            console.log('null');
+        }
+    }
+</script>
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
+
+
