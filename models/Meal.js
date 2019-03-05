@@ -12,7 +12,7 @@ const mealSchema = new Schema({
         type:String,
         required:true
     },
-    assign_member_id:{
+    assign_user_id:{
         type:String,
         required:true
     },

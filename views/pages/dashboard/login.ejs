@@ -37,20 +37,20 @@
         <div class="clearfix"></div>
         <div class="wrapper-page">
             <div class="text-center">
-                <a href="index.html" class="logo"><span>Admin<span>to</span></span></a>
+                <a href="/" class="logo"><span>Admin<span>to</span></span></a>
                 <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
             </div>
         	<div class="m-t-40 card-box">
-                <% if(msg !== null){ %>
+                <% if(ses_msg !== null){ %>
                     <div class="alert alert-warning">
-                       <strong>Warning!</strong> <%= msg %>
+                       <strong>Warning!</strong> <%= ses_msg %>
                     </div>
                 <%   } %>
                 <div class="text-center">
                     <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
                 </div>
                 <div class="panel-body">
-                    <form class="form-horizontal m-t-20" action="/login/loginCheck" method="POST">
+                    <form class="form-horizontal m-t-20" action="/login" method="POST">
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="emailAddress">Email</label>

@@ -48,44 +48,47 @@
         <div class="clearfix"></div>
         <div class="wrapper-page">
             <div class="text-center">
-                <a href="index.html" class="logo"><span>Admin<span>to</span></span></a>
+                <a href="/" class="logo"><span>Admin<span>to</span></span></a>
                 <h5 class="text-muted m-t-0 font-600">Responsive Admin Dashboard</h5>
             </div>
         	<div class="m-t-40 card-box">
-                    <% if(msg !== null){ %>
+                    <% if(ses_msg !== null){ %>
                         <div class="alert alert-info">
-  												 <strong>Heads up!</strong> <%= msg %>
-  											</div>
+                                <strong>Heads up!</strong> <%= ses_msg %>
+                        </div>
                     <%   } %>
                 <div class="text-center">
                     <h4 class="text-uppercase font-bold m-b-0">Register</h4>
                 </div>
                 <div class="panel-body">
-         <form class="form-horizontal m-t-20" action="/register/newUser" method="POST" enctype="multipart/form-data">
-
+         <form class="form-horizontal m-t-20" action="/register" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label class="col-md-3 control-label" for="emailAddress">Email</label>
+                    <label class="col-md-3 control-label" for="user_email">Your Email</label>
+                    <div class="col-md-9">
+                        <input type="email" required id="user_email" name="user_email" class="form-control" placeholder="Email Address">
+                    </div>
+                </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="messName">Mess Name</label>
                 <div class="col-md-9">
-                    <input type="email" required id="emailAddress" name="email" class="form-control" placeholder="Email Address">
+                    <input type="text" required id="messName" name="mess_name" class="form-control" placeholder="Enter Mess name">
                 </div>
             </div>
-
             <div class="form-group">
-                <label class="col-md-3 control-label" for="Username">User Name</label>
+                <label class="col-md-3 control-label" for="user_name">Your Name</label>
                 <div class="col-md-9">
-                    <input type="text" required id="Username" name="name" class="form-control" placeholder="User Name">
+                    <input type="text" required id="user_name" name="user_name" class="form-control" placeholder="Enter Your Name">
                 </div>
             </div>
-
             <div class="form-group">
-                <label class="col-md-3 control-label" for="userPhone">Phone</label>
+                <label class="col-md-3 control-label" for="userPhone">Your Phone</label>
                 <div class="col-md-9">
                     <input type="text" required id="userPhone" name="phone" class="form-control" placeholder="Phone Number">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 control-label" for="userPassword">Password</label>
+                <label class="col-md-3 control-label" for="userPassword">Enter Password</label>
                 <div class="col-md-9">
                     <input type="password" required id="userPassword" name="password" class="form-control" placeholder="password">
                 </div>
