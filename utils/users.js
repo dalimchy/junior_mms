@@ -76,6 +76,8 @@ var loginCheck = (data,callback)=>{
                                 user_name:result.user_name,
                                 user_email:result.user_email,
                                 user_img:result.user_img,
+                                mess_id:result.mess_id,
+                                user_role:result.user_role
                             }
                             callback({msg:'success',data});
                         }else{
@@ -88,4 +90,18 @@ var loginCheck = (data,callback)=>{
     });
 }
 
-module.exports = {newManager,loginCheck};
+var messCheck = (data,callback)=>{
+    Mess.findOne({mess_id:data.mess_id}, function (err, result) {
+        if(err){
+            console.log(err);
+        }else{
+            if(result == null){
+                callback({msg:'Mess does not exist.'});
+            }else{
+                callback({msg:'success',mess_name:result.mess_name});
+            }
+        }
+    });
+
+}
+module.exports = {newManager,loginCheck,messCheck};

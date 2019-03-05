@@ -61,6 +61,9 @@ router.post('/', function(req, res) {
               req.session.user_name = response.data.user_name;
               req.session.user_email = response.data.user_email;
               req.session.user_img = response.data.user_img;
+              req.session.user_role = 1;
+              req.session.mess_id = response.data.mess_id;
+              req.session.mess_name = req.body.mess_name;
               res.redirect('/');
             }else{
               req.session.msg = response.msg;

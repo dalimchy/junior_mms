@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-var {loginCheck} = require('./../utils/users');
+var {loginCheck,
+      messCheck
+    } = require('./../utils/users');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -31,13 +33,24 @@ router.post('/', function(req, res) {
     }
     loginCheck(data,(response)=>{
       if(response.msg == 'success'){
-        req.session.success = true;
-        req.session.login = true;
-        req.session.user_id = response.data.user_id;
-        req.session.user_name = response.data.user_name;
-        req.session.user_email = response.data.user_email;
-        req.session.user_img = response.data.user_img;
-        res.redirect('/');
+        messCheck({mess_id:response.data.mess_id},(response2)=>{
+          if(response2.msg == 'success'){
+            req.session.success = true;
+            req.session.login = true;
+            req.session.user_id = response.data.user_id;
+            req.session.user_name = response.data.user_name;
+            req.session.user_email = response.data.user_email;
+            req.session.user_img = response.data.user_img;
+            req.session.mess_id = response.data.mess_id;
+            req.session.mess_name = response2.mess_name;
+            req.session.user_role = response.data.user_role;
+            res.redirect('/');
+          }else{
+            req.session.msg = response.msg;
+            res.redirect('/login');
+          }
+        });
+        
       }else{
         req.session.msg = response.msg;
         res.redirect('/login');
