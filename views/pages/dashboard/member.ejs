@@ -1,0 +1,115 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+                <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+
+                                    <h4 class="header-title m-t-0 m-b-30">Add Member</h4>
+                                    <% if(ses_msg !== null){ %>
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <%= ses_msg %>
+                                        </div>
+                                    <%   } %>
+
+                                    <div class="row">
+                                        <form action="/dashboard/slider" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">
+                                            
+                                            <div class="col-lg-10">
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Member Name</label>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class="form-control" placeholder="Member Name" name="member_name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Member Email</label>
+                                                    <div class="col-md-7">
+                                                        <input type="Email" class="form-control" placeholder="Member Email" name="member_email">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Phone Number</label>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class="form-control" placeholder="Phone Number" name="phone_number">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-8 col-md-offset-4 text-center" >
+                                                        <input type="file" class="dropify" data-default-file="" value="" name="profile_pic" accept="image/*" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 text-center">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light w-xs m-b-5">Add Member</button>
+                                            </div>
+                                        </form>
+
+                                    </div><!-- end row -->
+
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box table-responsive">
+                                    <h4 class="header-title m-t-0 m-b-30">Member List</h4>
+    
+                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap"
+                                        cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr >
+                                                    <td>asfasdf</td>
+                                                    <td>asfasdf</td>
+                                                    <td>asfasdf</td>
+                                                    <td>asfasdf</td>
+                                                    <td>asfasdf</td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
+
+
