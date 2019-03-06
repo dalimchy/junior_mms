@@ -104,4 +104,36 @@ var messCheck = (data,callback)=>{
     });
 
 }
-module.exports = {newManager,loginCheck,messCheck};
+
+
+var newMember = (data,callback)=>{
+    var hash = bcrypt.hashSync(data.user_password, salt);
+    var user_id = uuidv4();
+    var userdata = {
+        user_id: user_id,
+        mess_id: data.mess_id,
+        user_name: data.user_name,
+        user_email : data.user_email,
+        user_phone : data.user_phone,
+        user_img : data.user_img,
+        user_role : 2,
+        user_password : hash
+    }
+    var newUser = new User(userdata);
+    User.findOne({user_email:userdata.user_email}, function (err, result) {
+        if(err){
+            console.log(err)
+        }else{
+            if(result == null){
+                newUser.save().then(res =>{
+                    callback({msg:'success',data:userdata});
+                })
+                .catch(err => console.log(err));
+            }else{
+                callback({msg:'Email already exist.', data:null});
+            }
+
+        }
+    });
+}
+module.exports = {newManager,loginCheck,messCheck,newMember};
