@@ -20,13 +20,37 @@ const mealSchema = new Schema({
         type:String,
         required:true
     },
-    meal:{
+    lunch:{
         type:Number,
         default:0
     },
+    dinner:{
+        type:Number,
+        default:0
+    },
+    breakfast:{
+        type:Number,
+        default:0
+    },
+    guest:{
+        type:Number,
+        default:0
+    },
+    day:{
+        type:Number,
+        required:true
+    },
+    month:{
+        type:Number,
+        required:true
+    },
+    year:{
+        type:Number,
+        required:true
+    },
     date_of_meal:{
         type:String,
-        default:Date.now
+        required:true
     },
     created_at:{
         type:Date,

@@ -1,7 +1,6 @@
 <%- include('../../layouts/dashboard/head') %>
 <%- include('../../layouts/dashboard/topbar') %>
-<%- include('../../layouts/dashboard/left_bar') %>
-                <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/left_bar') %>                <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
@@ -38,7 +37,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-5 control-label">Select Member </label>
                                                     <div class="col-md-7">
-                                                            <select class="form-control select2" name="member_id" id="memberList">
+                                                            <select class="form-control select2" name="member_id" id="selectMember_id" required>
                                                                     <% _.each(member_list,function(v,k){ %>
                                                                         <option value="<%= v.user_id %>"><%= v.user_name %></option>
                                                                     <% })%>
@@ -48,14 +47,14 @@
                                                 <div class="form-group">
                                                     <label class="col-md-5 control-label">Breakfast</label>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="meal_breakfast" value="0.5">
+                                                        <input type="number" class="form-control"  name="meal_breakfast" value="0.5" id="breakfastMeal">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-md-12">
                                                             <label class="col-md-5 control-label">Lunch</label>
                                                             <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="meal_lunch" value="1">
+                                                                <input type="number" class="form-control"  name="meal_lunch" value="1" id="lunchMeal">
                                                             </div>
                                                     </div>
                                                 </div>
@@ -63,7 +62,7 @@
                                                     <div class="col-md-12">
                                                             <label class="col-md-5 control-label">Dinner</label>
                                                             <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="meal_dinner" value="0.5">
+                                                                <input type="number" class="form-control"  name="meal_dinner" value="0.5" id="dinnerMeal">
                                                             </div>
                                                     </div>
                                                 </div>
@@ -71,7 +70,7 @@
                                                     <div class="col-md-12">
                                                             <label class="col-md-5 control-label">Guest</label>
                                                             <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal">
+                                                                <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal" value="0" id="guestMeal">
                                                             </div>
                                                     </div>
                                                 </div>
@@ -86,10 +85,14 @@
                                                                     <div class="panel-body">
                                                                             <div class="col-md-12">
                                                                                 <ul class="list-group">
-                                                                                    <li class="list-group-item">
-                                                                                        <span class="badge badge-primary">14</span>
-                                                                                        Dalim Chowdhury
-                                                                                    </li>
+                                                                                    <% _.each(member_list,function(v,k){ %>
+                                                                                        <li class="list-group-item">
+                                                                                            
+                                                                                                <% _.each(meal_list,function(va,ka){ if(va.assign_user_id == v.user_id){ var t=va.lunch + va.dinner + va.breakfast + va.guest %> <span class="badge badge-primary"><%= t %></span><%}})%>
+                                                                                            
+                                                                                            <%= v.user_name %>
+                                                                                        </li>
+                                                                                    <% })%>
                                                                                 </ul>
                                                                             </div>
                                                                     </div>
@@ -99,7 +102,7 @@
                                             </div>
                                         </form>
                                             <div class="col-lg-12 text-center">
-                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5">Add Meal</button>
+                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Submit</button>
                                             </div>
 
                                     </div><!-- end row -->
@@ -149,5 +152,33 @@
             $('#mealOfTheDay').append('<option value="'+i+'">Day '+i+'</option>');
         }
 
+    }
+
+    function addMeal(type){
+        var day = $('#mealOfTheDay').val()
+        var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
+
+        var data = {
+            member:$('#selectMember_id').val(),
+            lunch:$('#lunchMeal').val(),
+            dinner:$('#dinnerMeal').val(),
+            breakfast:$('#breakfastMeal').val(),
+            guest_meal:$('#guestMeal').val(),
+            day:day,
+            month:thisMonth,
+            year:thisYear,
+            date_of_meal:date
+        }
+        $.ajax({
+            type: "POST",
+            url: '/meal/addMeal',
+            data: data,
+            success: function(res) {
+                location.replace('/meal');
+            },
+            error: function() {
+                console.log('failed');
+            }
+        });
     }
 </script>

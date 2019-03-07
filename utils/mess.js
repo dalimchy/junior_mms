@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs');
 
 const User = require('../models/Users');
 const Mess = require('../models/Mess_info');
+const Meal = require('../models/Meal');
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -17,4 +18,39 @@ var findAllMember = (data,callback)=>{
         }
     });
 }
-module.exports = {findAllMember};
+
+var addMeal = (data,callback)=>{
+	Meal.findOne({mess_id:data.mess_id,assign_user_id:data.assign_user_id,day:data.day,month:data.month,year:data.year}, function (err, result) {
+        if(err){
+            console.log(err)
+        }else{
+
+            if(result == null){
+            	var newMeal = new Meal(data);
+				newMeal.save().then(res =>{
+			        callback({msg:'success',data:data});
+			    })
+			    .catch(err => console.log(err));
+            }else{
+            	Meal.updateOne({meal_id:result.meal_id},{breakfast:data.breakfast,lunch:data.lunch,dinner:data.dinner,guest:data.guest},function(err,result2){
+            		if(err){
+            			console.log(err);
+            		}else{
+            			callback({msg:'update',data:data});
+            		}
+            	})
+            }
+        }
+    });
+	
+}
+var findTodayMeal = (data,callback)=>{
+	Meal.find(data,function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
+module.exports = {findAllMember,addMeal,findTodayMeal};
