@@ -1,6 +1,12 @@
 <%- include('../../layouts/dashboard/head') %>
 <%- include('../../layouts/dashboard/topbar') %>
-<%- include('../../layouts/dashboard/left_bar') %>                <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/left_bar') %> 
+<style>
+.mce-container.mce-menubar{
+    display: none;
+}
+</style> 
+<!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
@@ -13,7 +19,7 @@
                             <div class="col-sm-12">
                                 <div class="card-box">
 
-                                    <h4 class="header-title m-t-0 m-b-30">Add Meal</h4>
+                                    <h4 class="header-title m-t-0 m-b-30">Add Bazar</h4>
                                     <% if(ses_msg !== null){ %>
                                         <div class="alert alert-success alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -29,7 +35,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-5 control-label">Select Day </label>
                                                     <div class="col-md-7">
-                                                            <select class="form-control select2" name="day" id="mealOfTheDay">
+                                                            <select class="form-control select2" name="day" id="bazarOfTheDay">
                                                                 
                                                             </select>
                                                     </div>
@@ -45,33 +51,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-md-5 control-label">Breakfast</label>
+                                                    <label class="col-md-5 control-label">Bazar Details</label>
+                                                    <div class="col-md-7">
+                                                        <textarea name="bazar_details" id="bazarDetails2" cols="20" rows="10" style="width:100%"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Amount</label>
                                                     <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="meal_breakfast" value="0.5" id="breakfastMeal">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                            <label class="col-md-5 control-label">Lunch</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="meal_lunch" value="1" id="lunchMeal">
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                            <label class="col-md-5 control-label">Dinner</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="meal_dinner" value="0.5" id="dinnerMeal">
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                            <label class="col-md-5 control-label">Guest</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal" value="0" id="guestMeal">
-                                                            </div>
+                                                        <input type="number" class="form-control" name="total_amount" value="00" id="totalAmount">
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,20 +68,20 @@
                                                             <div class="col-lg-12">
                                                                 <div class="panel panel-custom panel-border">
                                                                     <div class="panel-heading">
-                                                                        <h3 class="panel-title">Today Meal Status</h3>
+                                                                        <h3 class="panel-title">Today Bazar Status</h3>
                                                                     </div>
                                                                     <div class="panel-body">
                                                                             <div class="col-md-12">
-                                                                                <ul class="list-group" id="todayMealList"> 
-                                                                                    <% _.each(meal_list, function(va,ka){ var t=va.lunch + va.dinner + va.breakfast + va.guest%>
+                                                                                <ul class="list-group" id="todayBazarList">
+                                                                                    <% _.each(bazar_list, function(va,ka){%>
                                                                                         <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
-                                                                                            <li class="list-group-item data" data-value="<%= t %>">
-                                                                                                    <span class="badge badge-primary"><%= t %></span>
+                                                                                            <li class="list-group-item data" data-value="<%= va.total_amount %>">
+                                                                                                    <span class="badge badge-primary"><%= va.total_amount %> Tk</span>
                                                                                                 <%= v.user_name%>
                                                                                             </li>
                                                                                         <% }})%>
                                                                                     <%})%>
-                                                                                    <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00</span> </li>
+                                                                                    <li class="list-group-item" id="todayBazarTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00 Tk</span> </li>
                                                                                 </ul>
                                                                             </div>
                                                                     </div>
@@ -103,7 +91,7 @@
                                             </div>
                                         </form>
                                             <div class="col-lg-12 text-center">
-                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Submit</button>
+                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addBazar('new')">Submit</button>
                                             </div>
 
                                     </div><!-- end row -->
@@ -143,49 +131,48 @@
     var i;
     for (i = 1; i <= totaldays; i++) { 
         if(i == today){
-            $('#mealOfTheDay').append('<option id="todayOption" selected="selected" value="'+i+'">Day '+i+'</option>');
-            $("#mealOfTheDay").select2({
+            $('#bazarOfTheDay').append('<option id="todayOption" selected="selected" value="'+i+'">Day '+i+'</option>');
+            $("#bazarOfTheDay").select2({
                 placeholder: "day "+i,
                 allowClear: true
             });
             
         }else{
-            $('#mealOfTheDay').append('<option value="'+i+'">Day '+i+'</option>');
+            $('#bazarOfTheDay').append('<option value="'+i+'">Day '+i+'</option>');
         }
 
     }
-
-    function addMeal(type){
-        var day = $('#mealOfTheDay').val()
+    function addBazar(type){
+        var day = $('#bazarOfTheDay').val()
         var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
 
         var data = {
             member:$('#selectMember_id').val(),
-            lunch:$('#lunchMeal').val(),
-            dinner:$('#dinnerMeal').val(),
-            breakfast:$('#breakfastMeal').val(),
-            guest_meal:$('#guestMeal').val(),
+            bazar_details:$('#bazarDetails2').val(),
+            amount:$('#totalAmount').val(),
             day:day,
             month:thisMonth,
             year:thisYear,
             date_of_meal:date
         }
+        console.log(data);
         $.ajax({
             type: "POST",
-            url: '/meal/addMeal',
+            url: '/meal/addBazar',
             data: data,
             success: function(res) {
-                location.replace('/meal');
+                location.replace('/bazar');
             },
             error: function() {
                 console.log('failed');
             }
         });
     }
-    var totalMeal = 0;
-    var count = $('#todayMealList').find('.data');
+    var totalAmount = 0;
+    var count = $('#todayBazarList').find('.data');
+    console.log(count)
     $.each(count,function(k,v){
-        totalMeal = totalMeal + Number($(v).attr('data-value'))
-        $('#todayMealTotal span').text(totalMeal);
+        totalAmount = totalAmount + Number($(v).attr('data-value'))
+        $('#todayBazarTotal span').text(totalAmount+' TK');
     })
 </script>

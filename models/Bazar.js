@@ -14,17 +14,33 @@ const bazarSchema = new Schema({
     },
     bazar_details:{
         type:String,
-        required:true
+        default:''
     },
     total_amount:{
         type:String,
         required:true
-    },
-    assign_id:{
+    }, 
+    assign_user_id:{
         type:String,
         required:true
     },
-    bazar_date:{
+    creator_id:{
+        type:String,
+        required:true
+    },
+    day:{
+        type:Number,
+        required:true
+    },
+    month:{
+        type:Number,
+        required:true
+    },
+    year:{
+        type:Number,
+        required:true
+    },
+    date_of_bazar:{
         type:String,
         default:Date.now
     },

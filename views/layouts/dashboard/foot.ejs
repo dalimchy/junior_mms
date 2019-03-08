@@ -107,9 +107,8 @@
   </script>
     <script type="text/javascript">
           $(document).ready(function () {
-                if($("#product_long_desc").length > 0){
                     tinymce.init({
-                        selector: "textarea#product_long_desc,textarea#product_short_desc",
+                        selector: "textarea#product_long_desc,textarea#bazarDetails",
                         theme: "modern",
                         height:100,
                         plugins: [
@@ -117,7 +116,7 @@
                             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                             "save table contextmenu directionality emoticons template paste textcolor"
                         ],
-                        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+                        toolbar: "styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent",
                         style_formats: [
                             {title: 'Bold text', inline: 'b'},
                             {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
@@ -128,7 +127,6 @@
                             {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
                         ]
                     });
-                }
             });
   </script>
   <script>

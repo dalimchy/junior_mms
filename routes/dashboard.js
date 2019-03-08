@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember} = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,findTodayMeal} = require('./../utils/mess');
+var {addMeal,findTodayMeal,findTodayBazar,addBazar} = require('./../utils/mess');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -184,6 +184,74 @@ router.post('/meal/addMeal', function(req, res) {
    }else{
       res.send('session close');
    }
+});
+router.post('/meal/addBazar', function(req, res) {
+	 if(req.session.login){
+        var data = {
+            bazar_id :uuidv4(),
+            mess_id : req.session.mess_id,
+            assign_user_id : req.body.member,
+            creator_id : req.session.user_id,
+            bazar_details : req.body.bazar_details,
+            total_amount : req.body.amount,
+            day : req.body.day,
+            month : req.body.month,
+            year : req.body.year,
+            date_of_bazar : req.body.date_of_meal,
+        }
+        addBazar(data,(response)=>{
+          if(response.msg == 'success'){
+              req.session.msg = 'Bazar Save Successfully.'
+              res.send({msg:'success'});
+          }else{
+            res.send({msg:'failed'});
+          }
+        });
+   }else{
+      res.send('session close');
+   }
+});
+
+router.get('/bazar', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findAllMember({mess_id:req.session.mess_id},(response)=>{
+      if(response.msg == 'success'){
+      findTodayBazar({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
+        if(response2.msg == 'success'){
+          var resdata = {
+            title : 'Bazar',
+            msg : null,
+            ses_msg : req.session.msg,
+            member_list : response.data,
+            bazar_list : response2.data,
+            _ : _,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
+          }
+          req.session.msg = null;
+          res.render('pages/dashboard/bazar', resdata);
+        }else{
+          console.log(response2)
+        }
+      });
+     }else{
+      console.log(response);
+     }
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
 });
 
 module.exports = router;

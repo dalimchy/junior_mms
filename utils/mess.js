@@ -6,6 +6,7 @@ var bcrypt = require('bcryptjs');
 const User = require('../models/Users');
 const Mess = require('../models/Mess_info');
 const Meal = require('../models/Meal');
+const Bazar = require('../models/Bazar');
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -44,6 +45,14 @@ var addMeal = (data,callback)=>{
     });
 	
 }
+var addBazar = (data,callback)=>{
+	var newBazar = new Bazar(data);
+		newBazar.save().then(res =>{
+			callback({msg:'success',data:data});
+		})
+		.catch(err => console.log(err));
+	
+}
 var findTodayMeal = (data,callback)=>{
 	Meal.find(data,function(err,result){
 		if(err){
@@ -53,4 +62,14 @@ var findTodayMeal = (data,callback)=>{
 		}
 	})
 }
-module.exports = {findAllMember,addMeal,findTodayMeal};
+var findTodayBazar = (data,callback)=>{
+	Bazar.find(data,function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
+
+module.exports = {findAllMember,addMeal,findTodayMeal,findTodayBazar,addBazar};
