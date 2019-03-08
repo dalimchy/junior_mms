@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember} = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,findTodayMeal,findTodayBazar,addBazar} = require('./../utils/mess');
+var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal} = require('./../utils/mess');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -140,6 +140,89 @@ router.get('/meal', function(req, res) {
           }
           req.session.msg = null;
           res.render('pages/dashboard/meal', resdata);
+        }else{
+          console.log(response2)
+        }
+      });
+     }else{
+      console.log(response);
+     }
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+router.get('/meal', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findAllMember({mess_id:req.session.mess_id},(response)=>{
+      if(response.msg == 'success'){
+      findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
+        if(response2.msg == 'success'){
+          var resdata = {
+            title : 'Meal',
+            msg : null,
+            ses_msg : req.session.msg,
+            member_list : response.data,
+            meal_list : response2.data,
+            _ : _,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
+          }
+          req.session.msg = null;
+          res.render('pages/dashboard/meal', resdata);
+        }else{
+          console.log(response2)
+        }
+      });
+     }else{
+      console.log(response);
+     }
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+router.get('/meal-details', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findAllMember({mess_id:req.session.mess_id},(response)=>{
+      if(response.msg == 'success'){
+      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+        if(response2.msg == 'success'){
+          var resdata = {
+            title : 'Meal Details',
+            msg : null,
+            ses_msg : req.session.msg,
+            member_list : response.data,
+            meal_list : response2.data,
+            totaldays : totaldays,
+            _ : _,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
+          }
+          req.session.msg = null;
+          res.render('pages/dashboard/meal_details', resdata);
         }else{
           console.log(response2)
         }

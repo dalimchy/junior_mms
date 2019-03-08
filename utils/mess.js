@@ -62,6 +62,15 @@ var findTodayMeal = (data,callback)=>{
 		}
 	})
 }
+var findThisMonthMeal = (data,callback)=>{
+	Meal.find(data,function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
 var findTodayBazar = (data,callback)=>{
 	Bazar.find(data,function(err,result){
 		if(err){
@@ -72,4 +81,4 @@ var findTodayBazar = (data,callback)=>{
 	})
 }
 
-module.exports = {findAllMember,addMeal,findTodayMeal,findTodayBazar,addBazar};
+module.exports = {findAllMember,addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal};

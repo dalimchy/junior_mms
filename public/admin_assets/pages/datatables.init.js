@@ -25,6 +25,7 @@ var handleDataTableButtons = function() {
             extend: "print",
             className: "btn-sm"
         }],
+        "lengthMenu": [[ -1], ["All"]],
         responsive: !0
     })
 },

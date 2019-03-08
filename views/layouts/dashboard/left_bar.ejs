@@ -34,15 +34,22 @@
                             <li class="<% if(title == 'Dashboard'){ %>active <% } %>" >
                                 <a href="/" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
                             </li>
-
-                            <li class="has_sub">
-                                <a href="/member" class="waves-effect"><i class="zmdi zmdi-invert-colors"></i> <span>Members</span></a>
+                            <li class="<% if(title == 'Dashboard'){ %>active <% } %>" >
+                                <a href="/member" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Member </span> </a>
                             </li>
                             <li class="has_sub">
-                                <a href="/meal" class="waves-effect"><i class="zmdi zmdi-invert-colors"></i> <span>Meal</span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i> <span>Meal</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/meal"><i class="fa fa-cube"></i>Add Meal </a></li>
+                                    <li><a href="/meal-details"><i class="fa fa-cog"></i>Meal Details</a></li>
+                                </ul>
                             </li>
                             <li class="has_sub">
-                                <a href="/bazar" class="waves-effect"><i class="zmdi zmdi-invert-colors"></i> <span>Bazar</span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i> <span>Bazar</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/bazar"><i class="fa fa-cube"></i>Add Bazar</a></li>
+                                    <li><a href="/"><i class="fa fa-cog"></i>Bazar Details</a></li>
+                                </ul>
                             </li>
 
                         </ul>
