@@ -210,6 +210,8 @@ router.get('/meal-details', function(req, res) {
             member_list : response.data,
             meal_list : response2.data,
             totaldays : totaldays,
+            month : thisMonth,
+            year : thisYear,
             _ : _,
             userData : {
               user_name : req.session.user_name,
