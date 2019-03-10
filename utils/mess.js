@@ -100,6 +100,16 @@ var getbydate = (data,callback)=>{
 	});
 }
 
+var datebyBazar = (data,callback)=>{
+	Bazar.find(data, function (err,result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg: 'success',data: result});
+		}
+	});
+}
+
 module.exports = {
 	findAllMember,
 	addMeal,
@@ -108,5 +118,6 @@ module.exports = {
 	addBazar,
 	findThisMonthMeal,
 	findThisMonthBazar,
-	getbydate
+	getbydate,
+	datebyBazar
 };

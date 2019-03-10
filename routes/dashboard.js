@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember} = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar,getbydate} = require('./../utils/mess');
+var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar,getbydate,datebyBazar} = require('./../utils/mess');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -398,6 +398,23 @@ router.get('/meal/:date', function (req, res) {
       year: thisYear
     }
     getbydate(data, (response)=>{
+      if (response.msg == 'success') {
+        res.send(response);
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+router.get('/bazar/:date', function (req, res) {
+  if (req.session.login) {
+    var data = {
+      day: req.params.date,
+      month: thisMonth,
+      year: thisYear
+    }
+    datebyBazar(data, (response)=>{
       if (response.msg == 'success') {
         res.send(response);
       }
