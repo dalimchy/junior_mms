@@ -8,6 +8,8 @@ const Mess = require('../models/Mess_info');
 const Meal = require('../models/Meal');
 const Bazar = require('../models/Bazar');
 
+var {updateAccount} = require('./../utils/users');
+
 var salt = bcrypt.genSaltSync(10);
 
 var findAllMember = (data,callback)=>{
@@ -46,11 +48,15 @@ var addMeal = (data,callback)=>{
 	
 }
 var addBazar = (data,callback)=>{
-	var newBazar = new Bazar(data);
-		newBazar.save().then(res =>{
-			callback({msg:'success',data:data});
-		})
-		.catch(err => console.log(err));
+	updateAccount(data,function(res){
+		if(res.msg == 'success'){
+		var newBazar = new Bazar(data);
+			newBazar.save().then(res =>{
+				callback({msg:'success',data:data});
+			})
+			.catch(err => console.log(err));
+		}
+	})
 	
 }
 var findTodayMeal = (data,callback)=>{

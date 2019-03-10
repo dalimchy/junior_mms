@@ -3,7 +3,7 @@ var ip = require('ip');
 var debug = require('debug')('my-application');
 var app = require('../app');
 
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 9000);
 
 var server = app.listen(app.get('port'), function() {
   console.log(`Server is running at http://${ip.address()}:${server.address().port}`);

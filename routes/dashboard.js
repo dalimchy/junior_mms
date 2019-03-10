@@ -205,33 +205,36 @@ router.get('/meal-details', function(req, res) {
   if(req.session.login){
     findAllMember({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
-      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
-        if(response2.msg == 'success'){
-          var resdata = {
-            title : 'Meal Details',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : response.data,
-            meal_list : response2.data,
-            totaldays : totaldays,
-            month : thisMonth,
-            year : thisYear,
-            _ : _,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+      findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+        findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+          if(response2.msg == 'success'){
+            var resdata = {
+              title : 'Meal Details',
+              msg : null,
+              ses_msg : req.session.msg,
+              member_list : response.data,
+              meal_list : response2.data,
+              bazar_list : bazarList.data,
+              totaldays : totaldays,
+              month : thisMonth,
+              year : thisYear,
+              _ : _,
+              userData : {
+                user_name : req.session.user_name,
+                user_id:req.session.user_id,
+                user_email:req.session.user_email,
+                user_img:req.session.user_img,
+                mess_name:req.session.mess_name,
+                mess_id:req.session.mess_id,
+                user_role:((req.session.user_role == 1)? 'Manager':'Member')
+              }
             }
+            req.session.msg = null;
+            res.render('pages/dashboard/meal_details', resdata);
+          }else{
+            console.log(response2)
           }
-          req.session.msg = null;
-          res.render('pages/dashboard/meal_details', resdata);
-        }else{
-          console.log(response2)
-        }
+        });
       });
      }else{
       console.log(response);
@@ -352,33 +355,36 @@ router.get('/bazar-details', function(req, res) {
   if(req.session.login){
     findAllMember({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
-      findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
-        if(response2.msg == 'success'){
-          var resdata = {
-            title : 'Bazar Details',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : response.data,
-            bazar_list : response2.data,
-            totaldays : totaldays,
-            month : thisMonth,
-            year : thisYear,
-            _ : _,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
+        findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+          if(response2.msg == 'success'){
+            var resdata = {
+              title : 'Bazar Details',
+              msg : null,
+              ses_msg : req.session.msg,
+              member_list : response.data,
+              bazar_list : response2.data,
+              meal_list : mealList.data,
+              totaldays : totaldays,
+              month : thisMonth,
+              year : thisYear,
+              _ : _,
+              userData : {
+                user_name : req.session.user_name,
+                user_id:req.session.user_id,
+                user_email:req.session.user_email,
+                user_img:req.session.user_img,
+                mess_name:req.session.mess_name,
+                mess_id:req.session.mess_id,
+                user_role:((req.session.user_role == 1)? 'Manager':'Member')
+              }
             }
+            req.session.msg = null;
+            res.render('pages/dashboard/bazar_details', resdata);
+          }else{
+            console.log(response2)
           }
-          req.session.msg = null;
-          res.render('pages/dashboard/bazar_details', resdata);
-        }else{
-          console.log(response2)
-        }
+        });
       });
      }else{
       console.log(response);

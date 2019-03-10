@@ -136,4 +136,15 @@ var newMember = (data,callback)=>{
         }
     });
 }
-module.exports = {newManager,loginCheck,messCheck,newMember};
+
+var updateAccount = (data,callback)=>{
+    console.log(data);
+    User.updateOne({user_id:data.assign_user_id},{$inc: { account: data.total_amount}},function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+             callback({msg:'success'});
+        }
+    })
+}
+module.exports = {newManager,loginCheck,messCheck,newMember,updateAccount};

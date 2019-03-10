@@ -32,6 +32,10 @@ const usersSchema = new Schema({
         type:String,
         required:true
     },
+    account:{
+        type:Number,
+        default:0
+    },
     user_password:{
         type:String,
         required:true
