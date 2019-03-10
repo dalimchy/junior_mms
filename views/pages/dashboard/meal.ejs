@@ -1,6 +1,11 @@
 <%- include('../../layouts/dashboard/head') %>
 <%- include('../../layouts/dashboard/topbar') %>
-<%- include('../../layouts/dashboard/left_bar') %>                <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/left_bar') %>   
+<script>
+    var allMemberlist = <%- JSON.stringify(member_list) %>;
+
+</script>
+             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
@@ -29,7 +34,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-5 control-label">Select Day </label>
                                                     <div class="col-md-7">
-                                                            <select class="form-control select2" name="day" id="mealOfTheDay">
+                                                            <select class="form-control select2" onchange="getDatewise(this)" name="day" id="mealOfTheDay">
                                                                 
                                                             </select>
                                                     </div>
@@ -141,7 +146,7 @@
     var thisMonth = moment().format('MM');
     var thisYear = moment().format('YYYY');
     var i;
-    for (i = 1; i <= totaldays; i++) { 
+    for (i = 1; i <= today; i++) { 
         if(i == today){
             $('#mealOfTheDay').append('<option id="todayOption" selected="selected" value="'+i+'">Day '+i+'</option>');
             $("#mealOfTheDay").select2({
@@ -188,4 +193,40 @@
         totalMeal = totalMeal + Number($(v).attr('data-value'))
         $('#todayMealTotal span').text(totalMeal);
     })
+
+
+    function getDatewise(elm){
+        let value = $(elm).val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/meal/'+value+'',
+            success: function (res){
+                if(res.msg == 'success'){
+                    if(res.data !== null){
+                        if(value == today){
+                            $('.panel-title').text('Today Meal Status');
+                        }else{
+                            $('.panel-title').text('Day '+ value+' Meal Status');
+                        }
+                        $('#todayMealList li.data').remove();
+                        var totalMealAll = 0;
+                        $.each(allMemberlist, function(k,v){
+                            $.each(res.data,function(ka,va){
+                                if(va.assign_user_id == v.user_id){
+                                    var totalMeal = va.lunch + va.breakfast + va.dinner + va.guest;
+                                    totalMealAll = totalMeal + totalMealAll;
+                                    var html ='<li class="list-group-item data" data-value="'+ totalMeal +'">';
+                                        html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+v.user_name+'';
+                                        html +='</li>';
+                                    $('#todayMealList').prepend(html);
+                                }
+                            });
+                        });
+                        $('#todayMealTotal span').text(totalMealAll);
+                    }
+                }
+            }
+        });
+    }
 </script>

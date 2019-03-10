@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember} = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar} = require('./../utils/mess');
+var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar,getbydate} = require('./../utils/mess');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -168,6 +168,9 @@ router.get('/meal', function(req, res) {
             ses_msg : req.session.msg,
             member_list : response.data,
             meal_list : response2.data,
+            day:today,
+            month : thisMonth,
+            year:thisYear,
             _ : _,
             userData : {
               user_name : req.session.user_name,
@@ -194,6 +197,7 @@ router.get('/meal', function(req, res) {
     
   }
 });
+
 router.get('/meal-details', function(req, res) {
   if(req.session.msg == undefined){
         req.session.msg = null;
@@ -238,6 +242,7 @@ router.get('/meal-details', function(req, res) {
     
   }
 });
+
 router.post('/meal/addMeal', function(req, res) {
 	 if(req.session.login){
         var data = {
@@ -270,6 +275,7 @@ router.post('/meal/addMeal', function(req, res) {
       res.send('session close');
    }
 });
+
 router.post('/meal/addBazar', function(req, res) {
 	 if(req.session.login){
         var data = {
@@ -338,6 +344,7 @@ router.get('/bazar', function(req, res) {
     
   }
 });
+
 router.get('/bazar-details', function(req, res) {
   if(req.session.msg == undefined){
         req.session.msg = null;
@@ -380,6 +387,23 @@ router.get('/bazar-details', function(req, res) {
   }else{
     res.redirect('/login');
     
+  }
+});
+
+router.get('/meal/:date', function (req, res) {
+  if (req.session.login) {
+    var data = {
+      day: req.params.date,
+      month: thisMonth,
+      year: thisYear
+    }
+    getbydate(data, (response)=>{
+      if (response.msg == 'success') {
+        res.send(response);
+      }
+    });
+  } else {
+    res.redirect('/login');
   }
 });
 
