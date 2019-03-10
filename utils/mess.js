@@ -80,5 +80,14 @@ var findTodayBazar = (data,callback)=>{
 		}
 	})
 }
+var findThisMonthBazar = (data,callback)=>{
+	Bazar.find(data,function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
 
-module.exports = {findAllMember,addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal};
+module.exports = {findAllMember,addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar};
