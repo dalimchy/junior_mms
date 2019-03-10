@@ -197,7 +197,6 @@
 
     function getDatewise(elm){
         let value = $(elm).val();
-        console.log(value);
 
         $.ajax({
             type: 'GET',
@@ -209,7 +208,6 @@
                             $('.panel-title').text('Today Meal Status');
                         }else{
                             $('.panel-title').text('Day '+ value+' Meal Status');
-
                         }
                         $('#todayMealList li.data').remove();
                         var totalMealAll = 0;
@@ -221,14 +219,11 @@
                                     var html ='<li class="list-group-item data" data-value="'+ totalMeal +'">';
                                         html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+v.user_name+'';
                                         html +='</li>';
-                                        $('#todayMealList').prepend(html);
+                                    $('#todayMealList').prepend(html);
                                 }
-                            })
+                            });
                         });
                         $('#todayMealTotal span').text(totalMealAll);
-                        
-
-                        
                     }
                 }
             }
