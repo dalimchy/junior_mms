@@ -91,7 +91,7 @@ var findThisMonthBazar = (data,callback)=>{
 }
 
 var getbydate = (data,callback)=>{
-	Meal.findOne(data, function (err,result) {
+	Meal.find(data, function (err,result) {
 		if (err) {
 			console.log(err);
 		} else {
