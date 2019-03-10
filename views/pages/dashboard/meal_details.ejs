@@ -67,15 +67,15 @@ var monthYear = '<%= month%> <%= year %>';
                                                             <% var sub_total = 0 ; %>
                                                             <% for(var i=1; i<= totaldays; i++) {%>
                                                             <tr>
-                                                                <td><%= i %></td>
+                                                                <td><button type="button" class="btn btn-info waves-effect w-md waves-light m-b-5"><%= i %></button></td>
                                                                 <% sub_total = 0;  _.each(member_list,function(v,k){ %> 
                                                                     <% var total= 0; %>
                                                                     
                                                                     <% var f = 0; _.each(meal_list, function(va,ka){ if(va.assign_user_id == v.user_id && va.day == i ){var total =va.lunch + va.dinner + va.breakfast + va.guest; sub_total = sub_total + total; f++; %>
-                                                                        <td><%= total %></td>
-                                                                    <% }else if(ka == meal_list.length -1  && f == 0 ){ %> <td>0</td> <% }}) %>
+                                                                        <td><button type="button" class="btn btn-success waves-effect w-md waves-light m-b-5"><%= total %></button> </td>
+                                                                    <% }else if(ka == meal_list.length -1  && f == 0 ){ %> <td><button type="button" class="btn btn-warning waves-effect w-md waves-light m-b-5">0</button></td> <% }}) %>
                                                                 <%})%>
-                                                                <td><%= sub_total%></td>
+                                                                <td><button type="button" class="btn btn-purple waves-effect w-md waves-light m-b-5"><%= sub_total%></button></td>
                                                             </tr>
                                                             <% } %>
                                                         </tbody>
