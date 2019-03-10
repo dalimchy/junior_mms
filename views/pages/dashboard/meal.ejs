@@ -29,7 +29,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-5 control-label">Select Day </label>
                                                     <div class="col-md-7">
-                                                            <select class="form-control select2" name="day" id="mealOfTheDay">
+                                                            <select class="form-control select2" onchange="getDatewise(this)" name="day" id="mealOfTheDay">
                                                                 
                                                             </select>
                                                     </div>
@@ -188,4 +188,20 @@
         totalMeal = totalMeal + Number($(v).attr('data-value'))
         $('#todayMealTotal span').text(totalMeal);
     })
+
+
+    function getDatewise(elm){
+        let value = $(elm).val();
+        console.log(value);
+
+        $.ajax({
+            type: 'GET',
+            url: '/meal/'+value+'',
+            success: function (res){
+                if(res.msg == 'success'){
+                    console.log(res);
+                }
+            }
+        });
+    }
 </script>
