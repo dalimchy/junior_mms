@@ -395,7 +395,8 @@ router.get('/meal/:date', function (req, res) {
     var data = {
       day: req.params.date,
       month: thisMonth,
-      year: thisYear
+      year: thisYear,
+      mess_id: req.session.mess_id
     }
     getbydate(data, (response)=>{
       if (response.msg == 'success') {
@@ -412,7 +413,8 @@ router.get('/bazar/:date', function (req, res) {
     var data = {
       day: req.params.date,
       month: thisMonth,
-      year: thisYear
+      year: thisYear,
+      mess_id: req.session.mess_id
     }
     datebyBazar(data, (response)=>{
       if (response.msg == 'success') {

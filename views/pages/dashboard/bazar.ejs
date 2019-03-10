@@ -194,23 +194,19 @@
                             $('.panel-title').text('Day '+ value+' Bazar Status');
                         }
                         $('#todayBazarList li.data').remove();
-
+                        let totalBazarAll = 0;
                         $.each(res.data,function(k,v){
-                            console.log(v);
-                        });
-
-                        $.each(res.data,function(k,v){
-                            console.log(v);
                             $.each(allMemberlist,function(km, vm){
-                                console.log(vm);
                                 if(v.assign_user_id == vm.user_id){
-                                var list = '<li class="list-group-item data" data-value="300">';
-                                    list += '<span class="badge badge-primary">300 Tk</span>'+vm.user_name+'';
+                                    totalBazarAll = Number(v.total_amount) + totalBazarAll;
+                                var list = '<li class="list-group-item data" data-value="">';
+                                    list += '<span class="badge badge-primary">'+v.total_amount+' Tk</span>'+vm.user_name+'';
                                     list += '</li>';
                                 $('#todayBazarList').prepend(list);
                                 }
                             });
                         });
+                        $('#todayBazarTotal span').text(totalBazarAll+' Tk.');
                     }
                 }
             }
