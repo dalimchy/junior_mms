@@ -49,4 +49,4 @@ const fixedCostSchema = new Schema({
 
 
 
-module.exports = mongoose.model('fixed_cost',usersSchema);
+module.exports = mongoose.model('fixed_cost',fixedCostSchema);

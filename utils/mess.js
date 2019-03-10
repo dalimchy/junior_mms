@@ -7,6 +7,7 @@ const User = require('../models/Users');
 const Mess = require('../models/Mess_info');
 const Meal = require('../models/Meal');
 const Bazar = require('../models/Bazar');
+const FixedCost = require('../models/Fixed_cost');
 
 var {updateAccount} = require('./../utils/users');
 
@@ -116,6 +117,56 @@ var datebyBazar = (data,callback)=>{
 	});
 }
 
+var findFixedCost = (data,callback)=>{
+	FixedCost.findOne(data,function(err,docs){
+		if(err){
+			console.log(err);
+		}else{
+			if(docs == null){
+				var resData ={
+					fixed_cost_id :uuidv4(),
+					mess_id :data.mess_id,
+					house_rent :0,
+					electricity_bill :0,
+					gas_bill :0,
+					water_bill :0,
+					garbage_bill :0,
+					chef_bill :0,
+					internet_bill :0
+				}
+				new FixedCost(resData).save().then(res =>{
+			        callback({msg:'success',data:resData});
+			    })
+			    .catch(err => console.log(err));
+
+			}else{
+				callback({msg:'success',data:docs});
+			}
+		}
+	});
+}
+
+var updateFixedCost =(data,callback)=>{
+	var updateValue = {
+		house_rent:data.house_rent,
+		electricity_bill:data.electricity_bill,
+		gas_bill:data.gas_bill,
+		water_bill:data.water_bill,
+		garbage_bill:data.garbage_bill,
+		chef_bill:data.chef_bill,
+		internet_bill:data.internet_bill
+	}
+
+	FixedCost.updateOne({fixed_cost_id:data.fixed_cost_id},updateValue,function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+             callback({msg:'success'});
+        }
+    })
+
+}
+
 module.exports = {
 	findAllMember,
 	addMeal,
@@ -125,5 +176,7 @@ module.exports = {
 	findThisMonthMeal,
 	findThisMonthBazar,
 	getbydate,
-	datebyBazar
+	datebyBazar,
+	findFixedCost,
+	updateFixedCost
 };
