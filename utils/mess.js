@@ -8,6 +8,7 @@ const Mess = require('../models/Mess_info');
 const Meal = require('../models/Meal');
 const Bazar = require('../models/Bazar');
 const FixedCost = require('../models/Fixed_cost');
+const ActivityLog = require('../models/Activity_log');
 
 var {updateAccount} = require('./../utils/users');
 
@@ -156,15 +157,37 @@ var updateFixedCost =(data,callback)=>{
 		chef_bill:data.chef_bill,
 		internet_bill:data.internet_bill
 	}
-
+	var olddata =  JSON.parse(data.old_fixed_cost);
 	FixedCost.updateOne({fixed_cost_id:data.fixed_cost_id},updateValue,function(err,result){
         if(err){
             console.log(err);
         }else{
-             callback({msg:'success'});
+			var total = (olddata.house_rent) + (olddata.electricity_bill) + (olddata.gas_bill) + (olddata.water_bill)+(olddata.garbage_bill)+(olddata.chef_bill)+(olddata.internet_bill);
+			var cusolddata = "House Rent => "+olddata.house_rent+", Electricity Bill => "+olddata.electricity_bill+" Gas Bill => "+olddata.gas_bill+" Water Bill => "+olddata.water_bill+" Garbage Bill => "+olddata.garbage_bill+" Chef Bill => "+olddata.chef_bill+" Internet Bill => "+olddata.internet_bill+" Total => "+total+"";
+			var logData = {
+				log_id:uuidv4(),
+				mess_id:olddata.mess_id,
+				creator_id:data.user_id,
+				type:'fixed_cost',
+				log_data:cusolddata
+			}
+			new ActivityLog(logData).save().then(res =>{
+			        callback({msg:'success'});
+			    })
+			    .catch(err => console.log(err));
         }
     })
 
+}
+
+var findLog = (data,callback)=>{
+	ActivityLog.find(data).sort({created_at: 'desc'}).exec(function (err, result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
 }
 
 module.exports = {
@@ -178,5 +201,6 @@ module.exports = {
 	getbydate,
 	datebyBazar,
 	findFixedCost,
-	updateFixedCost
+	updateFixedCost,
+	findLog
 };

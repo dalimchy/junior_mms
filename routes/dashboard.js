@@ -25,7 +25,18 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember} = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,findTodayMeal,findTodayBazar,addBazar,findThisMonthMeal,findThisMonthBazar,getbydate,datebyBazar,findFixedCost,updateFixedCost} = require('./../utils/mess');
+var {addMeal,
+    findTodayMeal,
+    findTodayBazar,
+    addBazar,
+    findThisMonthMeal,
+    findThisMonthBazar,
+    getbydate,
+    datebyBazar,
+    findFixedCost,
+    updateFixedCost,
+    findLog
+  } = require('./../utils/mess');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -440,26 +451,29 @@ router.get('/fixed-cost', function (req, res) {
       req.session.msg = null;
   }
   if (req.session.login) {
-    findFixedCost({mess_id:req.session.mess_id},function(fixedList){
-      if(fixedList.msg == 'success'){
-        var resdata = {
-          title : 'Fixed Cost',
-          msg : null,
-          ses_msg : req.session.msg,
-          fixed_cost : fixedList.data,
-          _:_,
-          userData : {
-            user_name : req.session.user_name,
-            user_id:req.session.user_id,
-            user_email:req.session.user_email,
-            user_img:req.session.user_img,
-            mess_name:req.session.mess_name,
-            mess_id:req.session.mess_id,
-            user_role:((req.session.user_role == 1)? 'Manager':'Member')
+    findLog({mess_id:req.session.mess_id,type:'fixed_cost'}, function(fixedLog){
+      findFixedCost({mess_id:req.session.mess_id},function(fixedList){
+        if(fixedList.msg == 'success'){
+          var resdata = {
+            title : 'Fixed Cost',
+            msg : null,
+            ses_msg : req.session.msg,
+            fixed_cost : fixedList.data,
+            fixed_cost_log : fixedLog.data,
+            _:_,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
           }
+          res.render('pages/dashboard/fixed_cost', resdata);
         }
-        res.render('pages/dashboard/fixed_cost', resdata);
-      }
+      })
     });
     
   } else {
@@ -472,6 +486,7 @@ router.post('/fixed-cost', function (req, res) {
       req.session.msg = null;
   }
   if (req.session.login) {
+    req.body['user_id'] = req.session.user_id;
     updateFixedCost(req.body, function(docs){
       if(docs.msg == 'success'){
         req.session.msg = 'update Fixed Cost Successfully.';

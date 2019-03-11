@@ -20,6 +20,7 @@
                                         </div>
                                     <%   } %>
                                     <div class="row">
+                                        <pre><%= fixed_cost_log %></pre>
                                             <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
                                         <form action="/fixed-cost" class="form-horizontal" role="form" method="POST">
                                             
@@ -76,6 +77,7 @@
                                                 </div>
                                             </div>
                                             <input type="hidden" class="form-control"  name="fixed_cost_id" value="<%= fixed_cost.fixed_cost_id %>">
+                                            <input type="hidden" class="form-control"  name="old_fixed_cost" value="<%= JSON.stringify(fixed_cost) %>">
                                             <div class="col-lg-5">
                                                     <div class="row">
                                                             <div class="col-lg-12">
