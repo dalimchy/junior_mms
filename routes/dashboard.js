@@ -23,7 +23,9 @@ var storage = multer.diskStorage({
     }
 });
 var upload = multer({storage: storage}).single('profile_pic');
-var {newMember} = require('./../utils/users');
+var {newMember,
+    addPayment
+  } = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
 var {addMeal,
     findTodayMeal,
@@ -35,7 +37,8 @@ var {addMeal,
     datebyBazar,
     findFixedCost,
     updateFixedCost,
-    findLog
+    findLog,
+    addPaymentLog
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -498,6 +501,64 @@ router.post('/fixed-cost', function (req, res) {
       }
     });
   }else {
+    res.redirect('/login');
+  }
+});
+
+router.get('/payment', function(req, res) {
+  if(req.session.msg == undefined){
+      req.session.msg = null;
+  }
+  if(req.session.login){
+    findLog({mess_id:req.session.mess_id,type:'payment'}, function(paymentLog){
+      findAllMember({mess_id:req.session.mess_id},(response)=>{
+        var resdata = {
+          title : 'Payment',
+          msg : null,
+          ses_msg : req.session.msg,
+          member_list : response.data,
+          payment_log : paymentLog.data,
+          _:_,
+          userData : {
+            user_name : req.session.user_name,
+            user_id:req.session.user_id,
+            user_email:req.session.user_email,
+            user_img:req.session.user_img,
+            mess_name:req.session.mess_name,
+            mess_id:req.session.mess_id,
+            user_role:((req.session.user_role == 1)? 'Manager':'Member')
+          }
+        }
+        req.session.msg = null;
+        res.render('pages/dashboard/payment', resdata);
+      });
+    });
+  }else{
+    res.redirect('/login');
+  }
+});
+
+router.post('/payment', function(req, res) {
+  if(req.session.msg == undefined){
+      req.session.msg = null;
+  }
+  var reqData = {
+    mess_id:req.session.mess_id,
+    creator_id:req.session.user_id,
+    payment_user_id:req.body.member_id,
+    amount:req.body.pay_amount,
+    pay_info:req.body.payment_info
+  }
+  if(req.session.login){
+    addPayment(reqData,function(response){
+        addPaymentLog(reqData,function(response2){
+          if(response2.msg == 'success'){
+            req.session.msg = 'Payment Added Successfully.';
+            res.redirect('/payment');
+          }
+        })
+    });
+  }else{
     res.redirect('/login');
   }
 });

@@ -178,6 +178,24 @@ var updateFixedCost =(data,callback)=>{
 
 }
 
+var addPaymentLog = (data,callback)=>{
+	var logData = {
+			log_id:uuidv4(),
+			mess_id:data.mess_id,
+			creator_id:data.creator_id,
+			type:'payment',
+			log_data:{
+				payment_info:data.pay_info,
+				payment_user_id:data.payment_user_id,
+				amount:data.amount
+			}
+		}
+		new ActivityLog(logData).save().then(res =>{
+		        callback({msg:'success'});
+		    })
+		    .catch(err => console.log(err));
+}
+
 var findLog = (data,callback)=>{
 	ActivityLog.find(data).sort({created_at: 'desc'}).exec(function (err, result){
 		if(err){
@@ -187,6 +205,7 @@ var findLog = (data,callback)=>{
 		}
 	})
 }
+
 
 module.exports = {
 	findAllMember,
@@ -200,5 +219,6 @@ module.exports = {
 	datebyBazar,
 	findFixedCost,
 	updateFixedCost,
-	findLog
+	findLog,
+	addPaymentLog
 };
