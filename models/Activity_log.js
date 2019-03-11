@@ -21,7 +21,7 @@ const activiLogSchema = new Schema({
         required:true
     },
     log_data:{
-        type:String,
+        type:Object,
         required:true,
     },
     created_at:{

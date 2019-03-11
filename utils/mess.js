@@ -162,14 +162,12 @@ var updateFixedCost =(data,callback)=>{
         if(err){
             console.log(err);
         }else{
-			var total = (olddata.house_rent) + (olddata.electricity_bill) + (olddata.gas_bill) + (olddata.water_bill)+(olddata.garbage_bill)+(olddata.chef_bill)+(olddata.internet_bill);
-			var cusolddata = "House Rent => "+olddata.house_rent+", Electricity Bill => "+olddata.electricity_bill+" Gas Bill => "+olddata.gas_bill+" Water Bill => "+olddata.water_bill+" Garbage Bill => "+olddata.garbage_bill+" Chef Bill => "+olddata.chef_bill+" Internet Bill => "+olddata.internet_bill+" Total => "+total+"";
 			var logData = {
 				log_id:uuidv4(),
 				mess_id:olddata.mess_id,
 				creator_id:data.user_id,
 				type:'fixed_cost',
-				log_data:cusolddata
+				log_data:olddata
 			}
 			new ActivityLog(logData).save().then(res =>{
 			        callback({msg:'success'});
