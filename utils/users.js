@@ -147,4 +147,16 @@ var updateAccount = (data,callback)=>{
         }
     })
 }
-module.exports = {newManager,loginCheck,messCheck,newMember,updateAccount};
+
+var addPayment = (data,callback)=>{
+    User.updateOne({user_id:data.payment_user_id},{$inc: { account: data.amount}},function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+             callback({msg:'success'});
+        }
+    })
+}
+
+
+module.exports = {newManager,loginCheck,messCheck,newMember,updateAccount,addPayment};

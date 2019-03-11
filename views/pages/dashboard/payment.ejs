@@ -1,0 +1,100 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+
+                                    <h4 class="header-title m-t-0 m-b-30">Add Payment</h4>
+                                    <% if(ses_msg !== null){ %>
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <%= ses_msg %>
+                                        </div>
+                                    <%   } %>
+
+                                    <div class="row">
+                                        <form action="/payment" class="form-horizontal" role="form" method="POST">
+                                            <div class="col-lg-7">
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Select Member </label>
+                                                    <div class="col-md-7">
+                                                            <select class="form-control select2" name="member_id" id="selectMember_id" required>
+                                                                    <% _.each(member_list,function(v,k){ if(v.user_id == userData.user_id){ %> 
+                                                                        <option value="<%= v.user_id %>" selected ><%= v.user_name %></option>
+                                                                    <% }else{ %>
+
+                                                                        <option value="<%= v.user_id %>"><%= v.user_name %></option>
+                                                                    <% }})%>
+                                                            </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Payment Info</label>
+                                                    <div class="col-md-7">
+                                                        <input type="text" class="form-control" name="payment_info" placeholder="Payment Info">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label">Amount</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control" name="pay_amount" value="" placeholder="Amount" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <div class="card-box">
+                                                <h4 class="header-title m-t-0 m-b-30">Members Account Balance</h4>
+                                                        <ul class="list-group m-b-0 user-list">
+                                                            <% _.each(member_list, function(v,k){%>
+                                                                <li class="list-group-item">
+                                                                    <a href="#" class="user-list-item">
+                                                                        <div class="avatar">
+                                                                            <img src="/admin_assets/images/users/<%= v.user_img %>" alt="" style="height: 100%">
+                                                                        </div>
+                                                                        <div class="user-desc">
+                                                                            <span class="name"><%= v.user_name %></span>
+                                                                            <small class="text-warning"><span class="badge badge-info">Balance:  <%= v.account %>  Tk. </span></small>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            <% }); %>  
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                          
+                                            </div>
+                                            <div class="col-lg-12 text-center">
+                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5">Payment</button>
+                                            </div>
+                                        </form>
+
+                                    </div><!-- end row -->
+                            </div><!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
