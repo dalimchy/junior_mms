@@ -2,6 +2,10 @@
 <%- include('../../layouts/dashboard/topbar') %>
 <%- include('../../layouts/dashboard/left_bar') %>
 
+<script>
+    let fixedCost = <%- JSON.stringify(fixed_cost_log) %>
+</script>
+
 <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -140,9 +144,6 @@
                             </div><!-- end col -->
                         </div>
                         <!-- end row -->
-                        <pre>
-                        <%= fixed_cost_log %>
-                        </pre>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-box table-responsive">
@@ -164,8 +165,8 @@
                                                 <td><%= moment(v.created_at,'ddd MMM DD YYYY HH:MM:SS').format('HH:MM A DD-MM-YYYY') %></td>
                                                 <td>
                                                     <span style="width:100%;display:flex;justify-content:center">
-                                                        <button class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5"> <i class="dripicons-preview"></i> </button>
-                                                        <button class="btn btn-icon waves-effect waves-light btn-danger m-l-5 m-r-5"> <i class="fa fa-remove"></i> </button>
+                                                        <a href="#custom-modal" onclick="viewOldFdata(this)" data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"> <i class="dripicons-preview"></i> </a>
+                                                        <button data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-danger m-l-5 m-r-5"> <i class="fa fa-remove"></i> </button>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -178,9 +179,57 @@
                         </div>
 
                     </div> <!-- container -->
-
+                                        <!-- Modal -->
+                <div id="custom-modal" class="modal-demo" style="width:450px;">
+                    <button type="button" class="close" onclick="Custombox.close();">
+                        <span>&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="custom-modal-title">Old fixed cost</h4>
+                    <div class="bg-picture card-box">
+                        <div class="profile-info-name">
+                            <div class="profile-info-detail">
+                                <ul class="list-group"> 
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="houseRent"></span>
+                                        House Rent
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="electricity"></span>
+                                        Electricity Bill
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="gasBill"></span>
+                                        Gas Bill
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="waterBill"></span>
+                                        Water Bill
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="garbageBill"></span>
+                                        Garbage Bill
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="internetBill"></span>
+                                        Internet Bill
+                                    </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="chefBill"></span>
+                                        Chef Bill
+                                    </li>
+                                    <li class="list-group-item text-left" id="totalOldData" style="font-weight:bold"> Total: <span class="badge badge-primary">  Tk.</span> </li>
+                                </ul>
+                                <div class="button-list m-t-20">
+                                   <%# <button onclick="undateUser()" style="float:right" type="button" class="btn btn-sm btn-twitter waves-effect waves-light">Update</button> %>
+                                    <button onclick="Custombox.close();" style="float:right" type="button" class="btn btn-facebook btn-sm waves-effect waves-light">Cancel</button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
                 </div> <!-- content -->
-
+                
                 <footer class="footer">
                     2016 - 2017 © Adminto.
                 </footer>
@@ -202,4 +251,22 @@
     var today = moment().format('DD');
     var thisMonth = moment().format('MM');
     var thisYear = moment().format('YYYY');
+
+    function viewOldFdata(elm){
+        var log_id = $(elm).attr('data_log_id');
+        $.each(fixedCost, function(k,v){
+            if(log_id == v.log_id){
+                console.log(v.log_data)
+                var totalValue = v.log_data.house_rent + v.log_data.electricity_bill + v.log_data.gas_bill + v.log_data.water_bill + v.log_data.garbage_bill + v.log_data.internet_bill + v.log_data.chef_bill;
+                $('#houseRent').text(v.log_data.house_rent+' Tk.');
+                $('#electricity').text(v.log_data.electricity_bill+' Tk.');
+                $('#gasBill').text(v.log_data.gas_bill+' Tk.');
+                $('#waterBill').text(v.log_data.water_bill+' Tk.');
+                $('#garbageBill').text(v.log_data.garbage_bill+' Tk.');
+                $('#internetBill').text(v.log_data.internet_bill+' Tk.');
+                $('#chefBill').text(v.log_data.chef_bill+' Tk.');
+                $('#totalOldData span').text(totalValue +' Tk.');
+            }
+        });
+    }
 </script>
