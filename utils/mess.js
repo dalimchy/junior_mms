@@ -178,7 +178,7 @@ var updateFixedCost =(data,callback)=>{
 
 }
 
-var findLog = (data,callback)=>{
+var addPaymentLog = (data,callback)=>{
 	var logData = {
 			log_id:uuidv4(),
 			mess_id:data.mess_id,
@@ -196,7 +196,7 @@ var findLog = (data,callback)=>{
 		    .catch(err => console.log(err));
 }
 
-var addPaymentLog = (data,callback)=>{
+var findLog = (data,callback)=>{
 	ActivityLog.find(data).sort({created_at: 'desc'}).exec(function (err, result){
 		if(err){
 			console.log(err);
