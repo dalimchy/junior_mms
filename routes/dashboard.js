@@ -455,29 +455,32 @@ router.get('/fixed-cost', function (req, res) {
   }
   if (req.session.login) {
     findLog({mess_id:req.session.mess_id,type:'fixed_cost'}, function(fixedLog){
-      findFixedCost({mess_id:req.session.mess_id},function(fixedList){
-        if(fixedList.msg == 'success'){
-          var resdata = {
-            title : 'Fixed Cost',
-            msg : null,
-            ses_msg : req.session.msg,
-            fixed_cost : fixedList.data,
-            fixed_cost_log : fixedLog.data,
-            moment : moment,
-            _:_,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+      findAllMember({mess_id:req.session.mess_id},(response)=>{
+        findFixedCost({mess_id:req.session.mess_id},function(fixedList){
+          if(fixedList.msg == 'success'){
+            var resdata = {
+              title : 'Fixed Cost',
+              msg : null,
+              ses_msg : req.session.msg,
+              fixed_cost : fixedList.data,
+              fixed_cost_log : fixedLog.data,
+              moment : moment,
+              member_list : response.data,
+              _:_,
+              userData : {
+                user_name : req.session.user_name,
+                user_id:req.session.user_id,
+                user_email:req.session.user_email,
+                user_img:req.session.user_img,
+                mess_name:req.session.mess_name,
+                mess_id:req.session.mess_id,
+                user_role:((req.session.user_role == 1)? 'Manager':'Member')
+              }
             }
+            res.render('pages/dashboard/fixed_cost', resdata);
           }
-          res.render('pages/dashboard/fixed_cost', resdata);
-        }
-      })
+        });
+      });
     });
     
   } else {
