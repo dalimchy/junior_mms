@@ -460,6 +460,7 @@ router.get('/fixed-cost', function (req, res) {
             ses_msg : req.session.msg,
             fixed_cost : fixedList.data,
             fixed_cost_log : fixedLog.data,
+            moment : moment,
             _:_,
             userData : {
               user_name : req.session.user_name,
