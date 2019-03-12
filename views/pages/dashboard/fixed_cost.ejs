@@ -158,11 +158,10 @@
                                         </thead>
                                         <tbody>
                                         <% var i = 1; _.each(fixed_cost_log, function(v,k){%>
-                                            <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %>
                                             <tr>
                                                 <td><%= i++ %></td>
-                                                <td>Updated by <%= vm.user_name %></td>
-                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY HH:MM:SS').format('HH:MM A DD-MM-YYYY') %></td>
+                                                <td>Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
+                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
                                                 <td>
                                                     <span style="width:100%;display:flex;justify-content:center">
                                                         <a href="#custom-modal" onclick="viewOldFdata(this)" data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"> <i class="dripicons-preview"></i> </a>
@@ -170,7 +169,6 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            <%} }); %>
                                         <% }); %>
                                         </tbody>
                                     </table>
