@@ -97,7 +97,8 @@ var monthYear = '<%= month%> <%= year %>';
                                                                             <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id )thisTotalBazar = thisTotalBazar + Number(vb.total_amount)}) %>
                                                                             <% var this_meal_cost = thisTotalMeal * mealRate %>
                                                                             <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-
+                                                                            <% var totalCost = fixedCost - this_meal_c_s %>
+                                                                            <% var balance = vu.account - totalCost %>
                                                                             <tr class="active">
                                                                                 <th scope="row" id="<%= vu.user_id %>">1</th>
                                                                                 <td><%= vu.user_name %></td>
@@ -105,8 +106,8 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                 <td><%= thisTotalBazar %> Tk.</td>
                                                                                 <td><%=  this_meal_cost %> Tk.</td>
                                                                                 <td><%= this_meal_c_s %> Tk.</td>
-                                                                                <td>0 Tk.</td>
-                                                                                <td>500 Tk.</td>
+                                                                                <td><%= totalCost %> Tk.</td>
+                                                                                <td><%= balance %> Tk.</td>
                                                                             </tr>
                                                                         <%})%>
                                                                     </tbody>
