@@ -562,5 +562,49 @@ router.post('/payment', function(req, res) {
     res.redirect('/login');
   }
 });
+router.get('/monthly-calculation', function(req, res) {
+  if(req.session.msg == undefined){
+      req.session.msg = null;
+  }
+  if(req.session.login){
+    findAllMember({mess_id:req.session.mess_id},(allMember)=>{
+      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
+        findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+          findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
+            var resdata = {
+                title : 'Monthly Calculation',
+                msg : null,
+                ses_msg : req.session.msg,
+                member_list : allMember.data,
+                meal_list : mealList.data,
+                bazar_list : bazarList.data,
+                fixed_cost_list : fixedCost.data,
+                day : today,
+                month : thisMonth,
+                year : thisYear,
+                moment : moment,
+                _:_,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
+              }
+              req.session.msg = null;
+              res.render('pages/dashboard/calculation', resdata);
+          });
+        });
+      });
+      
+    });
+
+  }else{
+    res.redirect('/login');
+  }
+});
 
 module.exports = router;

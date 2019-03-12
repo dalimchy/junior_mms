@@ -1,0 +1,203 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+<script> 
+var monthYear = '<%= month%> <%= year %>';
+</script>    
+<% var totalMeal =  0; %>
+<% var totalBazar =  0; %>
+<% var fixedCost =  fixed_cost_list.house_rent + fixed_cost_list.electricity_bill + fixed_cost_list.gas_bill + fixed_cost_list.water_bill + fixed_cost_list.garbage_bill + fixed_cost_list.chef_bill + fixed_cost_list.internet_bill; %>
+<%  _.each(meal_list,function(vm,km){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest;}) %>
+<%  _.each(bazar_list,function(vb,kb){ totalBazar = totalBazar + Number(vb.total_amount)}) %>
+<% var mealRate =  Math.ceil(totalBazar / totalMeal); %>
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                            <h4 class="header-title m-t-0 m-b-30 text-center" id=""><script type="text/javascript">document.write(moment(monthYear,'mm yyyy').format('MMMM YYYY'));</script></h4>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card-box widget-user">
+                                    <div class="text-center">
+                                        <h2 class="text-success" data-plugin="counterup"><%= totalMeal %></h2>
+                                        <h5 class="text-success" >Total Meal</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card-box widget-user">
+                                    <div class="text-center">
+                                        <h2 class="text-primary" data-plugin="counterup"><%= totalBazar %> Tk.</h2>
+                                        <h5 class="text-primary">Total Bazar</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card-box widget-user">
+                                    <div class="text-center">
+                                        <h2 class="text-warning" data-plugin="counterup"><%= mealRate %> Tk.</h2>
+                                        <h5 class="text-warning" >Meal Rate</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card-box widget-user">
+                                    <div class="text-center">
+                                        <h2 class="text-info" data-plugin="counterup"><%= fixedCost %> Tk.</h2>
+                                        <h5 class="text-info" >Fixed Cost</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <% if(ses_msg !== null){ %>
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <%= ses_msg %>
+                                        </div>
+                                    <%   } %>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="panel panel-custom panel-border">
+                                                        <div class="panel-heading">
+                                                            <h4 class="header-title">Monthly Total Calculations</h4>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="col-md-12">
+                                                                <table class="table m-b-0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Name</th>
+                                                                            <th>Total Meal</th>
+                                                                            <th>Total Bazar</th>
+                                                                            <th>Meal Cost</th>
+                                                                            <th>Meal Cost Status</th>
+                                                                            <th>Total Cost</th>
+                                                                            <th>Balance</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <% _.each(member_list, function(vu,ku){ %> 
+                                                                            <% var thisTotalMeal = 0 ; %>
+                                                                            <% var thisTotalBazar = 0 ; %>
+                                                                            <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
+                                                                            <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id )thisTotalBazar = thisTotalBazar + Number(vb.total_amount)}) %>
+                                                                            <% var this_meal_cost = thisTotalMeal * mealRate %>
+                                                                            <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
+
+                                                                            <tr class="active">
+                                                                                <th scope="row" id="<%= vu.user_id %>">1</th>
+                                                                                <td><%= vu.user_name %></td>
+                                                                                <td><%= thisTotalMeal %></td>
+                                                                                <td><%= thisTotalBazar %> Tk.</td>
+                                                                                <td><%=  this_meal_cost %> Tk.</td>
+                                                                                <td><%= this_meal_c_s %> Tk.</td>
+                                                                                <td>0 Tk.</td>
+                                                                                <td>500 Tk.</td>
+                                                                            </tr>
+                                                                        <%})%>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="panel panel-custom panel-border">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Fixed Cost list</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="col-md-12">
+                                                                <ul class="list-group"> 
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">10 Tk.</span>
+                                                                        House Rent
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">20 Tk.</span>
+                                                                        Electricity Bill
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">30 Tk.</span>
+                                                                        Gas Bill
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">40 Tk.</span>
+                                                                        Water Bill
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">50 Tk.</span>
+                                                                        Garbage Bill
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">60 Tk.</span>
+                                                                        Internet Bill
+                                                                    </li>
+                                                                    <li class="list-group-item data">
+                                                                        <span class="badge badge-primary">70 Tk.</span>
+                                                                        Chef Bill
+                                                                    </li>
+                                                                    <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 280 Tk.</span> </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div><!-- end col -->
+                            
+                        </div>
+                        <!-- end row -->
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
+<script type="text/javascript">
+    var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    var today = moment().format('DD');
+    var thisMonth = moment().format('MM');
+    var thisYear = moment().format('YYYY');
+</script>
