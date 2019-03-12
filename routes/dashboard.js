@@ -518,6 +518,7 @@ router.get('/payment', function(req, res) {
           ses_msg : req.session.msg,
           member_list : response.data,
           payment_log : paymentLog.data,
+          moment : moment,
           _:_,
           userData : {
             user_name : req.session.user_name,

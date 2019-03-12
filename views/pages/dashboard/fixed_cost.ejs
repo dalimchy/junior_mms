@@ -158,10 +158,9 @@
                                         </thead>
                                         <tbody>
                                         <% var i = 1; _.each(fixed_cost_log, function(v,k){%>
-                                            <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %>
                                             <tr>
                                                 <td><%= i++ %></td>
-                                                <td>Updated by <%= vm.user_name %></td>
+                                                <td>Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
                                                 <td><%= moment(v.created_at,'ddd MMM DD YYYY HH:MM:SS').format('HH:MM A DD-MM-YYYY') %></td>
                                                 <td>
                                                     <span style="width:100%;display:flex;justify-content:center">
@@ -170,7 +169,6 @@
                                                     </span>
                                                 </td>
                                             </tr>
-                                            <%} }); %>
                                         <% }); %>
                                         </tbody>
                                     </table>
