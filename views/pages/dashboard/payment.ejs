@@ -102,7 +102,7 @@
                                                 <td><%= i++ %></td>
                                                 <td>Updated By <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <% }}) %></td>
                                                 <td> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.log_data.payment_user_id){ %> <%= vm.user_name %> <% }}) %></td>
-                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY HH:MM:SS').format('HH:MM A DD-MM-YYYY') %></td>
+                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
                                                 <td><%= v.log_data.payment_info %></td>
                                                 <td><%= v.log_data.amount %></td>
                                                 <td>
