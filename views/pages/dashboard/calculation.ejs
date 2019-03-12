@@ -10,6 +10,7 @@ var monthYear = '<%= month%> <%= year %>';
 <%  _.each(meal_list,function(vm,km){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest;}) %>
 <%  _.each(bazar_list,function(vb,kb){ totalBazar = totalBazar + Number(vb.total_amount)}) %>
 <% var mealRate =  Math.ceil(totalBazar / totalMeal); %>
+<% var perHeadFixedCost = Math.ceil(fixedCost / meal_list.length) %>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -97,7 +98,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                                             <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id )thisTotalBazar = thisTotalBazar + Number(vb.total_amount)}) %>
                                                                             <% var this_meal_cost = thisTotalMeal * mealRate %>
                                                                             <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-                                                                            <% var totalCost = fixedCost - this_meal_c_s %>
+                                                                            <% var totalCost = perHeadFixedCost - this_meal_c_s %>
                                                                             <% var balance = vu.account - totalCost %>
                                                                             <tr class="active">
                                                                                 <th scope="row" id="<%= vu.user_id %>">1</th>
