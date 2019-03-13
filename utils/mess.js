@@ -167,6 +167,9 @@ var updateFixedCost =(data,callback)=>{
 				mess_id:olddata.mess_id,
 				creator_id:data.user_id,
 				type:'fixed_cost',
+				day:data.day,
+				month:data.month,
+				year:data.year,
 				log_data:olddata
 			}
 			new ActivityLog(logData).save().then(res =>{
@@ -184,6 +187,9 @@ var addPaymentLog = (data,callback)=>{
 			mess_id:data.mess_id,
 			creator_id:data.creator_id,
 			type:'payment',
+			day:data.day,
+			month:data.month,
+			year:data.year,
 			log_data:{
 				payment_info:data.pay_info,
 				payment_user_id:data.payment_user_id,

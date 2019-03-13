@@ -494,6 +494,9 @@ router.post('/fixed-cost', function (req, res) {
   }
   if (req.session.login) {
     req.body['user_id'] = req.session.user_id;
+    req.body['day'] = today;
+    req.body['month'] = thisMonth;
+    req.body['year'] = thisYear;
     updateFixedCost(req.body, function(docs){
       if(docs.msg == 'success'){
         req.session.msg = 'update Fixed Cost Successfully.';
@@ -548,7 +551,10 @@ router.post('/payment', function(req, res) {
     creator_id:req.session.user_id,
     payment_user_id:req.body.member_id,
     amount:req.body.pay_amount,
-    pay_info:req.body.payment_info
+    pay_info:req.body.payment_info,
+    day:today,
+    month:thisMonth,
+    year:thisYear
   }
   if(req.session.login){
     addPayment(reqData,function(response){
@@ -572,31 +578,35 @@ router.get('/monthly-calculation', function(req, res) {
       findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
         findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
           findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
-            var resdata = {
-                title : 'Monthly Calculation',
-                msg : null,
-                ses_msg : req.session.msg,
-                member_list : allMember.data,
-                meal_list : mealList.data,
-                bazar_list : bazarList.data,
-                fixed_cost_list : fixedCost.data,
-                day : today,
-                month : thisMonth,
-                year : thisYear,
-                moment : moment,
-                _:_,
-                userData : {
-                  user_name : req.session.user_name,
-                  user_id:req.session.user_id,
-                  user_email:req.session.user_email,
-                  user_img:req.session.user_img,
-                  mess_name:req.session.mess_name,
-                  mess_id:req.session.mess_id,
-                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            findLog({mess_id:req.session.mess_id,type:'payment',month:thisMonth,year:thisYear}, function(paymentLog){
+              var resdata = {
+                  title : 'Monthly Calculation',
+                  msg : null,
+                  ses_msg : req.session.msg,
+                  member_list : allMember.data,
+                  meal_list : mealList.data,
+                  bazar_list : bazarList.data,
+                  fixed_cost_list : fixedCost.data,
+                  payment_log : paymentLog.data,
+                  day : today,
+                  month : thisMonth,
+                  year : thisYear,
+                  moment : moment,
+                  _:_,
+                  userData : {
+                    user_name : req.session.user_name,
+                    user_id:req.session.user_id,
+                    user_email:req.session.user_email,
+                    user_img:req.session.user_img,
+                    mess_name:req.session.mess_name,
+                    mess_id:req.session.mess_id,
+                    user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                  }
                 }
-              }
-              req.session.msg = null;
-              res.render('pages/dashboard/calculation', resdata);
+                req.session.msg = null;
+                res.render('pages/dashboard/calculation', resdata);
+            });
+
           });
         });
       });
