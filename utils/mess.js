@@ -9,10 +9,37 @@ const Meal = require('../models/Meal');
 const Bazar = require('../models/Bazar');
 const FixedCost = require('../models/Fixed_cost');
 const ActivityLog = require('../models/Activity_log');
+const MonthlyReport = require('../models/Monthly_report');
 
 var {updateAccount} = require('./../utils/users');
 
 var salt = bcrypt.genSaltSync(10);
+
+
+var findMonthlyReport = (data,callback)=>{
+	MonthlyReport.findOne(data,function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			if(result == null){
+				var qvalue = {
+					month_id:uuidv4(),
+					mess_id:data.mess_id,
+					month:data.month,
+					year:data.year,
+					status:0
+				}
+				var newMonth = new MonthlyReport(qvalue);
+				newMonth.save().then(res =>{
+			        callback({msg:'success',data:qvalue});
+			    })
+			    .catch(err => console.log(err));
+			}else{
+				callback({msg:'success',data:result});
+			}
+		}
+	});
+}
 
 var findAllMember = (data,callback)=>{
     User.find({mess_id:data.mess_id}, function (err, result) {
@@ -214,6 +241,7 @@ var findLog = (data,callback)=>{
 
 
 module.exports = {
+	findMonthlyReport,
 	findAllMember,
 	addMeal,
 	findTodayMeal,

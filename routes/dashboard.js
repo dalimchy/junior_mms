@@ -27,7 +27,7 @@ var {newMember,
     addPayment
   } = require('./../utils/users');
 var {findAllMember} = require('./../utils/mess');
-var {addMeal,
+var {findMonthlyReport,addMeal,
     findTodayMeal,
     findTodayBazar,
     addBazar,
@@ -44,23 +44,27 @@ var {addMeal,
 /* GET home page. */
 router.get('/', function(req, res) {
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
-      var resdata = {
-        title : 'Dashboard',
-        msg : null,
-        user_data : response.data,
-        _:_,
-        userData : {
-          user_name : req.session.user_name,
-          user_id:req.session.user_id,
-          user_email:req.session.user_email,
-          user_img:req.session.user_img,
-          mess_name:req.session.mess_name,
-          mess_id:req.session.mess_id,
-          user_role:((req.session.user_role == 1)? 'Manager':'Member')
-        }
+    findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      if(monthlyReport.msg == 'success'){
+        findAllMember({mess_id:req.session.mess_id},(response)=>{
+          var resdata = {
+            title : 'Dashboard',
+            msg : null,
+            user_data : response.data,
+            _:_,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
+          }
+          res.render('pages/dashboard/index', resdata);
+        });
       }
-      res.render('pages/dashboard/index', resdata);
     });
   }else{
     res.redirect('/login');
