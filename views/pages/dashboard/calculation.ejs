@@ -43,7 +43,7 @@ var monthYear = '<%= month%> <%= year %>';
                             <div class="col-lg-3 col-md-6">
                                 <div class="card-box widget-user">
                                     <div class="text-center">
-                                        <h2 class="text-warning" data-plugin="counterup"><%= mealRate %> Tk.</h2>
+                                        <h2 class="text-warning" data-plugin="counterup"><% if(isNaN(mealRate)){ %> 0 <%}else{%> <%= mealRate %><%} %>  Tk.</h2>
                                         <h5 class="text-warning" >Meal Rate</h5>
                                     </div>
                                 </div>
@@ -109,11 +109,11 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                 <td><%= vu.user_name %></td>
                                                                                 <td><%= thisTotalMeal %></td>
                                                                                 <td><%= thisTotalBazar %> Tk.</td>
-                                                                                <td><%=  this_meal_cost %> Tk.</td>
-                                                                                <td><%= this_meal_c_s %> Tk.</td>
+                                                                                <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
+                                                                                <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
                                                                                 <td><%= (totalDeposit) + (thisTotalBazar) %> Tk.</td>
-                                                                                <td><%= totalCost %> Tk.</td>
-                                                                                <td><%= balance %> Tk.</td>
+                                                                                <td><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
+                                                                                <td><% if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} %> Tk.</td>
                                                                             </tr>
                                                                         <%})%>
                                                                     </tbody>
