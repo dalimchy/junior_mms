@@ -40,14 +40,18 @@
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i> <span>Meal</span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="/meal"><i class="fa fa-cube"></i>Add Meal </a></li>
+                                    <% if(monthly_report.status !== 1){%>
+                                        <li><a href="/meal"><i class="fa fa-cube"></i>Add Meal </a></li>
+                                    <%}%>
                                     <li><a href="/meal-details"><i class="fa fa-cog"></i>Meal Details</a></li>
                                 </ul>
                             </li>
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i> <span>Bazar</span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="/bazar"><i class="fa fa-cube"></i>Add Bazar</a></li>
+                                    <% if(monthly_report.status !== 1){%>
+                                        <li><a href="/bazar"><i class="fa fa-cube"></i>Add Bazar</a></li>
+                                    <%}%>
                                     <li><a href="/bazar-details"><i class="fa fa-cog"></i>Bazar Details</a></li>
                                 </ul>
                             </li>

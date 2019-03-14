@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs');
 var _ = require('lodash');
 const User = require('../models/Users');
 const Mess = require('../models/Mess_info');
+const MonthlyReport = require('../models/Monthly_report');
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -169,6 +170,16 @@ var updateMemberAccount = (data,callback)=>{
     });
 }
 
+var findMonthRe = (data,callback)=>{
+    MonthlyReport.find({mess_id:data.mess_id},function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:result});
+        }
+    })
+}
+
 
 module.exports = {
     newManager,
@@ -177,5 +188,6 @@ module.exports = {
     newMember,
     updateAccount,
     addPayment,
-    updateMemberAccount
+    updateMemberAccount,
+    findMonthRe
 };

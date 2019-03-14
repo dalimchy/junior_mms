@@ -25,7 +25,8 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
     addPayment,
-    updateMemberAccount
+    updateMemberAccount,
+    findMonthRe
   } = require('./../utils/users');
 var {findAllMember,findAllActiveMembers,deactiveUser,activeUser,monthlyReportClose,findMonthlyReportOne} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
@@ -53,6 +54,7 @@ router.get('/', function(req, res) {
             title : 'Dashboard',
             msg : null,
             user_data : response.data,
+            monthly_report:monthlyReport.data,
             _:_,
             userData : {
               user_name : req.session.user_name,
@@ -79,30 +81,33 @@ router.get('/member', function(req, res) {
 	      req.session.msg = null;
 	  }
   if(req.session.login){
-  	findAllMember({mess_id:req.session.mess_id},(response)=>{
-  		if(response.msg == 'success'){
-			var resdata = {
-		      title : 'Member',
-		      msg : null,
-		      ses_msg : req.session.msg,
-		      member_list : response.data,
-		      _ : _,
-		      userData : {
-		        user_name : req.session.user_name,
-		        user_id:req.session.user_id,
-		        user_email:req.session.user_email,
-		        user_img:req.session.user_img,
-		        mess_name:req.session.mess_name,
-		        mess_id:req.session.mess_id,
-		        user_role:((req.session.user_role == 1)? 'Manager':'Member')
-		      }
-		    }
-		    req.session.msg = null;
-		    res.render('pages/dashboard/member', resdata);
-		 }else{
-		 	res.redirect('/');
-		 }
-  	});
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      findAllMember({mess_id:req.session.mess_id},(response)=>{
+    		if(response.msg == 'success'){
+  			var resdata = {
+  		      title : 'Member',
+  		      msg : null,
+  		      ses_msg : req.session.msg,
+  		      member_list : response.data,
+            monthly_report : monthlyReport.data,
+  		      _ : _,
+  		      userData : {
+  		        user_name : req.session.user_name,
+  		        user_id:req.session.user_id,
+  		        user_email:req.session.user_email,
+  		        user_img:req.session.user_img,
+  		        mess_name:req.session.mess_name,
+  		        mess_id:req.session.mess_id,
+  		        user_role:((req.session.user_role == 1)? 'Manager':'Member')
+  		      }
+  		    }
+  		    req.session.msg = null;
+  		    res.render('pages/dashboard/member', resdata);
+  		 }else{
+  		 	res.redirect('/');
+  		 }
+    	});
+    })
   }else{
     res.redirect('/login');
     
@@ -170,107 +175,18 @@ router.get('/meal', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-      if(response.msg == 'success'){
-      findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
-        if(response2.msg == 'success'){
-          var resdata = {
-            title : 'Meal',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : response.data,
-            meal_list : response2.data,
-            _ : _,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
-            }
-          }
-          req.session.msg = null;
-          res.render('pages/dashboard/meal', resdata);
-        }else{
-          console.log(response2)
-        }
-      });
-     }else{
-      console.log(response);
-     }
-    });
-  }else{
-    res.redirect('/login');
-    
-  }
-});
-router.get('/meal', function(req, res) {
-  if(req.session.msg == undefined){
-        req.session.msg = null;
-    }
-  if(req.session.login){
-    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-      if(response.msg == 'success'){
-      findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
-        if(response2.msg == 'success'){
-          var resdata = {
-            title : 'Meal',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : response.data,
-            meal_list : response2.data,
-            day:today,
-            month : thisMonth,
-            year:thisYear,
-            _ : _,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
-            }
-          }
-          req.session.msg = null;
-          res.render('pages/dashboard/meal', resdata);
-        }else{
-          console.log(response2)
-        }
-      });
-     }else{
-      console.log(response);
-     }
-    });
-  }else{
-    res.redirect('/login');
-    
-  }
-});
-
-router.get('/meal-details', function(req, res) {
-  if(req.session.msg == undefined){
-        req.session.msg = null;
-    }
-  if(req.session.login){
-    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-      if(response.msg == 'success'){
-      findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
-        findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
           if(response2.msg == 'success'){
             var resdata = {
-              title : 'Meal Details',
+              title : 'Meal',
               msg : null,
               ses_msg : req.session.msg,
-              member_list : response.data,
+              member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+              monthly_report : monthlyReport.data,
               meal_list : response2.data,
-              bazar_list : bazarList.data,
-              totaldays : totaldays,
-              month : thisMonth,
-              year : thisYear,
               _ : _,
               userData : {
                 user_name : req.session.user_name,
@@ -283,15 +199,111 @@ router.get('/meal-details', function(req, res) {
               }
             }
             req.session.msg = null;
-            res.render('pages/dashboard/meal_details', resdata);
+            res.render('pages/dashboard/meal', resdata);
           }else{
             console.log(response2)
           }
         });
+       }else{
+        console.log(response);
+       }
       });
-     }else{
-      console.log(response);
-     }
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+// router.get('/meal', function(req, res) {
+//   if(req.session.msg == undefined){
+//         req.session.msg = null;
+//     }
+//   if(req.session.login){
+//     findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+//       if(response.msg == 'success'){
+//       findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
+//         if(response2.msg == 'success'){
+//           var resdata = {
+//             title : 'Meal',
+//             msg : null,
+//             ses_msg : req.session.msg,
+//             member_list : response.data,
+//             meal_list : response2.data,
+//             day:today,
+//             month : thisMonth,
+//             year:thisYear,
+//             _ : _,
+//             userData : {
+//               user_name : req.session.user_name,
+//               user_id:req.session.user_id,
+//               user_email:req.session.user_email,
+//               user_img:req.session.user_img,
+//               mess_name:req.session.mess_name,
+//               mess_id:req.session.mess_id,
+//               user_role:((req.session.user_role == 1)? 'Manager':'Member')
+//             }
+//           }
+//           req.session.msg = null;
+//           res.render('pages/dashboard/meal', resdata);
+//         }else{
+//           console.log(response2)
+//         }
+//       });
+//      }else{
+//       console.log(response);
+//      }
+//     });
+//   }else{
+//     res.redirect('/login');
+    
+//   }
+// });
+
+router.get('/meal-details', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+          findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+            if(response2.msg == 'success'){
+              var resdata = {
+                title : 'Meal Details',
+                msg : null,
+                ses_msg : req.session.msg,
+                member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+                monthly_report : monthlyReport.data,
+                meal_list : response2.data,
+                bazar_list : bazarList.data,
+                totaldays : totaldays,
+                month : thisMonth,
+                year : thisYear,
+                _ : _,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
+              }
+              req.session.msg = null;
+              res.render('pages/dashboard/meal_details', resdata);
+            }else{
+              console.log(response2)
+            }
+          });
+        });
+       }else{
+        console.log(response);
+       }
+      });
     });
   }else{
     res.redirect('/login');
@@ -364,63 +376,18 @@ router.get('/bazar', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-      if(response.msg == 'success'){
-      findTodayBazar({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
-        if(response2.msg == 'success'){
-          var resdata = {
-            title : 'Bazar',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : response.data,
-            bazar_list : response2.data,
-            _ : _,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
-              mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
-            }
-          }
-          req.session.msg = null;
-          res.render('pages/dashboard/bazar', resdata);
-        }else{
-          console.log(response2)
-        }
-      });
-     }else{
-      console.log(response);
-     }
-    });
-  }else{
-    res.redirect('/login');
-    
-  }
-});
-
-router.get('/bazar-details', function(req, res) {
-  if(req.session.msg == undefined){
-        req.session.msg = null;
-    }
-  if(req.session.login){
-    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-      if(response.msg == 'success'){
-      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
-        findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findTodayBazar({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
           if(response2.msg == 'success'){
             var resdata = {
-              title : 'Bazar Details',
+              title : 'Bazar',
               msg : null,
               ses_msg : req.session.msg,
-              member_list : response.data,
+              member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+              monthly_report : monthlyReport.data,
               bazar_list : response2.data,
-              meal_list : mealList.data,
-              totaldays : totaldays,
-              month : thisMonth,
-              year : thisYear,
               _ : _,
               userData : {
                 user_name : req.session.user_name,
@@ -433,15 +400,67 @@ router.get('/bazar-details', function(req, res) {
               }
             }
             req.session.msg = null;
-            res.render('pages/dashboard/bazar_details', resdata);
+            res.render('pages/dashboard/bazar', resdata);
           }else{
             console.log(response2)
           }
         });
+       }else{
+        console.log(response);
+       }
       });
-     }else{
-      console.log(response);
-     }
+    })
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+
+router.get('/bazar-details', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
+          findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
+            if(response2.msg == 'success'){
+              var resdata = {
+                title : 'Bazar Details',
+                msg : null,
+                ses_msg : req.session.msg,
+                member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+                monthly_report : monthlyReport.data,
+                bazar_list : response2.data,
+                meal_list : mealList.data,
+                totaldays : totaldays,
+                month : thisMonth,
+                year : thisYear,
+                _ : _,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
+              }
+              req.session.msg = null;
+              res.render('pages/dashboard/bazar_details', resdata);
+            }else{
+              console.log(response2)
+            }
+          });
+        });
+       }else{
+        console.log(response);
+       }
+      });
     });
   }else{
     res.redirect('/login');
@@ -490,30 +509,34 @@ router.get('/fixed-cost', function (req, res) {
   }
   if (req.session.login) {
     findLog({mess_id:req.session.mess_id,type:'fixed_cost'}, function(fixedLog){
-      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-        findFixedCost({mess_id:req.session.mess_id},function(fixedList){
-          if(fixedList.msg == 'success'){
-            var resdata = {
-              title : 'Fixed Cost',
-              msg : null,
-              ses_msg : req.session.msg,
-              fixed_cost : fixedList.data,
-              fixed_cost_log : fixedLog.data,
-              moment : moment,
-              member_list : response.data,
-              _:_,
-              userData : {
-                user_name : req.session.user_name,
-                user_id:req.session.user_id,
-                user_email:req.session.user_email,
-                user_img:req.session.user_img,
-                mess_name:req.session.mess_name,
-                mess_id:req.session.mess_id,
-                user_role:((req.session.user_role == 1)? 'Manager':'Member')
+      findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+
+        findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+          findFixedCost({mess_id:req.session.mess_id},function(fixedList){
+            if(fixedList.msg == 'success'){
+              var resdata = {
+                title : 'Fixed Cost',
+                msg : null,
+                ses_msg : req.session.msg,
+                fixed_cost : fixedList.data,
+                fixed_cost_log : fixedLog.data,
+                moment : moment,
+                member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+                monthly_report : monthlyReport.data,
+                _:_,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
               }
+              res.render('pages/dashboard/fixed_cost', resdata);
             }
-            res.render('pages/dashboard/fixed_cost', resdata);
-          }
+          });
         });
       });
     });
@@ -549,27 +572,30 @@ router.get('/payment', function(req, res) {
   }
   if(req.session.login){
     findLog({mess_id:req.session.mess_id,type:'payment'}, function(paymentLog){
-      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-        var resdata = {
-          title : 'Payment',
-          msg : null,
-          ses_msg : req.session.msg,
-          member_list : response.data,
-          payment_log : paymentLog.data,
-          moment : moment,
-          _:_,
-          userData : {
-            user_name : req.session.user_name,
-            user_id:req.session.user_id,
-            user_email:req.session.user_email,
-            user_img:req.session.user_img,
-            mess_name:req.session.mess_name,
-            mess_id:req.session.mess_id,
-            user_role:((req.session.user_role == 1)? 'Manager':'Member')
+      findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+        findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+          var resdata = {
+            title : 'Payment',
+            msg : null,
+            ses_msg : req.session.msg,
+            member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+            monthly_report : monthlyReport.data,
+            payment_log : paymentLog.data,
+            moment : moment,
+            _:_,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
           }
-        }
-        req.session.msg = null;
-        res.render('pages/dashboard/payment', resdata);
+          req.session.msg = null;
+          res.render('pages/dashboard/payment', resdata);
+        });
       });
     });
   }else{
@@ -682,6 +708,16 @@ router.post('/closed-calculations',function(req,res){
       }
     })
   }
-})
+});
+
+router.post('/findAllMonthReport', function(req,res){
+  if(req.session.login){
+    findMonthRe({mess_id:req.session.mess_id},function(allmonthRe){
+      if(allmonthRe.msg == 'success'){
+        res.send(allmonthRe);
+      }
+    })
+  }
+});
 
 module.exports = router;
