@@ -50,6 +50,15 @@ var findAllMember = (data,callback)=>{
         }
     });
 }
+var findAllActiveMembers = (data,callback)=>{
+    User.find({mess_id:data.mess_id,status:1}, function (err, result) {
+        if(err){
+            console.log(err)
+        }else{
+            callback({msg:'success',data:result});
+        }
+    });
+}
 
 var addMeal = (data,callback)=>{
 	Meal.findOne({mess_id:data.mess_id,assign_user_id:data.assign_user_id,day:data.day,month:data.month,year:data.year}, function (err, result) {
@@ -264,5 +273,6 @@ module.exports = {
 	updateFixedCost,
 	findLog,
 	addPaymentLog,
-	findMonthlyReport
+	findMonthlyReport,
+	findAllActiveMembers
 };

@@ -26,7 +26,7 @@ var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
     addPayment
   } = require('./../utils/users');
-var {findAllMember} = require('./../utils/mess');
+var {findAllMember,findAllActiveMembers} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
     findTodayMeal,
     findTodayBazar,
@@ -47,7 +47,7 @@ router.get('/', function(req, res) {
   if(req.session.login){
     findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
       if(monthlyReport.msg == 'success'){
-        findAllMember({mess_id:req.session.mess_id},(response)=>{
+        findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
           var resdata = {
             title : 'Dashboard',
             msg : null,
@@ -140,7 +140,7 @@ router.get('/meal', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
+    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
       findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
         if(response2.msg == 'success'){
@@ -181,7 +181,7 @@ router.get('/meal', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
+    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
       findTodayMeal({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
         if(response2.msg == 'success'){
@@ -226,7 +226,7 @@ router.get('/meal-details', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
+    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
       findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
         findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
@@ -334,7 +334,7 @@ router.get('/bazar', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
+    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
       findTodayBazar({mess_id:req.session.mess_id,day:today,month:thisMonth,year:thisYear},(response2)=>{
         if(response2.msg == 'success'){
@@ -376,7 +376,7 @@ router.get('/bazar-details', function(req, res) {
         req.session.msg = null;
     }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
+    findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
       if(response.msg == 'success'){
       findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
         findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(response2)=>{
@@ -460,7 +460,7 @@ router.get('/fixed-cost', function (req, res) {
   }
   if (req.session.login) {
     findLog({mess_id:req.session.mess_id,type:'fixed_cost'}, function(fixedLog){
-      findAllMember({mess_id:req.session.mess_id},(response)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
         findFixedCost({mess_id:req.session.mess_id},function(fixedList){
           if(fixedList.msg == 'success'){
             var resdata = {
@@ -519,7 +519,7 @@ router.get('/payment', function(req, res) {
   }
   if(req.session.login){
     findLog({mess_id:req.session.mess_id,type:'payment'}, function(paymentLog){
-      findAllMember({mess_id:req.session.mess_id},(response)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
         var resdata = {
           title : 'Payment',
           msg : null,
@@ -581,7 +581,7 @@ router.get('/monthly-calculation', function(req, res) {
   if(req.session.login){
     findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
      if(monthlyReport.data !== null && monthlyReport.data.status == 0){
-        findAllMember({mess_id:req.session.mess_id},(allMember)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
           findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
             findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
               findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
