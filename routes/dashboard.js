@@ -355,6 +355,57 @@ router.get('/meal-details', function(req, res) {
     
   }
 });
+router.get('/meal-details/:month_id', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findMonthlyReportOne({month_id:req.params.month_id},(monthlyReport)=>{
+
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findThisMonthBazar({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(bazarList)=>{
+          findThisMonthMeal({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(response2)=>{
+            if(response2.msg == 'success'){
+              var resdata = {
+                title : 'Meal Details',
+                msg : null,
+                ses_msg : req.session.msg,
+                member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+                monthly_report : monthlyReport.data,
+                meal_list : response2.data,
+                bazar_list : bazarList.data,
+                totaldays : totaldays,
+                month : monthlyReport.data.month,
+                year : monthlyReport.data.year,
+                _ : _,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
+              }
+              req.session.msg = null;
+              res.render('pages/dashboard/meal_details', resdata);
+            }else{
+              console.log(response2)
+            }
+          });
+        });
+       }else{
+        console.log(response);
+       }
+      });
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
 
 router.post('/meal/addMeal', function(req, res) {
 	 if(req.session.login){
@@ -484,6 +535,57 @@ router.get('/bazar-details', function(req, res) {
                 totaldays : totaldays,
                 month : thisMonth,
                 year : thisYear,
+                _ : _,
+                userData : {
+                  user_name : req.session.user_name,
+                  user_id:req.session.user_id,
+                  user_email:req.session.user_email,
+                  user_img:req.session.user_img,
+                  mess_name:req.session.mess_name,
+                  mess_id:req.session.mess_id,
+                  user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                }
+              }
+              req.session.msg = null;
+              res.render('pages/dashboard/bazar_details', resdata);
+            }else{
+              console.log(response2)
+            }
+          });
+        });
+       }else{
+        console.log(response);
+       }
+      });
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+router.get('/bazar-details/:month_id', function(req, res) {
+  if(req.session.msg == undefined){
+        req.session.msg = null;
+    }
+  if(req.session.login){
+    findMonthlyReportOne({month_id:req.params.month_id},(monthlyReport)=>{
+
+      findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        if(response.msg == 'success'){
+        findThisMonthMeal({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(mealList)=>{
+          findThisMonthBazar({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(response2)=>{
+            if(response2.msg == 'success'){
+              var resdata = {
+                title : 'Bazar Details',
+                msg : null,
+                ses_msg : req.session.msg,
+                member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+                monthly_report : monthlyReport.data,
+                bazar_list : response2.data,
+                meal_list : mealList.data,
+                totaldays : totaldays,
+                month : monthlyReport.data.month,
+                year : monthlyReport.data.year,
                 _ : _,
                 userData : {
                   user_name : req.session.user_name,
@@ -693,7 +795,59 @@ router.get('/monthly-calculation', function(req, res) {
                     member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:allMember.data,
                     meal_list : mealList.data,
                     bazar_list : bazarList.data,
-                    fixed_cost_list : fixedCost.data,
+                    fixed_cost_list : (monthlyReport.data.status == 1)? monthlyReport.data.report.fixed_cost:fixedCost.data,
+                    payment_log : paymentLog.data,
+                    day : today,
+                    month : monthlyReport.data.month,
+                    year : monthlyReport.data.year,
+                    moment : moment,
+                    monthly_report : monthlyReport.data,
+                    _:_,
+                    userData : {
+                      user_name : req.session.user_name,
+                      user_id:req.session.user_id,
+                      user_email:req.session.user_email,
+                      user_img:req.session.user_img,
+                      mess_name:req.session.mess_name,
+                      mess_id:req.session.mess_id,
+                      user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                    }
+                  }
+                  req.session.msg = null;
+                  res.render('pages/dashboard/calculation', resdata);
+              });
+
+            });
+          });
+        });
+        
+      });
+    });
+    
+
+  }else{
+    res.redirect('/login');
+  }
+});
+router.get('/monthly-calculation/:month_id', function(req, res) {
+  if(req.session.msg == undefined){
+      req.session.msg = null;
+  }
+  if(req.session.login){
+    findMonthlyReportOne({month_id:req.params.month_id},(monthlyReport)=>{
+      findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
+        findThisMonthMeal({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(mealList)=>{
+          findThisMonthBazar({mess_id:req.session.mess_id,month:monthlyReport.data.month,year:monthlyReport.data.year},(bazarList)=>{
+            findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
+              findLog({mess_id:req.session.mess_id,type:'payment',month:monthlyReport.data.month,year:monthlyReport.data.year}, function(paymentLog){
+                var resdata = {
+                    title : 'Monthly Calculation',
+                    msg : null,
+                    ses_msg : req.session.msg,
+                    member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:allMember.data,
+                    meal_list : mealList.data,
+                    bazar_list : bazarList.data,
+                    fixed_cost_list : (monthlyReport.data.status == 1)? monthlyReport.data.report.fixed_cost:fixedCost.data,
                     payment_log : paymentLog.data,
                     day : today,
                     month : monthlyReport.data.month,
@@ -728,6 +882,8 @@ router.get('/monthly-calculation', function(req, res) {
   }
 });
 
+
+
 router.post('/closed-calculations',function(req,res){
   if(req.session.msg == undefined){
       req.session.msg = null;
@@ -742,7 +898,7 @@ router.post('/closed-calculations',function(req,res){
                 status:1,
                 mess_members: allMember.data
               }
-              monthlyReportClose({month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
+              monthlyReportClose({mess_id:req.session.mess_id,month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
                 if(result.msg == 'success'){
                   res.send({msg:'success'});
                 }

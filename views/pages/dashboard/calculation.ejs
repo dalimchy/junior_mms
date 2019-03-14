@@ -216,4 +216,8 @@ var monthYear = '<%= month%> <%= year %>';
                   }                  
                 });
             }
+
+    $('#changeMonthSelect').on('change',function(){
+        window.location.replace('/monthly-calculation/'+$(this).val()+'');
+    })
 </script>

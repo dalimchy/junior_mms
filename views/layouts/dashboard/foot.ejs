@@ -151,8 +151,7 @@
             success: function(res) {
                 if(res.msg == 'success'){
                   $.each(res.data,function(k,v){
-                    console.log(v.month+' '+v.year);
-                    var design = '<option><a href="#">'+moment(v.month+' '+v.year,'MM YYYY').format('MMMM YYYY')+'</a></option>';
+                    var design = '<option value="'+v.month_id+'"><a href="/monthly-calculation/'+v.month_id+'">'+moment(v.month+' '+v.year,'MM YYYY').format('MMMM YYYY')+'</a></option>';
                     $('#changeMonthSelect').append(design);
                     
                   })
@@ -163,6 +162,7 @@
             }
         });
     });
+    
 </script>
 
 
