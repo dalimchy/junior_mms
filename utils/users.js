@@ -170,6 +170,47 @@ var updateMemberAccount = (data,callback)=>{
     });
 }
 
+var updateUser = (data, callback)=>{
+
+    User.findOne({user_id:data.id}, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (result !== null) {
+                console.log(data)
+                if(data.type == 1){
+                    User.updateOne({user_id:data.id},{user_phone:data.phone,user_name:data.name},function(err,docs){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            callback({msg:'success',data:docs});
+                        }
+                    })
+                }else{
+                    bcrypt.compare(data.oldPass, result.user_password, function(err, res) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            if(res){
+                                var hash = bcrypt.hashSync(data.newPass, salt);
+                                User.updateOne({user_id:data.id},{user_phone:data.phone,user_name:data.name,user_password:hash},function(err,docs){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        callback({msg:'success',data:docs});
+                                    }
+                                })
+                            }else{
+                                callback({msg:'password does not match !'})
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
+}
+
 var findMonthRe = (data,callback)=>{
     MonthlyReport.find({mess_id:data.mess_id},function(err,result){
         if(err){
@@ -189,5 +230,6 @@ module.exports = {
     updateAccount,
     addPayment,
     updateMemberAccount,
-    findMonthRe
+    findMonthRe,
+    updateUser
 };

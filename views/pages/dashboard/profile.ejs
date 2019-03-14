@@ -37,7 +37,7 @@
                                         <i class="fa fa-dribbble"></i>
                                         </button>
 
-                                        <button style="float:right" type="button" class="btn btn-sm btn-dribbble waves-effect waves-light" href="#custom-modal" onclick="editUser(this)" data-id="<%= userData.user_id %>" data-animation="door" data-plugin="custommodal" data-overlaySpeed="100" data-overlayColor="#36404a">
+                                        <button style="float:right" type="button" class="btn btn-sm btn-dribbble waves-effect waves-light" href="#custom-modal" data-id="<%= userData.user_id %>" data-animation="door" data-plugin="custommodal" data-overlaySpeed="100" data-overlayColor="#36404a">
                                         <i class="fa fa-edit"> Update Profile </i>
                                         </button>
                                     </div>
@@ -124,14 +124,17 @@
 
                             <form role="form">
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" id="e_u_id" name="" >
+                                    <input type="hidden" class="form-control" id="e_u_id" value="<%= userData.user_id %>" >
                                     <input type="text" class="form-control" id="e_u_name" name="" value="<%= userData.user_name %>" placeholder="User Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="e_u_phone" name="" value="<%= userData.user_phone %>" placeholder="User Phone Number">
+                                    <input type="text" class="form-control" id="e_u_phone" name="" value="<%= user_phone %>" placeholder="User Phone Number">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" id="e_u_password" name="" placeholder="Password">
+                                    <input type="password" class="form-control" id="e_old_password" value="" name="" placeholder="Old Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" id="e_new_password" value="" name="" placeholder="New Password">
                                 </div>
                             </form>
 
@@ -160,3 +163,29 @@
     <!-- ============================================================== -->
 <%- include('../../layouts/dashboard/right_bar') %>
 <%- include('../../layouts/dashboard/foot') %>
+
+<script>
+    function undateUser(elm){
+        var data = {
+            id: $('#e_u_id').val(),
+            name: $('#e_u_name').val(),
+            phone: $('#e_u_phone').val(),
+            oldPass: $('#e_old_password').val(),
+            newPass: $('#e_new_password').val(),
+            type:($('#e_old_password').val() == '')? '1':'0'
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/updateUser',
+            data: data,
+            success: function(res){
+                if(res.msg == 'success'){
+                    console.log(res);
+                    Custombox.close();
+                }else{
+                    console.log(res);
+                }
+            }
+        });
+    }
+</script>

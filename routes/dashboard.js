@@ -9,7 +9,7 @@ var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
 var today = moment().format('DD');
 var thisMonth = moment().format('MM');
 var thisYear = moment().format('YYYY');
-
+var _Obj = (obj,key,value)=>{ for (var i = 0; i < obj.length; i++) { if (obj[i][key] === value) { return obj[i]; } } return false;}
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, './public/admin_assets/images/users/')
@@ -26,7 +26,8 @@ var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
     addPayment,
     updateMemberAccount,
-    findMonthRe
+    findMonthRe,
+    updateUser
   } = require('./../utils/users');
 var {findAllMember,findAllActiveMembers,deactiveUser,activeUser,monthlyReportClose,findMonthlyReportOne} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
@@ -179,6 +180,7 @@ router.get('/profile',function (req, res) {
           user_data : response.data,
           user_data : response.data,
           monthly_report : monthlyReport.data,
+          user_phone:_Obj(response.data,'user_id',req.session.user_id).user_phone,
           _:_,
           userData : {
             user_name : req.session.user_name,
@@ -192,6 +194,20 @@ router.get('/profile',function (req, res) {
         }
         res.render('pages/dashboard/profile', data);
       });
+    });
+  }else{
+    res.redirect('/login');
+  }
+});
+
+router.post('/updateUser', function(req, res){
+  if(req.session.login){
+    updateUser(req.body, (response)=>{
+      if(response.msg == 'success'){
+        res.send(response);
+      }else{
+        res.send(response);
+      }
     });
   }else{
     res.redirect('/login');
