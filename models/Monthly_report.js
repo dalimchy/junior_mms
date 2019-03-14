@@ -28,6 +28,10 @@ const monthlyReportSchema = new Schema({
         type:Object,
         default:null
     },
+    users:{
+        type:Array,
+        default:[]
+    },
     status:{
         type:Number,
         default:0

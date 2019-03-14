@@ -40,6 +40,10 @@ const usersSchema = new Schema({
         type:String,
         required:true
     },
+    status:{
+        type:String,
+        default:1
+    },
     created_at:{
         type:Date,
         default:Date.now

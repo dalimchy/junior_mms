@@ -238,6 +238,15 @@ var findLog = (data,callback)=>{
 		}
 	})
 }
+var findMonthlyReport = (data,callback)=>{
+	MonthlyReport.findOne(data).sort({created_at: 'desc'}).exec(function (err, result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
 
 
 module.exports = {
@@ -254,5 +263,6 @@ module.exports = {
 	findFixedCost,
 	updateFixedCost,
 	findLog,
-	addPaymentLog
+	addPaymentLog,
+	findMonthlyReport
 };

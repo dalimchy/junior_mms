@@ -38,7 +38,8 @@ var {findMonthlyReport,addMeal,
     findFixedCost,
     updateFixedCost,
     findLog,
-    addPaymentLog
+    addPaymentLog,
+    findMonthlyReport
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -578,44 +579,50 @@ router.get('/monthly-calculation', function(req, res) {
       req.session.msg = null;
   }
   if(req.session.login){
-    findAllMember({mess_id:req.session.mess_id},(allMember)=>{
-      findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
-        findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
-          findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
-            findLog({mess_id:req.session.mess_id,type:'payment',month:thisMonth,year:thisYear}, function(paymentLog){
-              var resdata = {
-                  title : 'Monthly Calculation',
-                  msg : null,
-                  ses_msg : req.session.msg,
-                  member_list : allMember.data,
-                  meal_list : mealList.data,
-                  bazar_list : bazarList.data,
-                  fixed_cost_list : fixedCost.data,
-                  payment_log : paymentLog.data,
-                  day : today,
-                  month : thisMonth,
-                  year : thisYear,
-                  moment : moment,
-                  _:_,
-                  userData : {
-                    user_name : req.session.user_name,
-                    user_id:req.session.user_id,
-                    user_email:req.session.user_email,
-                    user_img:req.session.user_img,
-                    mess_name:req.session.mess_name,
-                    mess_id:req.session.mess_id,
-                    user_role:((req.session.user_role == 1)? 'Manager':'Member')
-                  }
-                }
-                req.session.msg = null;
-                res.render('pages/dashboard/calculation', resdata);
-            });
+    findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+     if(monthlyReport.data !== null && monthlyReport.data.status == 0){
+        findAllMember({mess_id:req.session.mess_id},(allMember)=>{
+          findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
+            findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+              findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
+                findLog({mess_id:req.session.mess_id,type:'payment',month:thisMonth,year:thisYear}, function(paymentLog){
+                  var resdata = {
+                      title : 'Monthly Calculation',
+                      msg : null,
+                      ses_msg : req.session.msg,
+                      member_list : allMember.data,
+                      meal_list : mealList.data,
+                      bazar_list : bazarList.data,
+                      fixed_cost_list : fixedCost.data,
+                      payment_log : paymentLog.data,
+                      day : today,
+                      month : monthlyReport.data.month,
+                      year : monthlyReport.data.year,
+                      moment : moment,
+                      monthly_report : monthlyReport.data,
+                      _:_,
+                      userData : {
+                        user_name : req.session.user_name,
+                        user_id:req.session.user_id,
+                        user_email:req.session.user_email,
+                        user_img:req.session.user_img,
+                        mess_name:req.session.mess_name,
+                        mess_id:req.session.mess_id,
+                        user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                      }
+                    }
+                    req.session.msg = null;
+                    res.render('pages/dashboard/calculation', resdata);
+                });
 
+              });
+            });
           });
+          
         });
-      });
-      
+      }
     });
+    
 
   }else{
     res.redirect('/login');
