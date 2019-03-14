@@ -171,22 +171,27 @@ router.post('/activeUser', function (req, res) {
 
 router.get('/profile',function (req, res) {
   if (req.session.login) {
-    findAllMember({mess_id:req.session.mess_id},(response)=>{
-      var data = {
-        title: 'Profile',
-        user_data : response.data,
-        _:_,
-        userData : {
-          user_name : req.session.user_name,
-          user_id:req.session.user_id,
-          user_email:req.session.user_email,
-          user_img:req.session.user_img,
-          mess_name:req.session.mess_name,
-          mess_id:req.session.mess_id,
-          user_role:((req.session.user_role == 1)? 'Manager':'Member')
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+
+      findAllMember({mess_id:req.session.mess_id},(response)=>{
+        var data = {
+          title: 'Profile',
+          user_data : response.data,
+          user_data : response.data,
+          monthly_report : monthlyReport.data,
+          _:_,
+          userData : {
+            user_name : req.session.user_name,
+            user_id:req.session.user_id,
+            user_email:req.session.user_email,
+            user_img:req.session.user_img,
+            mess_name:req.session.mess_name,
+            mess_id:req.session.mess_id,
+            user_role:((req.session.user_role == 1)? 'Manager':'Member')
+          }
         }
-      }
-      res.render('pages/dashboard/profile', data);
+        res.render('pages/dashboard/profile', data);
+      });
     });
   }else{
     res.redirect('/login');
