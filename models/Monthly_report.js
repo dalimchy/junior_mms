@@ -28,7 +28,7 @@ const monthlyReportSchema = new Schema({
         type:Object,
         default:null
     },
-    users:{
+    mess_members:{
         type:Array,
         default:[]
     },
