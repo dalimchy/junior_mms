@@ -10,115 +10,110 @@
 }
 </style> 
 <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
-            <div class="content-page">
-                <!-- Start content -->
-                <div class="content">
-                    <div class="container">
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box">
-
-                                    <h4 class="header-title m-t-0 m-b-30">Add Bazar</h4>
-                                    <% if(ses_msg !== null){ %>
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <%= ses_msg %>
-                                        </div>
-                                    <%   } %>
-
-                                    <div class="row">
-                                            <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
-                                        <form action="" class="form-horizontal" role="form" method="POST">
-                                            
-                                            <div class="col-lg-7">
-                                                <div class="form-group">
-                                                    <label class="col-md-5 control-label">Select Day </label>
-                                                    <div class="col-md-7">
-                                                            <select class="form-control select2" onchange="datebyBazar(this)" name="day" id="bazarOfTheDay">
-                                                                
-                                                            </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-5 control-label">Select Member </label>
-                                                    <div class="col-md-7">
-                                                            <select class="form-control select2" name="member_id" id="selectMember_id" required>
-                                                                    <% _.each(member_list,function(v,k){ %>
-                                                                        <option value="<%= v.user_id %>"><%= v.user_name %></option>
-                                                                    <% })%>
-                                                            </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-5 control-label">Bazar Details</label>
-                                                    <div class="col-md-7">
-                                                        <textarea name="bazar_details" id="bazarDetails2" cols="20" rows="10" style="width:100%"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-md-5 control-label">Amount</label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" class="form-control" name="total_amount" value="00" id="totalAmount">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                    <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <div class="panel panel-custom panel-border">
-                                                                    <div class="panel-heading">
-                                                                        <h3 class="panel-title">Today Bazar Status</h3>
-                                                                    </div>
-                                                                    <div class="panel-body">
-                                                                            <div class="col-md-12">
-                                                                                <ul class="list-group" id="todayBazarList">
-                                                                                    <% _.each(bazar_list, function(va,ka){%>
-                                                                                        <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
-                                                                                            <li class="list-group-item data" data-value="<%= va.total_amount %>">
-                                                                                                    <span class="badge badge-primary"><%= va.total_amount %> Tk</span>
-                                                                                                <%= v.user_name%>
-                                                                                            </li>
-                                                                                        <% }})%>
-                                                                                    <%})%>
-                                                                                    <li class="list-group-item" id="todayBazarTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00 Tk</span> </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                            </div>
-                                        </form>
-                                            <div class="col-lg-12 text-center">
-                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addBazar('new')">Submit</button>
-                                            </div>
-
-                                    </div><!-- end row -->
-
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.js"></script>
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box">
+                            <h4 class="header-title m-t-0 m-b-30">Add Bazar</h4>
+                            <% if(ses_msg !== null){ %>
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <%= ses_msg %>
                                 </div>
-                            </div><!-- end col -->
+                            <%   } %>
+
+                            <div class="row">
+                                    <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
+                                <form action="" class="form-horizontal" role="form" method="POST">
+                                    
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label">Select Day </label>
+                                            <div class="col-md-7">
+                                                <select class="form-control select2" onchange="datebyBazar(this)" name="day" id="bazarOfTheDay">
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <% if(userData.user_role == 'Manager'){ %>
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label">Select Member </label>
+                                            <div class="col-md-7">
+                                                <select class="form-control select2" name="member_id" id="selectMember_id" required>
+                                                    <% _.each(member_list,function(v,k){ %>
+                                                        <option value="<%= v.user_id %>"><%= v.user_name %></option>
+                                                    <% })%>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label">Bazar Details</label>
+                                            <div class="col-md-7">
+                                                <textarea name="bazar_details" id="bazarDetails2" cols="20" rows="10" style="width:100%"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label">Amount</label>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control" name="total_amount" value="00" id="totalAmount">
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="panel panel-custom panel-border">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">Today Bazar Status</h3>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12">
+                                                            <ul class="list-group" id="todayBazarList">
+                                                                <% _.each(bazar_list, function(va,ka){%>
+                                                                    <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
+                                                                        <li class="list-group-item data" data-value="<%= va.total_amount %>">
+                                                                                <span class="badge badge-primary"><%= va.total_amount %> Tk</span>
+                                                                            <%= v.user_name%>
+                                                                        </li>
+                                                                    <% }})%>
+                                                                <%})%>
+                                                                <li class="list-group-item" id="todayBazarTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00 Tk</span> </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <% if(userData.user_role == 'Manager'){ %>
+                                    <div class="col-lg-12 text-center">
+                                        <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addBazar('new')">Submit</button>
+                                    </div>
+                                    <% } %>
+                            </div><!-- end row -->
+
                         </div>
-                        <!-- end row -->
+                    </div><!-- end col -->
+                </div>
+                <!-- end row -->
+            </div> <!-- container -->
+        </div> <!-- content -->
+        <footer class="footer">
+            2016 - 2017 © Adminto.
+        </footer>
+    </div>
 
-
-                    </div> <!-- container -->
-
-                </div> <!-- content -->
-
-                <footer class="footer">
-                    2016 - 2017 © Adminto.
-                </footer>
-
-            </div>
-
-
-            <!-- ============================================================== -->
-            <!-- End Right content here -->
-            <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
 
 
 <%- include('../../layouts/dashboard/right_bar') %>

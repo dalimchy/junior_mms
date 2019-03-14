@@ -121,7 +121,9 @@ var monthYear = '<%= month%> <%= year %>';
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <% if(userData.user_role == 'Manager'){ %>
                                                     <button class="btn btn-primary waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>

@@ -27,7 +27,8 @@
                                     <div class="row">
                                         <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
                                         <form action="/fixed-cost" class="form-horizontal" role="form" method="POST">
-                                            <div class="col-lg-7">
+                                            <% if(userData.user_role == 'Manager'){ %>
+                                            <div class="col-lg-6">
                                                 <div class="panel panel-custom panel-border">
                                                     <div class="panel-heading">
                                                         <h3 class="panel-title">Fixed Cost Form</h3>
@@ -87,9 +88,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <% } %>
                                             <input type="hidden" class="form-control"  name="fixed_cost_id" value="<%= fixed_cost.fixed_cost_id %>">
                                             <input type="hidden" class="form-control"  name="old_fixed_cost" value="<%= JSON.stringify(fixed_cost) %>">
-                                            <div class="col-lg-5">
+                                            <div class="col-lg-6">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="panel panel-custom panel-border">
@@ -135,9 +137,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <% if(userData.user_role == 'Manager'){ %>
                                             <div class="col-lg-7 text-center">
                                                 <button class="btn btn-primary waves-effect waves-light w-xs m-b-5">Update Fixed Cost</button>
                                             </div>
+                                            <% } %>
                                         </form>
                                     </div><!-- end row -->
                                 </div>

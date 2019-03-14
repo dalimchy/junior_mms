@@ -47,7 +47,7 @@ router.get('/', function(req, res) {
   if(req.session.login){
     findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
       if(monthlyReport.msg == 'success'){
-        findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+        findAllMember({mess_id:req.session.mess_id},(response)=>{
           var resdata = {
             title : 'Dashboard',
             msg : null,

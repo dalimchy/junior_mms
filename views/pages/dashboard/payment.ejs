@@ -9,6 +9,7 @@
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
+                    <% if(userData.user_role == 'Manager'){ %>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-box">
@@ -80,6 +81,7 @@
                                     </div><!-- end row -->
                             </div><!-- end col -->
                         </div>
+                        <% } %>
                         <!-- end row -->
                         <div class="row">
                             <div class="col-sm-12">
