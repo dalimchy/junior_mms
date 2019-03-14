@@ -281,11 +281,21 @@ var findMonthlyReportOne = (data,callback)=>{
 
 
 var monthlyReportClose = (data,callback)=>{
-	MonthlyReport.updateOne({month_id:data.month_id},data.updateQuery, function (err, result){
+	FixedCost.findOne({mess_id:data.mess_id},function(err,docs){
 		if(err){
 			console.log(err);
 		}else{
-			callback({msg:'success',data:result});
+			var fixed_cost = {
+				fixed_cost:docs
+			}
+			data.updateQuery['report'] = fixed_cost;
+			MonthlyReport.updateOne({month_id:data.month_id},data.updateQuery, function (err, result){
+				if(err){
+					console.log(err);
+				}else{
+					callback({msg:'success',data:result});
+				}
+			})
 		}
 	})
 }

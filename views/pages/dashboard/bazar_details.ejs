@@ -12,6 +12,9 @@ var monthYear = '<%= month%> <%= year %>';
         <!-- Start content -->
         <div class="content">
             <div class="container">
+                <select class="select2" id="changeMonthSelect">
+                                    <option selected>Select Month</option>
+                                </select>
                     <h4 class="header-title m-t-0 m-b-30 text-center" id=""><script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script></h4>
                     <div class="col-lg-6">
                         <div class="row">
@@ -137,4 +140,7 @@ var monthYear = '<%= month%> <%= year %>';
     var today = moment().format('DD');
     var thisMonth = moment().format('MM');
     var thisYear = moment().format('YYYY');
+    $('#changeMonthSelect').on('change',function(){
+        window.location.replace('/bazar-details/'+$(this).val()+'');
+    })
 </script>
