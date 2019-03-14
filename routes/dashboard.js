@@ -24,7 +24,8 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
-    addPayment
+    addPayment,
+    updateMemberAccount
   } = require('./../utils/users');
 var {findAllMember,findAllActiveMembers,deactiveUser,activeUser,monthlyReportClose,findMonthlyReportOne} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
@@ -609,47 +610,45 @@ router.get('/monthly-calculation', function(req, res) {
   }
   if(req.session.login){
     findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
-     if(monthlyReport.data !== null && monthlyReport.data.status == 0){
       findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
-          findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
-            findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
-              findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
-                findLog({mess_id:req.session.mess_id,type:'payment',month:thisMonth,year:thisYear}, function(paymentLog){
-                  var resdata = {
-                      title : 'Monthly Calculation',
-                      msg : null,
-                      ses_msg : req.session.msg,
-                      member_list : allMember.data,
-                      meal_list : mealList.data,
-                      bazar_list : bazarList.data,
-                      fixed_cost_list : fixedCost.data,
-                      payment_log : paymentLog.data,
-                      day : today,
-                      month : monthlyReport.data.month,
-                      year : monthlyReport.data.year,
-                      moment : moment,
-                      monthly_report : monthlyReport.data,
-                      _:_,
-                      userData : {
-                        user_name : req.session.user_name,
-                        user_id:req.session.user_id,
-                        user_email:req.session.user_email,
-                        user_img:req.session.user_img,
-                        mess_name:req.session.mess_name,
-                        mess_id:req.session.mess_id,
-                        user_role:((req.session.user_role == 1)? 'Manager':'Member')
-                      }
+        findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
+          findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+            findFixedCost({mess_id:req.session.mess_id},function(fixedCost){
+              findLog({mess_id:req.session.mess_id,type:'payment',month:thisMonth,year:thisYear}, function(paymentLog){
+                var resdata = {
+                    title : 'Monthly Calculation',
+                    msg : null,
+                    ses_msg : req.session.msg,
+                    member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:allMember.data,
+                    meal_list : mealList.data,
+                    bazar_list : bazarList.data,
+                    fixed_cost_list : fixedCost.data,
+                    payment_log : paymentLog.data,
+                    day : today,
+                    month : monthlyReport.data.month,
+                    year : monthlyReport.data.year,
+                    moment : moment,
+                    monthly_report : monthlyReport.data,
+                    _:_,
+                    userData : {
+                      user_name : req.session.user_name,
+                      user_id:req.session.user_id,
+                      user_email:req.session.user_email,
+                      user_img:req.session.user_img,
+                      mess_name:req.session.mess_name,
+                      mess_id:req.session.mess_id,
+                      user_role:((req.session.user_role == 1)? 'Manager':'Member')
                     }
-                    req.session.msg = null;
-                    res.render('pages/dashboard/calculation', resdata);
-                });
-
+                  }
+                  req.session.msg = null;
+                  res.render('pages/dashboard/calculation', resdata);
               });
+
             });
           });
-          
         });
-      }
+        
+      });
     });
     
 
@@ -665,18 +664,21 @@ router.post('/closed-calculations',function(req,res){
   if(req.session.login){
     findMonthlyReportOne({month_id:req.body.month_id},function(monthlyReport){
       if(req.session.user_role == 1 && monthlyReport.data.status == 0){
-        findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
-          var updateQuery = {
-            status:1,
-            mess_members: allMember.data
+        updateMemberAccount(req.body,function(updateAc){
+          if(updateAc.msg == 'success'){
+            findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
+              var updateQuery = {
+                status:1,
+                mess_members: allMember.data
+              }
+              monthlyReportClose({month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
+                if(result.msg == 'success'){
+                  res.send({msg:'success'});
+                }
+              });
+            });
           }
-          console.log(req.body);
-          // monthlyReportClose({month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
-          //   if(result.msg == 'success'){
-          //     res.send({msg:'success'});
-          //   }
-          // });
-        });
+        })
       }
     })
   }

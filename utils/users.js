@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const uuidv4 = require('uuid/v4');
 var bcrypt = require('bcryptjs');
-
+var _ = require('lodash');
 const User = require('../models/Users');
 const Mess = require('../models/Mess_info');
 
@@ -158,5 +158,24 @@ var addPayment = (data,callback)=>{
     })
 }
 
+var updateMemberAccount = (data,callback)=>{
+    var i = 0;
+    _.each(data.data, function(v,k){i++;
+        User.updateOne({user_id:v.user_id},{$inc: { account: - v.cost}},function(err,result){
+            if(i == data.data.length){
+                callback({msg:'success'});
+            }
+        })
+    });
+}
 
-module.exports = {newManager,loginCheck,messCheck,newMember,updateAccount,addPayment};
+
+module.exports = {
+    newManager,
+    loginCheck,
+    messCheck,
+    newMember,
+    updateAccount,
+    addPayment,
+    updateMemberAccount
+};
