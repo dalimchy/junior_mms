@@ -103,7 +103,7 @@
                                                     <td><%= v.user_phone %></td>
                                                     <td><%= v.user_email %></td>
                                                     <td> Member </td>
-                                                    <td>
+                                                    <td id="<%= v.user_id %>">
                                                         <% if(v.status == 1){ %>
                                                             <button  data-id="<%= v.user_id %>" onclick="deactiveUser(this)" class="btn btn-block btn--md btn-info waves-effect waves-light"> Active </button>
                                                         <% }else{ %>
@@ -149,28 +149,29 @@
 <script>
 function deactiveUser(elm){
     var id = $(elm).attr('data-id');
-    console.log(id);
     $.ajax({
         type: 'POST',
         url: '/deactiveUser/',
         data: {id:id},
         success: function(res){
             if(res.msg == 'success'){
-                location.reload();
+                $(elm).removeClass('btn-info').addClass('btn-danger').text('Inactive');
+                $(elm).attr('onclick', 'activeUser(this)');
             }
         }
     });
 }
+
 function activeUser(elm){
     var id = $(elm).attr('data-id');
-    console.log(id);
     $.ajax({
         type: 'POST',
         url: '/activeUser/',
         data: {id:id},
         success: function(res){
             if(res.msg == 'success'){
-                location.reload();
+                $(elm).removeClass('btn-danger').addClass('btn-info').text('Active');
+                $(elm).attr('onclick', 'deactiveUser(this)');
             }
         }
     });

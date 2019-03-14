@@ -56,6 +56,7 @@ var deactiveUser = (data, callback)=>{
 		if (err) {
 			console.log(err);
 		} else {
+			result['status'] = 0;
 			callback({msg:'success',data:result});
 		}
 	});
@@ -65,6 +66,7 @@ var activeUser = (data, callback)=>{
 		if (err) {
 			console.log(err);
 		} else {
+			result['status'] = 1;
 			callback({msg:'success',data:result});
 		}
 	});
