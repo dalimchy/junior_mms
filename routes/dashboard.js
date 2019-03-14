@@ -26,7 +26,7 @@ var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
     addPayment
   } = require('./../utils/users');
-var {findAllMember,findAllActiveMembers} = require('./../utils/mess');
+var {findAllMember,findAllActiveMembers,deactiveUser,activeUser} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
     findTodayMeal,
     findTodayBazar,
@@ -132,6 +132,35 @@ router.post('/member', function(req, res) {
           });
       }
     });
+});
+
+router.post('/deactiveUser', function (req, res) {
+  if (req.session.login) {
+    var data = {
+      id: req.body.id
+    }
+    deactiveUser(data, (response)=>{
+      if (response.msg == 'success') {
+        res.send(response);
+      }
+    });
+  } else {
+    res.redirect('login');
+  }
+});
+router.post('/activeUser', function (req, res) {
+  if (req.session.login) {
+    var data = {
+      id: req.body.id
+    }
+    activeUser(data, (response)=>{
+      if (response.msg == 'success') {
+        res.send(response);
+      }
+    });
+  } else {
+    res.redirect('login');
+  }
 });
 
 /* GET member page. */

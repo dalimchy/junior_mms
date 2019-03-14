@@ -50,6 +50,26 @@ var findAllMember = (data,callback)=>{
         }
     });
 }
+
+var deactiveUser = (data, callback)=>{
+	User.updateOne({user_id:data.id},{status: 0}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg:'success',data:result});
+		}
+	});
+}
+var activeUser = (data, callback)=>{
+	User.updateOne({user_id:data.id},{status: 1}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg:'success',data:result});
+		}
+	});
+}
+
 var findAllActiveMembers = (data,callback)=>{
     User.find({mess_id:data.mess_id,status:1}, function (err, result) {
         if(err){
@@ -274,5 +294,7 @@ module.exports = {
 	findLog,
 	addPaymentLog,
 	findMonthlyReport,
-	findAllActiveMembers
+	findAllActiveMembers,
+	deactiveUser,
+	activeUser
 };

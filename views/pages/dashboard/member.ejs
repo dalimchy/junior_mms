@@ -74,6 +74,7 @@
                                                 <th>Phone</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -83,7 +84,10 @@
                                                     <td><%= v.user_name %></td>
                                                     <td><%= v.user_phone %></td>
                                                     <td><%= v.user_email %></td>
-                                                    <td><% if(v.user_role == 1){ %> Manager <% }else{ %> Member <%} %></td>
+                                                    <td> Manager </td>
+                                                    <td> 
+                                                        <button class="btn btn-block btn--md btn-info waves-effect waves-light"> Active </button>
+                                                    </td>
                                                     <td>
                                                         <button class="btn btn--md btn-primary waves-effect waves-light" href="#viewProduct" onclick="viewMember(this)" data-id="<%= v.user_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-eye"></i> </button>
                                                         <button class="btn btn--md btn-info waves-effect waves-light"> <i class="fa fa-edit (alias)"></i> </button>
@@ -98,7 +102,14 @@
                                                     <td><%= v.user_name %></td>
                                                     <td><%= v.user_phone %></td>
                                                     <td><%= v.user_email %></td>
-                                                    <td><% if(v.user_role == 1){ %> Manager <% }else{ %> Member <%} %></td>
+                                                    <td> Member </td>
+                                                    <td>
+                                                        <% if(v.status == 1){ %>
+                                                            <button  data-id="<%= v.user_id %>" onclick="deactiveUser(this)" class="btn btn-block btn--md btn-info waves-effect waves-light"> Active </button>
+                                                        <% }else{ %>
+                                                            <button  data-id="<%= v.user_id %>" onclick="activeUser(this)" class="btn btn-block btn--md btn-danger waves-effect waves-light"> Inactive </button>
+                                                        <%} %>
+                                                    </td>
                                                     <td>
                                                         <button class="btn btn--md btn-primary waves-effect waves-light" href="#viewProduct" onclick="viewMember(this)" data-id="<%= v.user_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-eye"></i> </button>
                                                         <button class="btn btn--md btn-info waves-effect waves-light"> <i class="fa fa-edit (alias)"></i> </button>
@@ -135,4 +146,33 @@
 <%- include('../../layouts/dashboard/right_bar') %>
 <%- include('../../layouts/dashboard/foot') %>
 
-
+<script>
+function deactiveUser(elm){
+    var id = $(elm).attr('data-id');
+    console.log(id);
+    $.ajax({
+        type: 'POST',
+        url: '/deactiveUser/',
+        data: {id:id},
+        success: function(res){
+            if(res.msg == 'success'){
+                location.reload();
+            }
+        }
+    });
+}
+function activeUser(elm){
+    var id = $(elm).attr('data-id');
+    console.log(id);
+    $.ajax({
+        type: 'POST',
+        url: '/activeUser/',
+        data: {id:id},
+        success: function(res){
+            if(res.msg == 'success'){
+                location.reload();
+            }
+        }
+    });
+}
+</script>
