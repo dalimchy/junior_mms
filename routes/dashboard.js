@@ -303,7 +303,7 @@ router.get('/meal', function(req, res) {
     
 //   }
 // });
-
+  
 router.get('/meal-details', function(req, res) {
   if(req.session.msg == undefined){
         req.session.msg = null;
