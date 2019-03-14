@@ -247,7 +247,7 @@ var findLog = (data,callback)=>{
 		}
 	})
 }
-var findMonthlyReport = (data,callback)=>{
+var findMonthlyReportOne = (data,callback)=>{
 	MonthlyReport.findOne(data).sort({created_at: 'desc'}).exec(function (err, result){
 		if(err){
 			console.log(err);
@@ -257,6 +257,16 @@ var findMonthlyReport = (data,callback)=>{
 	})
 }
 
+
+var monthlyReportClose = (data,callback)=>{
+	MonthlyReport.updateOne({month_id:data.month_id},data.updateQuery, function (err, result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
 
 module.exports = {
 	findMonthlyReport,
@@ -273,6 +283,7 @@ module.exports = {
 	updateFixedCost,
 	findLog,
 	addPaymentLog,
-	findMonthlyReport,
-	findAllActiveMembers
+	findAllActiveMembers,
+	monthlyReportClose,
+	findMonthlyReportOne
 };

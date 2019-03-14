@@ -112,7 +112,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                 <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
                                                                                 <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
                                                                                 <td><%= (totalDeposit) + (thisTotalBazar) %> Tk.</td>
-                                                                                <td><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
+                                                                                <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
                                                                                 <td><% if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} %> Tk.</td>
                                                                             </tr>
                                                                         <%})%>
@@ -161,8 +161,15 @@ var monthYear = '<%= month%> <%= year %>';
     var thisYear = moment().format('YYYY');
 
     function closeThisMonth(ele){
-                var month = $(ele).attr('data-month');
-                var year = $(ele).attr('data-year');
+                var month_id = $(ele).attr('monthly-report-id');
+                var activeUser = [];
+                $.each($('._userTotal'),function(k,v){
+                    var data = {
+                        cost:$(v).attr('user-cost'),
+                        user_id:$(v).attr('user-id')
+                    }
+                    activeUser.push(data);
+                })
                 swal({
                     title: "Are you sure ?",
                     text: "You want to close this month calculations ? This cannot be UNDONE !",
@@ -175,8 +182,8 @@ var monthYear = '<%= month%> <%= year %>';
                   if(isConfirm){
                     $.ajax({
                         type: "POST",
-                        url: '/',
-                        data: {id:value},
+                        url: '/closed-calculations',
+                        data: {month_id:month_id,data:activeUser},
                         success: function(res) {
                             if(res.msg == 'success'){
                                 swal({

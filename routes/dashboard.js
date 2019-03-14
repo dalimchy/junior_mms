@@ -26,7 +26,7 @@ var upload = multer({storage: storage}).single('profile_pic');
 var {newMember,
     addPayment
   } = require('./../utils/users');
-var {findAllMember,findAllActiveMembers} = require('./../utils/mess');
+var {findAllMember,findAllActiveMembers,monthlyReportClose,findMonthlyReportOne} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
     findTodayMeal,
     findTodayBazar,
@@ -579,7 +579,7 @@ router.get('/monthly-calculation', function(req, res) {
       req.session.msg = null;
   }
   if(req.session.login){
-    findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
      if(monthlyReport.data !== null && monthlyReport.data.status == 0){
       findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
           findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(mealList)=>{
@@ -628,5 +628,29 @@ router.get('/monthly-calculation', function(req, res) {
     res.redirect('/login');
   }
 });
+
+router.post('/closed-calculations',function(req,res){
+  if(req.session.msg == undefined){
+      req.session.msg = null;
+  }
+  if(req.session.login){
+    findMonthlyReportOne({month_id:req.body.month_id},function(monthlyReport){
+      if(req.session.user_role == 1 && monthlyReport.data.status == 0){
+        findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
+          var updateQuery = {
+            status:1,
+            mess_members: allMember.data
+          }
+          console.log(req.body);
+          // monthlyReportClose({month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
+          //   if(result.msg == 'success'){
+          //     res.send({msg:'success'});
+          //   }
+          // });
+        });
+      }
+    })
+  }
+})
 
 module.exports = router;
