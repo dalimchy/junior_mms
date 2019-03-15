@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var _ = require('lodash');
 const uuidv4 = require('uuid/v4');
+var footerTitle = 'Rich IT';
 var moment = require('moment');
 var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
 var today = moment().format('DD');
@@ -63,7 +64,9 @@ router.get('/', function(req, res) {
                       all_month_report:allmonthRe.data,
                       this_month_meal:thisMonthMeal.data,
                       bazar_list : bazarList.data,
+                      footer_name:footerTitle,
                       _:_,
+                      mess_name:req.session.mess_name,
                       userData : {
                         user_name : req.session.user_name,
                         user_id:req.session.user_id,
@@ -97,7 +100,9 @@ router.get('/users', function(req, res) {
             msg : null,
             user_data : response.data,
             monthly_report:monthlyReport.data,
+            footer_name:footerTitle,
             _:_,
+            mess_name:req.session.mess_name,
             userData : {
               user_name : req.session.user_name,
               user_id:req.session.user_id,
@@ -132,7 +137,9 @@ router.get('/member', function(req, res) {
   		      ses_msg : req.session.msg,
   		      member_list : response.data,
             monthly_report : monthlyReport.data,
-  		      _ : _,
+            footer_name:footerTitle,
+            _ : _,
+            mess_name:req.session.mess_name,
   		      userData : {
   		        user_name : req.session.user_name,
   		        user_id:req.session.user_id,
@@ -223,6 +230,8 @@ router.get('/profile',function (req, res) {
           monthly_report : monthlyReport.data,
           user_phone:_Obj(response.data,'user_id',req.session.user_id).user_phone,
           _:_,
+          mess_name:req.session.mess_name,
+          footer_name:footerTitle,
           userData : {
             user_name : req.session.user_name,
             user_id:req.session.user_id,
@@ -273,7 +282,9 @@ router.get('/meal', function(req, res) {
               member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
               monthly_report : monthlyReport.data,
               meal_list : response2.data,
+              footer_name:footerTitle,
               _ : _,
+              mess_name:req.session.mess_name,
               userData : {
                 user_name : req.session.user_name,
                 user_id:req.session.user_id,
@@ -368,7 +379,9 @@ router.get('/meal-details', function(req, res) {
                 totaldays : totaldays,
                 month : thisMonth,
                 year : thisYear,
+                footer_name:footerTitle,
                 _ : _,
+                mess_name:req.session.mess_name,
                 userData : {
                   user_name : req.session.user_name,
                   user_id:req.session.user_id,
@@ -419,7 +432,9 @@ router.get('/meal-details/:month_id', function(req, res) {
                 totaldays : totaldays,
                 month : monthlyReport.data.month,
                 year : monthlyReport.data.year,
+                footer_name:footerTitle,
                 _ : _,
+                mess_name:req.session.mess_name,
                 userData : {
                   user_name : req.session.user_name,
                   user_id:req.session.user_id,
@@ -525,7 +540,9 @@ router.get('/bazar', function(req, res) {
               member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
               monthly_report : monthlyReport.data,
               bazar_list : response2.data,
+              footer_name:footerTitle,
               _ : _,
+              mess_name:req.session.mess_name,
               userData : {
                 user_name : req.session.user_name,
                 user_id:req.session.user_id,
@@ -576,7 +593,9 @@ router.get('/bazar-details', function(req, res) {
                 totaldays : totaldays,
                 month : thisMonth,
                 year : thisYear,
+                footer_name:footerTitle,
                 _ : _,
+                mess_name:req.session.mess_name,
                 userData : {
                   user_name : req.session.user_name,
                   user_id:req.session.user_id,
@@ -627,7 +646,9 @@ router.get('/bazar-details/:month_id', function(req, res) {
                 totaldays : totaldays,
                 month : monthlyReport.data.month,
                 year : monthlyReport.data.year,
+                footer_name:footerTitle,
                 _ : _,
+                mess_name:req.session.mess_name,
                 userData : {
                   user_name : req.session.user_name,
                   user_id:req.session.user_id,
@@ -712,6 +733,8 @@ router.get('/fixed-cost', function (req, res) {
                 member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
                 monthly_report : monthlyReport.data,
                 _:_,
+                footer_name:footerTitle,
+                mess_name:req.session.mess_name,
                 userData : {
                   user_name : req.session.user_name,
                   user_id:req.session.user_id,
@@ -770,7 +793,9 @@ router.get('/payment', function(req, res) {
             monthly_report : monthlyReport.data,
             payment_log : paymentLog.data,
             moment : moment,
+            footer_name:footerTitle,
             _:_,
+            mess_name:req.session.mess_name,
             userData : {
               user_name : req.session.user_name,
               user_id:req.session.user_id,
@@ -843,7 +868,9 @@ router.get('/monthly-calculation', function(req, res) {
                     year : monthlyReport.data.year,
                     moment : moment,
                     monthly_report : monthlyReport.data,
+                    footer_name:footerTitle,
                     _:_,
+                    mess_name:req.session.mess_name,
                     userData : {
                       user_name : req.session.user_name,
                       user_id:req.session.user_id,
@@ -895,7 +922,9 @@ router.get('/monthly-calculation/:month_id', function(req, res) {
                     year : monthlyReport.data.year,
                     moment : moment,
                     monthly_report : monthlyReport.data,
+                    footer_name:footerTitle,
                     _:_,
+                    mess_name:req.session.mess_name,
                     userData : {
                       user_name : req.session.user_name,
                       user_id:req.session.user_id,
