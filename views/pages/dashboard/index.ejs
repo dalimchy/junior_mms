@@ -1,7 +1,13 @@
 <%- include('../../layouts/dashboard/head') %>
 <%- include('../../layouts/dashboard/topbar') %>
 <%- include('../../layouts/dashboard/left_bar') %>
-
+<script>
+var allmonthReport = <%- JSON.stringify(all_month_report) %>;
+var thisMonthAllMeal = <%- JSON.stringify(this_month_meal) %>;
+var bazar_list = <%- JSON.stringify(bazar_list) %>;
+var thisMonth = moment().format('MM');
+var thisYear = moment().format('YYYY');
+</script>
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
@@ -10,20 +16,24 @@
                 <div class="content">
                     <div class="container">
                         <div class="row">
-                            <% _.each(user_data, function(v,k){ %>
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card-box widget-user">
-                                    <div>
-                                        <img src="/admin_assets/images/users/<%= v.user_img %>" class="img-responsive img-circle" style="width:72px" alt="user">
-                                        <div class="wid-u-info">
-                                            <h4 class="m-t-0 m-b-5 font-600"><%= v.user_name %></h4>
-                                            <p class="text-muted m-b-5 font-13"><%= v.user_phone %></p>
-                                            <small class="text-warning"><span class="badge badge-info">Balance:  <%= v.account %>  Tk. </span></small>
-                                        </div>
-                                    </div>
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <h4 class="header-title m-t-0">Meal Statistics</h4>
+                                    <div id="meal-bar-example" style="height: 280px;"></div>
                                 </div>
-                            </div>
-                            <% }); %>
+                            </div><!-- end col -->
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <h4 class="header-title m-t-0">Bazar Statistics</h4>
+                                    <div id="bazar-bar-example" style="height: 280px;"></div>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <h4 class="header-title m-t-0">Meal Rate Statistics</h4>
+                                    <div id="mealRate-bar-example" style="height: 280px;"></div>
+                                </div>
+                            </div><!-- end col -->
                         </div>
                         <!-- end row -->
 
@@ -43,3 +53,8 @@
             <!-- ============================================================== -->
 <%- include('../../layouts/dashboard/right_bar') %>
 <%- include('../../layouts/dashboard/foot') %>
+<!--Morris Chart-->
+<script src="/admin_assets/plugins/morris/morris.min.js"></script>
+<script src="/admin_assets/plugins/raphael/raphael-min.js"></script>
+<script type="text/javascript" src="/admin_assets/plugins/jquery-knob/excanvas.js"></script>
+<script src="/admin_assets/pages/jquery.dashboard.js"></script>

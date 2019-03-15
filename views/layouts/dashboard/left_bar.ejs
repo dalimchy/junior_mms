@@ -34,9 +34,6 @@
                             <li class="<% if(title == 'Dashboard'){ %>active <% } %>" >
                                 <a href="/" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
                             </li>
-                            <li class="<% if(title == 'Dashboard'){ %>active <% } %>" >
-                                <a href="/member" class="waves-effect"><i class="fa fa-users"></i> <span> Member </span> </a>
-                            </li>
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-calendar-plus-o"></i> <span>Meal</span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
@@ -63,6 +60,13 @@
                                 <ul class="list-unstyled">
                                     <li><a href="/payment"><i class="fa  fa-paypal"></i>Payment</a></li>
                                     <li><a href="/monthly-calculation"><i class="fa  fa-calendar"></i>Monthly Calculation</a></li>
+                                </ul>
+                            </li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-users"></i> <span>Members</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="/member"><i class="fa fa-user-plus"></i>Add Member </a></li>
+                                    <li><a href="/users"><i class="fa  fa-gear"></i>Manage Member</a></li>
                                 </ul>
                             </li>
 

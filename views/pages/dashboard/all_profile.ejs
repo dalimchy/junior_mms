@@ -1,0 +1,55 @@
+<%- include('../../layouts/dashboard/head') %>
+<%- include('../../layouts/dashboard/topbar') %>
+<%- include('../../layouts/dashboard/left_bar') %>
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <% _.each(user_data, function(v,k){ %>
+                            <div class="col-md-4">
+                        		<div class="text-center card-box">
+                                    <div>
+                                        <img src="/admin_assets/images/users/<%= v.user_img %>" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15"><%= v.user_name %></span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile    :</strong><span class="m-l-15"><%= v.user_phone %></span></p>
+
+                                            <p class="text-muted font-13"><strong>Email     :</strong> <span class="m-l-15"><%= v.user_email %></span></p>
+                                            <p class="text-muted font-13"><strong>Role     :</strong> <span class="m-l-15"><% if(v.user_role == 1){ %> Manager <% }else{ %> Member <% } %></span></p>
+                                            <p class="text-muted font-13"><strong>Status     :</strong> <span class="m-l-15"><% if(v.status == 1){ %> <span class="badge badge-success">Active</span><% }else{ %> <span class="badge badge-danger">Inactive</span> <% } %></span></p>
+
+                                           <span class="badge badge-info">Balance:  <%= v.account %>  Tk. </span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+                            <% }); %>
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    2016 - 2017 © Adminto.
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>

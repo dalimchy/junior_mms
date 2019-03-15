@@ -60,17 +60,76 @@
     
     
     Dashboard1.prototype.init = function() {
+        var $barData  = [];
+        $.each(allmonthReport, function(k,v){
+            if(k !== 6){
+                if(v.month == thisMonth && v.year == thisYear){
+                    var totalMeal = 0;
+                    $.each(thisMonthAllMeal,function(ka,va){
+                        totalMeal = totalMeal + va.lunch + va.dinner + va.breakfast + va.guest;
+                    });
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a:totalMeal}
+                    $barData.push(data);
+
+                }else if(v.year == thisYear){
+
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.total_meal == '')? 0:v.total_meal}
+                    $barData.push(data);
+                }
+            }
+        });
 
         //creating bar chart
-        var $barData  = [
-            { y: '2010', a: 75 },
-            { y: '2011', a: 42 },
-            { y: '2012', a: 75 },
-            { y: '2013', a: 38 },
-            { y: '2014', a: 19 },
-            { y: '2015', a: 93 }
-        ];
-        this.createBarChart('morris-bar-example', $barData, 'y', ['a'], ['Statistics'], ['#188ae2']);
+        // var $barData  = [
+        //     { m: allmonthReport[0].month, a: allmonthReport[0].total_meal },
+        //     { m: '02', a: 42 }
+        // ];
+        this.createBarChart('meal-bar-example', $barData, 'm', ['a'], ['Statistics'], ['#188ae2']);
+        var $totalBazar  = [];
+        $.each(allmonthReport, function(k,v){
+            if(k !== 6){
+                if(v.month == thisMonth && v.year == thisYear){
+                    var totalBazar = 0;
+                    $.each(bazar_list,function(ka,va){
+                        totalBazar = totalBazar + Number(va.total_amount);
+                    });
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a:totalBazar}
+                    $totalBazar.push(data);
+
+                }else if(v.year == thisYear){
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.total_meal == '')? 0:v.total_bazar}
+                    $totalBazar.push(data);
+                }
+            }
+        });
+        this.createBarChart('bazar-bar-example', $totalBazar, 'm', ['a'], ['Statistics'], ['#188ae2']);
+
+
+        var $mealRate  = [];
+        $.each(allmonthReport, function(k,v){
+            if(k !== 6){
+                if(v.month == thisMonth && v.year == thisYear){
+                    var mealRate = 0;
+                    var totalBazar = 0;
+                    $.each(bazar_list,function(ka,va){
+                        totalBazar = totalBazar + Number(va.total_amount);
+                    });
+                    var totalMeal = 0;
+                    $.each(thisMonthAllMeal,function(ka,va){
+                        totalMeal = totalMeal + va.lunch + va.dinner + va.breakfast + va.guest;
+                    });
+                    mealRate = Math.ceil(totalBazar / totalMeal);
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a:mealRate}
+                    $mealRate.push(data);
+
+                }else if(v.year == thisYear){
+
+                    var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.meal_rate == '')? 0:v.meal_rate}
+                    $mealRate.push(data);
+                }
+            }
+        });
+        this.createBarChart('mealRate-bar-example', $mealRate, 'm', ['a'], ['Statistics'], ['#188ae2']);
 
         //create line chart
         var $data  = [

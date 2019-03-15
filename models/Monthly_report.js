@@ -20,6 +20,18 @@ const monthlyReportSchema = new Schema({
         type:String,
         required:true
     },
+    meal_rate:{
+        type:String,
+        default:0
+    },
+    total_bazar:{
+        type:String,
+        default:0
+    },
+    total_meal:{
+        type:String,
+        default:0
+    },
     info:{
         type:String,
         default:null

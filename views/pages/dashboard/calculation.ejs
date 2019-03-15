@@ -10,7 +10,7 @@ var monthYear = '<%= month%> <%= year %>';
 <%  _.each(meal_list,function(vm,km){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest;}) %>
 <%  _.each(bazar_list,function(vb,kb){ totalBazar = totalBazar + Number(vb.total_amount)}) %>
 <% var mealRate =  Math.ceil(totalBazar / totalMeal); %>
-<% var perHeadFixedCost = Math.ceil(fixedCost / meal_list.length) %>
+<% var perHeadFixedCost = Math.ceil(fixedCost / member_list.length) %>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -131,7 +131,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                         <button class="btn btn-danger waves-effect waves-light m-b-5" style="float: right;"> <span>Closed</span> <i class="fa fa-lock m-l-5"></i> </button>
                                                     <%}else{%> 
 
-                                                        <button class="btn btn-primary waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
+                                                        <button class="btn btn-primary waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>" meal-rate="<%= mealRate %>" total-bazar="<%= totalBazar %>" total-meal="<%= totalMeal %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
                                                     <%}%>
                                                     <% } %>
                                                 </div>
@@ -174,6 +174,9 @@ var monthYear = '<%= month%> <%= year %>';
 
     function closeThisMonth(ele){
                 var month_id = $(ele).attr('monthly-report-id');
+                var meal_rate = $(ele).attr('meal-rate');
+                var total_bazar = $(ele).attr('total-bazar');
+                var total_meal = $(ele).attr('total-meal');
                 var activeUser = [];
                 $.each($('._userTotal'),function(k,v){
                     var data = {
@@ -195,7 +198,13 @@ var monthYear = '<%= month%> <%= year %>';
                     $.ajax({
                         type: "POST",
                         url: '/closed-calculations',
-                        data: {month_id:month_id,data:activeUser},
+                        data: {
+                            month_id:month_id,
+                            data:activeUser,
+                            meal_rate:meal_rate,
+                            total_bazar:total_bazar,
+                            total_meal:total_meal
+                        },
                         success: function(res) {
                             if(res.msg == 'success'){
                                 swal({

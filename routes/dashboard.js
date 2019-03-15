@@ -50,9 +50,50 @@ router.get('/', function(req, res) {
   if(req.session.login){
     findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
       if(monthlyReport.msg == 'success'){
+        findMonthRe({mess_id:req.session.mess_id},function(allmonthRe){
+          findThisMonthMeal({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(thisMonthMeal)=>{
+            findThisMonthBazar({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(bazarList)=>{
+                if(allmonthRe.msg == 'success'){
+                  findAllMember({mess_id:req.session.mess_id},(response)=>{
+                    var resdata = {
+                      title : 'Dashboard',
+                      msg : null,
+                      user_data : response.data,
+                      monthly_report:monthlyReport.data,
+                      all_month_report:allmonthRe.data,
+                      this_month_meal:thisMonthMeal.data,
+                      bazar_list : bazarList.data,
+                      _:_,
+                      userData : {
+                        user_name : req.session.user_name,
+                        user_id:req.session.user_id,
+                        user_email:req.session.user_email,
+                        user_img:req.session.user_img,
+                        mess_name:req.session.mess_name,
+                        mess_id:req.session.mess_id,
+                        user_role:((req.session.user_role == 1)? 'Manager':'Member')
+                      }
+                    }
+                    res.render('pages/dashboard/index', resdata);
+                  });
+                }
+            });
+          })
+        })
+      }
+    });
+  }else{
+    res.redirect('/login');
+    
+  }
+});
+router.get('/users', function(req, res) {
+  if(req.session.login){
+    findMonthlyReport({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      if(monthlyReport.msg == 'success'){
         findAllMember({mess_id:req.session.mess_id},(response)=>{
           var resdata = {
-            title : 'Dashboard',
+            title : 'Members',
             msg : null,
             user_data : response.data,
             monthly_report:monthlyReport.data,
@@ -67,7 +108,7 @@ router.get('/', function(req, res) {
               user_role:((req.session.user_role == 1)? 'Manager':'Member')
             }
           }
-          res.render('pages/dashboard/index', resdata);
+          res.render('pages/dashboard/all_profile', resdata);
         });
       }
     });
@@ -896,7 +937,10 @@ router.post('/closed-calculations',function(req,res){
             findAllActiveMembers({mess_id:req.session.mess_id},(allMember)=>{
               var updateQuery = {
                 status:1,
-                mess_members: allMember.data
+                mess_members: allMember.data,
+                meal_rate:req.body.meal_rate,
+                total_bazar:req.body.total_bazar,
+                total_meal:req.body.total_meal
               }
               monthlyReportClose({mess_id:req.session.mess_id,month_id:monthlyReport.data.month_id,updateQuery:updateQuery},function(result){
                 if(result.msg == 'success'){
