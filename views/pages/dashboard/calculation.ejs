@@ -80,50 +80,50 @@ var monthYear = '<%= month%> <%= year %>';
                                                         <div class="panel-heading">
                                                             <h4 class="header-title">Monthly Total Calculations</h4>
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <div class="col-md-12">
-                                                                <table class="table m-b-0">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>#</th>
-                                                                            <th>Name</th>
-                                                                            <th>Total Meal</th>
-                                                                            <th>Total Bazar</th>
-                                                                            <th>Meal Cost</th>
-                                                                            <th>Meal Balance</th>
-                                                                            <th>Total Deposit</th>
-                                                                            <th>Total Cost</th>
-                                                                            <th>Balance</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <% _.each(member_list, function(vu,ku){ %> 
-                                                                            <% var thisTotalMeal = 0 ; %>
-                                                                            <% var thisTotalBazar = 0 ; %>
-                                                                            <% var totalDeposit = 0 %>
-                                                                            <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
-                                                                            <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = thisTotalBazar + Number(vb.total_amount);}}) %>
-                                                                            <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
-                                                                            <% var this_meal_cost = thisTotalMeal * mealRate %>
-                                                                            <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-                                                                            <% var totalCost = perHeadFixedCost - this_meal_c_s %>
-                                                                            <% var balance = vu.account - totalCost %>
-                                                                            
-                                                                            <tr class="active">
-                                                                                <th scope="row" id="<%= vu.user_id %>"><%= ku +1 %></th>
-                                                                                <td><%= vu.user_name %></td>
-                                                                                <td><%= thisTotalMeal %></td>
-                                                                                <td><%= thisTotalBazar %> Tk.</td>
-                                                                                <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
-                                                                                <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
-                                                                                <td><%= (totalDeposit) + (thisTotalBazar) %> Tk.</td>
-                                                                                <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
-                                                                                <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
+                                                        <div class="table-rep-plugin">
+                                                                <div class="table-responsive" data-pattern="priority-columns">
+                                                                    <table id="tech-companies-1" class="table  table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>SL</th>
+                                                                                <th>Name</th>
+                                                                                <th>Total Meal</th>
+                                                                                <th>Total Bazar</th>
+                                                                                <th>Meal Cost</th>
+                                                                                <th>Meal Balance</th>
+                                                                                <th>Total Deposit</th>
+                                                                                <th>Total Cost</th>
+                                                                                <th>Balance</th>
                                                                             </tr>
-                                                                        <%})%>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                                <% _.each(member_list, function(vu,ku){ %> 
+                                                                                    <% var thisTotalMeal = 0 ; %>
+                                                                                    <% var thisTotalBazar = 0 ; %>
+                                                                                    <% var totalDeposit = 0 %>
+                                                                                    <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
+                                                                                    <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = thisTotalBazar + Number(vb.total_amount);}}) %>
+                                                                                    <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
+                                                                                    <% var this_meal_cost = thisTotalMeal * mealRate %>
+                                                                                    <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
+                                                                                    <% var totalCost = perHeadFixedCost - this_meal_c_s %>
+                                                                                    <% var balance = vu.account - totalCost %>
+                                                                                    
+                                                                                    <tr class="active">
+                                                                                        <th scope="row" id="<%= vu.user_id %>"><%= ku +1 %></th>
+                                                                                        <td><%= vu.user_name %></td>
+                                                                                        <td><%= thisTotalMeal %></td>
+                                                                                        <td><%= thisTotalBazar %> Tk.</td>
+                                                                                        <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
+                                                                                        <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
+                                                                                        <td><%= (totalDeposit) + (thisTotalBazar) %> Tk.</td>
+                                                                                        <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
+                                                                                        <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
+                                                                                    </tr>
+                                                                                <%})%>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                     <% if(userData.user_role == 'Manager'){ %>
