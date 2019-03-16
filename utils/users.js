@@ -32,6 +32,7 @@ var newManager =(data,callback)=>{
                         user_phone : data.user_phone,
                         user_img : data.user_img,
                         user_role : 1,
+                        validation_code : data.validation_code,
                         user_password : hash
                     }
                     var newUser = new User(userdata);
@@ -78,7 +79,8 @@ var loginCheck = (data,callback)=>{
                                 user_email:result.user_email,
                                 user_img:result.user_img,
                                 mess_id:result.mess_id,
-                                user_role:result.user_role
+                                user_role:result.user_role,
+                                email_validation:result.email_validation,
                             }
                             callback({msg:'success',data});
                         }else{
@@ -221,6 +223,26 @@ var findMonthRe = (data,callback)=>{
     })
 }
 
+var findUserOne = (data,callback)=>{
+    User.findOne({user_id:data.user_id}, function (err, result) {
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:result})
+        }
+    });
+}
+
+var updateEmailVerification = (data,callback)=>{
+    User.updateOne({user_id:data.user_id},{email_validation:true,validation_code:0},function(err,docs){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:docs});
+        }
+    })
+}
+
 
 module.exports = {
     newManager,
@@ -231,5 +253,7 @@ module.exports = {
     addPayment,
     updateMemberAccount,
     findMonthRe,
-    updateUser
+    updateUser,
+    findUserOne,
+    updateEmailVerification
 };

@@ -47,6 +47,9 @@
         <div class="account-pages"></div>
         <div class="clearfix"></div>
         <div class="wrapper-page">
+                <div id="pageLoader">
+                        <img src="/admin_assets/images/loader.svg" alt="">
+                    </div>
             <div class="text-center">
                 <a href="/" class="logo"><span>Mess Management<span> System</span></span></a>
                 <h5 class="text-muted m-t-0 font-600">2019 © Rich IT.</h5>
@@ -167,6 +170,10 @@
                 error: {
                     'fileSize': 'The file size is too big (1M max).'
                 }
+            });
+            $(window).load(function() {
+                // Animate loader off screen
+                $("#pageLoader").fadeOut("slow");;
             });
         </script>
 

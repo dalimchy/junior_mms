@@ -44,6 +44,18 @@ const usersSchema = new Schema({
         type:String,
         default:1
     },
+    rich_it_approval:{
+        type:Boolean,
+        default:false
+    },
+    email_validation:{
+        type:Boolean,
+        default:false
+    },
+    validation_code:{
+        type:Number,
+        default:0
+    },
     created_at:{
         type:Date,
         default:Date.now

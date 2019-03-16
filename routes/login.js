@@ -35,16 +35,22 @@ router.post('/', function(req, res) {
       if(response.msg == 'success'){
         messCheck({mess_id:response.data.mess_id},(response2)=>{
           if(response2.msg == 'success'){
-            req.session.success = true;
-            req.session.login = true;
-            req.session.user_id = response.data.user_id;
-            req.session.user_name = response.data.user_name;
-            req.session.user_email = response.data.user_email;
-            req.session.user_img = response.data.user_img;
-            req.session.mess_id = response.data.mess_id;
-            req.session.mess_name = response2.mess_name;
-            req.session.user_role = response.data.user_role;
-            res.redirect('/');
+            if(response.data.email_validation){
+              req.session.success = true;
+              req.session.login = true;
+              req.session.user_id = response.data.user_id;
+              req.session.user_name = response.data.user_name;
+              req.session.user_email = response.data.user_email;
+              req.session.user_img = response.data.user_img;
+              req.session.mess_id = response.data.mess_id;
+              req.session.mess_name = response2.mess_name;
+              req.session.user_role = response.data.user_role;
+              res.redirect('/');
+            }else{
+              req.session.msg = 'Your Email Not Verified ! Please Submit Your Verification Code.';
+              res.redirect('/email-verification/'+response.data.user_id+'');
+              req.session.msg = null;
+            }
           }else{
             req.session.msg = response.msg;
             res.redirect('/login');

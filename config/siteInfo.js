@@ -1,4 +1,3 @@
-var siteInfo ={
-    siteName = 'E-SHOP'
-}
-module.exports = {siteInfo}
+var ip = require('ip');
+
+module.exports = {siteAddress:ip.address()+':3000'}

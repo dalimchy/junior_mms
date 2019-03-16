@@ -27,6 +27,7 @@ mongoose.connect(db, {
 var dashboard = require('./routes/dashboard');
 var login = require('./routes/login');
 var register = require('./routes/register');
+var email_verification = require('./routes/email-verification');
 var logout = require('./routes/logout');
 
 var app = express();
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', dashboard);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/email-verification', email_verification);
 app.use('/logout', logout);
 
 /// catch 404 and forwarding to error handler
