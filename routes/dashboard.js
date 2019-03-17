@@ -67,6 +67,7 @@ router.get('/', function(req, res) {
                       footer_name:footerTitle,
                       _:_,
                       mess_name:req.session.mess_name,
+                      moment:moment,
                       userData : {
                         user_name : req.session.user_name,
                         user_id:req.session.user_id,

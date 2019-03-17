@@ -147,7 +147,7 @@ var findTodayBazar = (data,callback)=>{
 	})
 }
 var findThisMonthBazar = (data,callback)=>{
-	Bazar.find(data,function(err,result){
+	Bazar.find(data).sort({created_at: 'desc'}).exec(function(err,result){
 		if(err){
 			console.log(err);
 		}else{
