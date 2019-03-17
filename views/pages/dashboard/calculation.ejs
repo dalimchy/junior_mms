@@ -106,7 +106,8 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                     <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
                                                                                     <% var this_meal_cost = thisTotalMeal * mealRate %>
                                                                                     <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-                                                                                    <% var totalCost = perHeadFixedCost - this_meal_c_s %>
+                                                                                    <% var thisMonthTotalDeposit = (totalDeposit) + (thisTotalBazar) %>
+                                                                                    <% var totalCost = perHeadFixedCost - this_meal_c_s + thisMonthTotalDeposit%>
                                                                                     <% var balance = vu.account - totalCost %>
                                                                                     
                                                                                     <tr class="active">
@@ -116,7 +117,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                         <td><%= thisTotalBazar %> Tk.</td>
                                                                                         <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
                                                                                         <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
-                                                                                        <td><%= (totalDeposit) + (thisTotalBazar) %> Tk.</td>
+                                                                                        <td><%= thisMonthTotalDeposit %> Tk.</td>
                                                                                         <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
                                                                                         <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
                                                                                     </tr>
