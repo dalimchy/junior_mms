@@ -135,14 +135,14 @@
                                                     <tbody id="dateByBazar_table">
                                                     <% var i = 1; _.each(bazar_list, function(v,k){ %>
                                                         
-                                                        <tr>
+                                                        <tr data_amount="<%= v.total_amount %>" data_details="<%= v.bazar_details%>">
                                                             <td><%= i++ %></td>
-                                                            <td> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.assign_user_id){ %> <%= vm.user_name %> <% } }) %></td>
+                                                            <td id="data_member"> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.assign_user_id){ %> <%= vm.user_name %> <% } }) %></td>
                                                             <td> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <% } }) %></td>
                                                             <td><%= v.bazar_details%></td>
                                                             <td><%= v.total_amount %> Tk.</td>
                                                             <td>
-                                                            <button class="btn btn--md btn-info waves-effect waves-light" href="#viewProduct" data-id="<%= v.bazar_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>
+                                                            <button class="btn btn--md btn-info waves-effect waves-light" onclick="updateBazar(this)" href="#updateBazar" data-id="<%= v.bazar_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>
                                                             <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
                                                             </td>
                                                         </tr>
@@ -160,6 +160,39 @@
                 </div>
                         <!-- end row -->
             </div> <!-- container -->
+            <div id="updateBazar" class="modal-demo" style="width:400px !important">
+                <button type="button" class="close" onclick="Custombox.close();">
+                    <span>&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="custom-modal-title">Edit Bazar</h4>
+                <div class="bg-picture card-box">
+                    <div class="profile-info-name">
+                        <div class="profile-info-detail">
+                            <h3 class="profileTitle" class="m-t-0 m-b-0"></h3>
+                            <p class="text-muted m-b-20"><i></i></p>
+
+                            <form role="form" class="form">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="bazar_id" value="" >
+                                    <label style="float:left" class="text-left control-label">Bazar Details</label>
+                                    <textarea class="form-control" id="bazarDetail" value=""></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label style="float:left" class="text-left control-label">Bazar Amount</label>
+                                    <input type="text" class="form-control" id="bazarAmount" value="">
+                                </div>
+                            </form>
+
+                            <div class="button-list m-t-20">
+                                <button onclick="undateBazar()" style="float:right" type="button" class="btn btn-sm btn-twitter waves-effect waves-light">Update</button>
+                                <button onclick="Custombox.close();" style="float:right" type="button" class="btn btn-facebook btn-sm waves-effect waves-light">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
         </div> <!-- content -->
         <footer class="footer text-right">
                 2019 © <%= footer_name %>.
@@ -353,4 +386,36 @@
             }
         });
     }
+
+    function updateBazar(elm){
+        let id = $(elm).attr('data-id');
+        let amount = $(elm).parents('tr').attr('data_amount');
+        let details =  $(elm).parents('tr').attr('data_details');
+        let member =  $(elm).parent('td').siblings('#data_member').text();
+
+        $('.profileTitle').text(member);
+        $('#bazar_id').val(id);
+        $('#bazarDetail').val(details);
+        $('#bazarAmount').val(amount);
+    }
+
+    function undateBazar(){
+        var data = {
+            id: $('#bazar_id').val(),
+            details: $('#bazarDetail').val(),
+            amount: $('#bazarAmount').val(),
+        }
+        console.log(data);
+        $.ajax({
+            type: 'POST',
+            url: '/undateBazar',
+            data: data,
+            success: function(res){
+                if(res.msg == 'success'){
+                    location.reload();
+                }
+            }
+        });
+    }
+
 </script>

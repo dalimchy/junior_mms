@@ -176,6 +176,16 @@ var datebyBazar = (data,callback)=>{
 	});
 }
 
+var undateBazar = (data, callback)=>{
+	Bazar.findOneAndUpdate({bazar_id:data.id},{bazar_details:data.details,total_amount:data.amount}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg: 'success'});
+		}
+	});
+}
+
 var deleteBazar = (data, callback)=>{
 	Bazar.deleteOne({bazar_id:data.id}, function (err, result) {
 		if (err) {
@@ -331,5 +341,6 @@ module.exports = {
 	activeUser,
 	monthlyReportClose,
 	findMonthlyReportOne,
-	deleteBazar
+	deleteBazar,
+	undateBazar
 };
