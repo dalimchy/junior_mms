@@ -7,7 +7,7 @@
         <meta name="author" content="Coderthemes">
 
         <!-- App Favicon -->
-        <link rel="shortcut icon" href="/admin_/admin_assets/images/favicon.ico">
+        <link rel="shortcut icon" href="/admin_assets/images/favicon.ico">
 
         <!-- App title -->
         <title><%= title %></title>
@@ -66,35 +66,25 @@
                 <div class="panel-body">
          <form class="form-horizontal m-t-20" action="/register" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                    <label class="col-md-3 control-label" for="user_email">Your Email</label>
-                    <div class="col-md-9">
-                        <input type="email" required id="user_email" name="user_email" class="form-control" placeholder="Email Address">
-                    </div>
-                </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label" for="messName">Mess Name</label>
-                <div class="col-md-9">
-                    <input type="text" required id="messName" name="mess_name" class="form-control" placeholder="Enter Mess name">
-                </div>
+                <label for="user_email">Email address*</label>
+                <input type="email" name="user_email" parsley-trigger="change" required="" placeholder="Enter email" class="form-control" id="user_email" data-parsley-id="6">
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label" for="user_name">Your Name</label>
-                <div class="col-md-9">
-                    <input type="text" required id="user_name" name="user_name" class="form-control" placeholder="Enter Your Name">
-                </div>
+                <label for="user_name">Your Name*</label>
+                <input type="text" name="user_name" parsley-trigger="change" required="" placeholder="Enter Your Name" class="form-control" id="user_name" data-parsley-id="4">
             </div>
             <div class="form-group">
-                <label class="col-md-3 control-label" for="userPhone">Your Phone</label>
-                <div class="col-md-9">
-                    <input type="text" required id="userPhone" name="phone" class="form-control" placeholder="Phone Number">
-                </div>
+                <label for="messName">Mess Name*</label>
+                <input type="text" required id="messName" name="mess_name" class="form-control" placeholder="Enter Mess name">
+            </div>
+            <div class="form-group">
+                <label for="userPhone">Your Phone*</label>
+                <input type="text" required id="userPhone" name="phone" class="form-control" placeholder="Phone Number">
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 control-label" for="userPassword">Enter Password</label>
-                <div class="col-md-9">
-                    <input type="password" required id="userPassword" name="password" class="form-control" placeholder="password">
-                </div>
+                <label for="userPassword">Enter Password</label>
+                <input type="password" required id="userPassword" name="password" class="form-control" placeholder="password">
             </div>
             <div class="form-group" id="fileUploadRegister">
                 <input type="file" class="dropify" data-default-file="" value="" name="profile_pic" accept="image/*" required>
