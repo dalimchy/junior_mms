@@ -20,12 +20,10 @@
                     <div class="col-sm-12">
                         <div class="card-box">
                             <h4 class="header-title m-t-0 m-b-30">Add Bazar</h4>
-                            <% if(ses_msg !== null){ %>
-                                <div class="alert alert-success alert-dismissable">
+                                <div class="alert alert-success alert-dismissable" id="addBazarAlertMsg" style="display: none">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <%= ses_msg %>
+                                    <span></span>
                                 </div>
-                            <%   } %>
 
                             <div class="row">
                                     <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
@@ -60,7 +58,7 @@
                                         <div class="form-group">
                                             <label class="col-md-5 control-label">Amount</label>
                                             <div class="col-md-3">
-                                                <input type="number" class="form-control" name="total_amount" value="00" id="totalAmount">
+                                                <input type="number" class="form-control" name="total_amount" value="0" id="totalAmount">
                                             </div>
                                         </div>
                                         <% } %>
@@ -78,12 +76,12 @@
                                                                 <% _.each(bazar_list, function(va,ka){%>
                                                                     <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
                                                                         <li class="list-group-item data" data-value="<%= va.total_amount %>">
-                                                                                <span class="badge badge-primary"><%= va.total_amount %> Tk</span>
+                                                                                <span class="badge badge-primary"><%= va.total_amount %> Tk.</span>
                                                                             <%= v.user_name%>
                                                                         </li>
                                                                     <% }})%>
                                                                 <%})%>
-                                                                <li class="list-group-item" id="todayBazarTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00 Tk</span> </li>
+                                                                <li class="list-group-item" id="todayBazarTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 0 Tk.</span> </li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -143,30 +141,60 @@
     function addBazar(type){
         if(holdClick == 1){
             holdClick = 0;
-            var day = $('#bazarOfTheDay').val()
-            var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
-    
-            var data = {
-                member:$('#selectMember_id').val(),
-                bazar_details:$('#bazarDetails2').val(),
-                amount:$('#totalAmount').val(),
-                day:day,
-                month:thisMonth,
-                year:thisYear,
-                date_of_meal:date
-            }
-            // console.log(data);
-            $.ajax({
-                type: "POST",
-                url: '/meal/addBazar',
-                data: data,
-                success: function(res) {
-                    location.replace('/bazar');
-                },
-                error: function() {
-                    console.log('failed');
+            if($('#totalAmount').val() > 0){
+
+                var day = $('#bazarOfTheDay').val()
+                var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
+                var data_user_name = '';
+                $.each(allMemberlist, function(k,v){
+                    if(v.user_id == $('#selectMember_id').val())
+                        data_user_name = v.user_name;
+                });
+        
+                var data = {
+                    member:$('#selectMember_id').val(),
+                    bazar_details:$('#bazarDetails2').val(),
+                    amount:$('#totalAmount').val(),
+                    day:day,
+                    month:thisMonth,
+                    year:thisYear,
+                    date_of_meal:date
                 }
-            });
+                
+                // console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: '/bazar/addBazar',
+                    data: data,
+                    success: function(res) {
+                        holdClick = 1;
+                        var alertMsg = "Bazar Added Successfully.";
+                        $('#totalAmount').val(0);
+                        $('#addBazarAlertMsg').slideDown().find('span').text(alertMsg);
+                        var list = '<li class="list-group-item data" data-value="'+data.amount+'">';
+                            list += '<span class="badge badge-primary">'+data.amount+' Tk.</span>'+data_user_name+'';
+                            list += '</li>';
+                        $('#todayBazarList').prepend(list);
+
+                        let count = $('#todayBazarList').find('.data');
+                        var totalBazarAmount = 0
+                        $.each(count,function(k,v){
+                            totalBazarAmount = totalBazarAmount + Number($(v).attr('data-value'))
+                            $('#todayBazarTotal span').text(totalBazarAmount+' Tk.');
+                        });
+                        setTimeout(function(){ $('#addBazarAlertMsg').slideUp(); }, 2000);
+                        // location.replace('/bazar');
+                    },
+                    error: function() {
+                        console.log('failed');
+                    }
+                });
+            }else{
+                 holdClick = 1;
+                var alertMsg = "Please enter some amount.";
+                $('#addBazarAlertMsg').slideDown().find('span').text(alertMsg);
+                setTimeout(function(){ $('#addBazarAlertMsg').slideUp(); }, 2000);
+            }
         }
     }
     var totalAmount = 0;
@@ -174,7 +202,7 @@
     // console.log(count)
     $.each(count,function(k,v){
         totalAmount = totalAmount + Number($(v).attr('data-value'))
-        $('#todayBazarTotal span').text(totalAmount+' TK');
+        $('#todayBazarTotal span').text(totalAmount+' Tk.');
     })
 
     function datebyBazar(elm){
@@ -197,8 +225,8 @@
                             $.each(allMemberlist,function(km, vm){
                                 if(v.assign_user_id == vm.user_id){
                                     totalBazarAll = Number(v.total_amount) + totalBazarAll;
-                                var list = '<li class="list-group-item data" data-value="">';
-                                    list += '<span class="badge badge-primary">'+v.total_amount+' Tk</span>'+vm.user_name+'';
+                                var list = '<li class="list-group-item data" data-value="'+v.total_amount+'">';
+                                    list += '<span class="badge badge-primary">'+v.total_amount+' Tk.</span>'+vm.user_name+'';
                                     list += '</li>';
                                 $('#todayBazarList').prepend(list);
                                 }

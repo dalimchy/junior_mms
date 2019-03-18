@@ -453,7 +453,7 @@ router.post('/meal/addMeal', function(req, res) {
    }
 });
 
-router.post('/meal/addBazar', function(req, res) {
+router.post('/bazar/addBazar', function(req, res) {
 	 if(req.session.login){
         var data = {
             bazar_id :uuidv4(),
@@ -469,7 +469,7 @@ router.post('/meal/addBazar', function(req, res) {
         }
         addBazar(data,(response)=>{
           if(response.msg == 'success'){
-              req.session.msg = 'Bazar Save Successfully.'
+              // req.session.msg = 'Bazar Save Successfully.'
               res.send({msg:'success'});
           }else{
             res.send({msg:'failed'});
