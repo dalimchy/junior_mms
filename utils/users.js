@@ -245,6 +245,38 @@ var updateEmailVerification = (data,callback)=>{
 }
 
 
+var userFindByEmail =(data,callback)=>{
+    User.findOne(data,function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:result});
+        }
+    })
+}
+
+var userValidationUpdate =(data,callback)=>{
+    User.updateOne({user_id:data.user_id},{validation_code:data.validation_code},function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success'});
+        }
+    });
+}
+
+var findAndUpdatePassword = (data,callback)=>{
+    console.log(data)
+    var hash = bcrypt.hashSync(data.password, salt);
+    User.findOneAndUpdate({user_id:data.user_id,validation_code:data.validation_code},{user_password:hash},function(err,result){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:result})
+        }
+    });
+}
+
 module.exports = {
     newManager,
     loginCheck,
@@ -256,5 +288,8 @@ module.exports = {
     findMonthRe,
     updateUser,
     findUserOne,
-    updateEmailVerification
+    updateEmailVerification,
+    userFindByEmail,
+    userValidationUpdate,
+    findAndUpdatePassword
 };
