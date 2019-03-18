@@ -15,136 +15,128 @@
                     <div class="container">
 
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box">
-                                    <% if(ses_msg !== null){ %>
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <%= ses_msg %>
+                            <form action="/fixed-cost" class="form-horizontal" role="form" method="POST">
+                                <% if(userData.user_role == 'Manager'){ %>
+                                <div class="col-md-6">
+                                    <div class="panel panel-custom panel-border">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Fixed Cost Form</h3>
                                         </div>
-                                    <%   } %>
-                                    <div class="row">
-                                        <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
-                                        <form action="/fixed-cost" class="form-horizontal" role="form" method="POST">
-                                            <% if(userData.user_role == 'Manager'){ %>
-                                            <div class="col-lg-6">
-                                                <div class="panel panel-custom panel-border">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">Fixed Cost Form</h3>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                    
-                                                        <div class="form-group">
-                                                            <label class="col-md-5 control-label">House Rent</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="house_rent" placeholder="House Bill"  value="<%= fixed_cost.house_rent %>">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-md-12">
-                                                                <label class="col-md-5 control-label">Electricity Bill</label>
-                                                                <div class="col-md-3">
-                                                                    <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-md-12">
-                                                                <label class="col-md-5 control-label">Gas Bill</label>
-                                                                <div class="col-md-3">
-                                                                    <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-md-12">
-                                                                <label class="col-md-5 control-label">Water Bill</label>
-                                                                <div class="col-md-3">
-                                                                    <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-md-12">
-                                                                <label class="col-md-5 control-label">Garbage Bill</label>
-                                                                <div class="col-md-3">
-                                                                    <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-md-5 control-label">Internet Bill</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="internet_bill" placeholder="Internet Bill"  value="<%= fixed_cost.internet_bill %>">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="col-md-5 control-label">Chef Bill</label>
-                                                            <div class="col-md-3">
-                                                                <input type="number" class="form-control"  name="chef_bill" placeholder="Chef Bill" value="<%= fixed_cost.chef_bill %>">
-                                                            </div>
-                                                        </div>
+                                        <div class="panel-body">
+                                            <% if(ses_msg !== null){ %>
+                                                <div class="alert alert-success alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <%= ses_msg %>
+                                                </div>
+                                            <%   } %>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">House Rent</label>
+                                                <div class="col-md-3">
+                                                    <input type="number" class="form-control"  name="house_rent" placeholder="House Bill"  value="<%= fixed_cost.house_rent %>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-5 control-label">Electricity Bill</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <% } %>
-                                            <input type="hidden" class="form-control"  name="fixed_cost_id" value="<%= fixed_cost.fixed_cost_id %>">
-                                            <input type="hidden" class="form-control"  name="old_fixed_cost" value="<%= JSON.stringify(fixed_cost) %>">
-                                            <div class="col-lg-6">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="panel panel-custom panel-border">
-                                                            <div class="panel-heading">
-                                                                <h3 class="panel-title">Fixed Cost list</h3>
-                                                            </div>
-                                                            <div class="panel-body">
-                                                                <div class="col-md-12">
-                                                                    <ul class="list-group"> 
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.house_rent %> Tk.</span>
-                                                                            House Rent
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.electricity_bill %> Tk.</span>
-                                                                            Electricity Bill
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.gas_bill %> Tk.</span>
-                                                                            Gas Bill
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.water_bill %> Tk.</span>
-                                                                            Water Bill
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.garbage_bill %> Tk.</span>
-                                                                            Garbage Bill
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.internet_bill %> Tk.</span>
-                                                                            Internet Bill
-                                                                        </li>
-                                                                        <li class="list-group-item data">
-                                                                            <span class="badge badge-primary"><%= fixed_cost.chef_bill %> Tk.</span>
-                                                                            Chef Bill
-                                                                        </li>
-                                                                        <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> <%= fixed_cost.house_rent+fixed_cost.electricity_bill+fixed_cost.gas_bill+fixed_cost.water_bill+fixed_cost.garbage_bill+fixed_cost.internet_bill + fixed_cost.chef_bill%> Tk.</span> </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-5 control-label">Gas Bill</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <% if(userData.user_role == 'Manager'){ %>
-                                            <div class="col-lg-7 text-center">
-                                                <button class="btn btn-primary waves-effect waves-light w-xs m-b-5">Update Fixed Cost</button>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-5 control-label">Water Bill</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label class="col-md-5 control-label">Garbage Bill</label>
+                                                    <div class="col-md-3">
+                                                        <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">Internet Bill</label>
+                                                <div class="col-md-3">
+                                                    <input type="number" class="form-control"  name="internet_bill" placeholder="Internet Bill"  value="<%= fixed_cost.internet_bill %>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">Chef Bill</label>
+                                                <div class="col-md-3">
+                                                    <input type="number" class="form-control"  name="chef_bill" placeholder="Chef Bill" value="<%= fixed_cost.chef_bill %>">
+                                                </div>
+                                            </div>
+                                            <% if(userData.user_role == 'Manager'){ %>
+                                                <div class="col-md-12 text-center">
+                                                    <button class="btn btn-primary waves-effect waves-light w-xs m-b-5 col-md-12">Update Fixed Cost</button>
+                                                </div>
                                             <% } %>
-                                        </form>
-                                    </div><!-- end row -->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div><!-- end col -->
+                                <% } %>
+                                <input type="hidden" class="form-control"  name="fixed_cost_id" value="<%= fixed_cost.fixed_cost_id %>">
+                                <input type="hidden" class="form-control"  name="old_fixed_cost" value="<%= JSON.stringify(fixed_cost) %>">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-custom panel-border">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Fixed Cost list</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12">
+                                                        <ul class="list-group"> 
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.house_rent %> Tk.</span>
+                                                                House Rent
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.electricity_bill %> Tk.</span>
+                                                                Electricity Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.gas_bill %> Tk.</span>
+                                                                Gas Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.water_bill %> Tk.</span>
+                                                                Water Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.garbage_bill %> Tk.</span>
+                                                                Garbage Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.internet_bill %> Tk.</span>
+                                                                Internet Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.chef_bill %> Tk.</span>
+                                                                Chef Bill
+                                                            </li>
+                                                            <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> <%= fixed_cost.house_rent+fixed_cost.electricity_bill+fixed_cost.gas_bill+fixed_cost.water_bill+fixed_cost.garbage_bill+fixed_cost.internet_bill + fixed_cost.chef_bill%> Tk.</span> </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <!-- end row -->
                         <div class="row">

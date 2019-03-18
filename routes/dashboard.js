@@ -702,6 +702,7 @@ router.get('/fixed-cost', function (req, res) {
                   user_role:((req.session.user_role == 1)? 'Manager':'Member')
                 }
               }
+              req.session.msg = null;
               res.render('pages/dashboard/fixed_cost', resdata);
             }
           });
