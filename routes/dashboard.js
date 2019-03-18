@@ -43,7 +43,8 @@ var {findMonthlyReport,addMeal,
     updateFixedCost,
     findLog,
     addPaymentLog,
-    findMonthlyReport
+    findMonthlyReport,
+    deleteBazar
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -524,6 +525,16 @@ router.get('/bazar', function(req, res) {
   }else{
     res.redirect('/login');
     
+  }
+});
+
+router.post('/deleteBazar', function (req, res) {
+  if (req.session.login) {
+    deleteBazar(req.body, (response)=>{
+      res.send(response);
+    });
+  } else {
+    res.redirect('/login');
   }
 });
 

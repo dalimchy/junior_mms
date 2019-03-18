@@ -122,7 +122,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                                             <td><%= thisMonthTotalDeposit %> Tk.</td>
                                                                             <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
                                                                            <% if(monthly_report.status !== 1){%> <td><%= vu.account %> Tk.</td>  <%}%>
-                                                                            <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
+                                                                            <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><% }}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
                                                                         </tr>
                                                                     <%})%>
                                                             </tbody>
