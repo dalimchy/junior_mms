@@ -439,9 +439,9 @@ router.post('/meal/addMeal', function(req, res) {
         addMeal(data,(response)=>{
           if(response.msg == 'success' || response.msg == 'update'){
             if(response.msg == 'success'){
-              req.session.msg = 'Meal Save Successfully.'
+              // req.session.msg = 'Meal Save Successfully.'
             }else{
-              req.session.msg = 'Update Meal Successfully.'
+              // req.session.msg = 'Update Meal Successfully.'
             }
             res.send({msg:'success'});
           }else{
