@@ -84,7 +84,7 @@
         //     { m: allmonthReport[0].month, a: allmonthReport[0].total_meal },
         //     { m: '02', a: 42 }
         // ];
-        this.createBarChart('meal-bar-example', $barData, 'm', ['a'], ['Statistics'], ['#10c469']);
+        this.createBarChart('meal-bar-example', $barData, 'm', ['a'], ['Total Meal'], ['#10c469']);
         var $totalBazar  = [];
         $.each(allmonthReport, function(k,v){
             if(k !== 6){
@@ -102,7 +102,7 @@
                 }
             }
         });
-        this.createBarChart('bazar-bar-example', $totalBazar, 'm', ['a'], ['Statistics'], ['#188ae2']);
+        this.createBarChart('bazar-bar-example', $totalBazar, 'm', ['a'], ['Total Bazar'], ['#188ae2']);
 
 
         var $mealRate  = [];
@@ -129,7 +129,7 @@
                 }
             }
         });
-        this.createBarChart('mealRate-bar-example', $mealRate, 'm', ['a'], ['Statistics'], ['#f9c851']);
+        this.createBarChart('mealRate-bar-example', $mealRate, 'm', ['a'], ['Meal Rate'], ['#f9c851']);
         
         var $acBalance  = [];
         $.each(allUserList, function(k,v){
@@ -137,7 +137,7 @@
             var data = { m: v.user_name, a:v.account}
             $acBalance.push(data);
         });
-        this.createBarChart('balance-bar-example', $acBalance, 'm', ['a'], ['Statistics'], ['#35b8e0']);
+        this.createBarChart('balance-bar-example', $acBalance, 'm', ['a'], ['A/C Balance'], ['#35b8e0']);
 
         //create line chart
         var $data  = [

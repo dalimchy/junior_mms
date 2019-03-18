@@ -18,13 +18,17 @@ var monthYear = '<%= month%> <%= year %>';
             <div class="content-page">
                 <!-- Start content -->
                 <div class="content">
-                    <div class="container">
-                            <div>
-                                
-                                <select class="select2" id="changeMonthSelect">
-                                    <option selected>Select Month</option>
-                                </select>
-                                <h4 class="header-title m-t-0 m-b-30 text-center" id="" style="display: inline-block;"><script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script></h4>
+                    <div class="container">                         
+                            <div class="panel panel-info panel-border">
+                                <div class="panel-heading"></div>
+                                <div class="panel-body">
+                                    <select class="select2 panel-title col-md-6" id="changeMonthSelect">
+                                        <option selected>Select Month</option>
+                                    </select>
+                                    <h4 class="panel-title text-center col-md-6" id="">
+                                        <script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script>
+                                    </h4>
+                                </div>
                             </div>
                             <div class="row">
                             <div class="col-lg-3 col-md-6">
@@ -64,82 +68,76 @@ var monthYear = '<%= month%> <%= year %>';
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card-box">
-                                    <% if(ses_msg !== null){ %>
-                                        <div class="alert alert-success alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <%= ses_msg %>
-                                        </div>
-                                    <%   } %>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="panel panel-custom panel-border">
-                                                        <div class="panel-heading">
-                                                            <h4 class="header-title">Monthly Total Calculations</h4>
-                                                        </div>
-                                                        <div class="table-rep-plugin">
-                                                                <div class="table-responsive" data-pattern="priority-columns">
-                                                                    <table id="tech-companies-1" class="table  table-striped">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>SL</th>
-                                                                                <th>Name</th>
-                                                                                <th> Meal</th>
-                                                                                <th> Bazar</th>
-                                                                                <th>Meal Cost</th>
-                                                                                <th>Meal Balance</th>
-                                                                                <th>Total Deposit</th>
-                                                                                <th>Total Cost</th>
-                                                                                <% if(monthly_report.status !== 1){%> <th>A/C Balance</th>  <%}%>
-                                                                                <th>Balance Status</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                                <% _.each(member_list, function(vu,ku){ %> 
-                                                                                    <% var thisTotalMeal = 0 ; %>
-                                                                                    <% var thisTotalBazar = 0 ; %>
-                                                                                    <% var totalDeposit = 0 %>
-                                                                                    <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
-                                                                                    <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = thisTotalBazar + Number(vb.total_amount);}}) %>
-                                                                                    <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
-                                                                                    <% var this_meal_cost = thisTotalMeal * mealRate %>
-                                                                                    <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-                                                                                    <% var thisMonthTotalDeposit = (totalDeposit) + (thisTotalBazar) %>
-                                                                                    <% var totalCost = perHeadFixedCost + this_meal_cost %>
-                                                                                    <% var balance = vu.account - totalCost %>
-                                                                                    
-                                                                                    <tr class="active">
-                                                                                        <th scope="row" id="<%= vu.user_id %>"><%= ku +1 %></th>
-                                                                                        <td><%= vu.user_name %></td>
-                                                                                        <td><%= thisTotalMeal %></td>
-                                                                                        <td><%= thisTotalBazar %> Tk.</td>
-                                                                                        <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
-                                                                                        <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
-                                                                                        <td><%= thisMonthTotalDeposit %> Tk.</td>
-                                                                                        <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
-                                                                                       <% if(monthly_report.status !== 1){%> <td><%= vu.account %> Tk.</td>  <%}%>
-                                                                                        <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
-                                                                                    </tr>
-                                                                                <%})%>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                        </div>
+                            <div class="col-md-12">
+                                <% if(ses_msg !== null){ %>
+                                    <div class="alert alert-success alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <%= ses_msg %>
+                                    </div>
+                                <%   } %>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="panel <% if(monthly_report.status == 1){%> panel-danger <%}else{%> panel-success <%}%> panel-border">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title text-center">Monthly Total Calculations</h3>
+                                            </div>
+                                            <div class="table-rep-plugin">
+                                                    <div class="table-responsive" data-pattern="priority-columns">
+                                                        <table id="tech-companies-1" class="table  table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>SL</th>
+                                                                    <th>Name</th>
+                                                                    <th> Meal</th>
+                                                                    <th> Bazar</th>
+                                                                    <th>Meal Cost</th>
+                                                                    <th>Meal Balance</th>
+                                                                    <th>Total Deposit</th>
+                                                                    <th>Total Cost</th>
+                                                                    <% if(monthly_report.status !== 1){%> <th>A/C Balance</th>  <%}%>
+                                                                    <th>Balance Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                    <% _.each(member_list, function(vu,ku){ %> 
+                                                                        <% var thisTotalMeal = 0 ; %>
+                                                                        <% var thisTotalBazar = 0 ; %>
+                                                                        <% var totalDeposit = 0 %>
+                                                                        <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
+                                                                        <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = thisTotalBazar + Number(vb.total_amount);}}) %>
+                                                                        <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
+                                                                        <% var this_meal_cost = thisTotalMeal * mealRate %>
+                                                                        <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
+                                                                        <% var thisMonthTotalDeposit = (totalDeposit) + (thisTotalBazar) %>
+                                                                        <% var totalCost = perHeadFixedCost + this_meal_cost %>
+                                                                        <% var balance = vu.account - totalCost %>
+                                                                        
+                                                                        <tr class="active">
+                                                                            <th scope="row" id="<%= vu.user_id %>"><%= ku +1 %></th>
+                                                                            <td><%= vu.user_name %></td>
+                                                                            <td><%= thisTotalMeal %></td>
+                                                                            <td><%= thisTotalBazar %> Tk.</td>
+                                                                            <td><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
+                                                                            <td><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
+                                                                            <td><%= thisMonthTotalDeposit %> Tk.</td>
+                                                                            <td class="_userTotal" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
+                                                                           <% if(monthly_report.status !== 1){%> <td><%= vu.account %> Tk.</td>  <%}%>
+                                                                            <td><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><%}}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
+                                                                        </tr>
+                                                                    <%})%>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <% if(userData.user_role == 'Manager'){ %>
-                                                    <% if(monthly_report.status == 1){ %> 
-                                                        <button class="btn btn-danger waves-effect waves-light m-b-5" style="float: right;"> <span>Closed</span> <i class="fa fa-lock m-l-5"></i> </button>
-                                                    <%}else{%> 
-
-                                                        <button class="btn btn-primary waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>" meal-rate="<%= mealRate %>" total-bazar="<%= totalBazar %>" total-meal="<%= totalMeal %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
-                                                    <%}%>
-                                                    <% } %>
-                                                </div>
                                             </div>
                                         </div>
+                                        <% if(userData.user_role == 'Manager'){ %>
+                                        <% if(monthly_report.status == 1){ %> 
+                                            <button class="btn btn-danger waves-effect waves-light m-b-5" style="float: right;"> <span>Closed</span> <i class="fa fa-lock m-l-5"></i> </button>
+                                        <%}else{%> 
+
+                                            <button class="btn btn-danger waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>" meal-rate="<%= mealRate %>" total-bazar="<%= totalBazar %>" total-meal="<%= totalMeal %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
+                                        <%}%>
+                                        <% } %>
                                     </div>
                                 </div>
                             </div><!-- end col -->

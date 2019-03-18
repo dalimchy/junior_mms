@@ -20,7 +20,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-custom panel-border">
                                         <div class="panel-heading">
-                                            <h3 class="panel-title">Fixed Cost Form</h3>
+                                            <h3 class="panel-title text-center">Fixed Cost Form</h3>
                                         </div>
                                         <div class="panel-body">
                                             <% if(ses_msg !== null){ %>
@@ -31,57 +31,49 @@
                                             <%   } %>
                                             <div class="form-group">
                                                 <label class="col-md-5 control-label">House Rent</label>
-                                                <div class="col-md-3">
+                                                <div class="col-md-7">
                                                     <input type="number" class="form-control"  name="house_rent" placeholder="House Bill"  value="<%= fixed_cost.house_rent %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-5 control-label">Electricity Bill</label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
-                                                    </div>
+                                                <label class="col-md-5 control-label">Electricity Bill</label>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-5 control-label">Gas Bill</label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
-                                                    </div>
+                                                <label class="col-md-5 control-label">Gas Bill</label>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-5 control-label">Water Bill</label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
-                                                    </div>
+                                                <label class="col-md-5 control-label">Water Bill</label>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <label class="col-md-5 control-label">Garbage Bill</label>
-                                                    <div class="col-md-3">
-                                                        <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
-                                                    </div>
+                                                <label class="col-md-5 control-label">Garbage Bill</label>
+                                                <div class="col-md-7">
+                                                    <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-5 control-label">Internet Bill</label>
-                                                <div class="col-md-3">
+                                                <div class="col-md-7">
                                                     <input type="number" class="form-control"  name="internet_bill" placeholder="Internet Bill"  value="<%= fixed_cost.internet_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-5 control-label">Chef Bill</label>
-                                                <div class="col-md-3">
+                                                <div class="col-md-7">
                                                     <input type="number" class="form-control"  name="chef_bill" placeholder="Chef Bill" value="<%= fixed_cost.chef_bill %>">
                                                 </div>
                                             </div>
                                             <% if(userData.user_role == 'Manager'){ %>
                                                 <div class="col-md-12 text-center">
-                                                    <button class="btn btn-primary waves-effect waves-light w-xs m-b-5 col-md-12">Update Fixed Cost</button>
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-light w-xs m-b-5 col-md-12">Update Fixed Cost</button>
                                                 </div>
                                             <% } %>
                                         </div>
@@ -95,7 +87,7 @@
                                         <div class="col-lg-12">
                                             <div class="panel panel-custom panel-border">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">Fixed Cost list</h3>
+                                                    <h3 class="panel-title text-center">Fixed Cost list</h3>
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="col-md-12">

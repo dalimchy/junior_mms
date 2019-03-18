@@ -13,6 +13,17 @@
         <div class="content">
             <div class="container">
                 <div class="row">
+                    <div class="col-md-12">                            
+                        <div class="panel panel-info panel-border">
+                            <div class="panel-heading"></div>
+                            <div class="panel-body">
+                                <!-- <h4 id="todayData"></h4> -->
+                                <h4 class="panel-title text-center col-md-12" id="">
+                                    <script type="text/javascript">document.write(moment().format('MMMM YYYY'));</script>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-12">
                         <div class="alert alert-success alert-dismissable" id="alertMessageMeal" style="display: none">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -26,8 +37,7 @@
                                         <div class="col-md-12">
                                             <div class="panel panel-custom panel-border">
                                                 <div class="panel-heading col-md-12 m-b-15">
-                                                    <h3 style="width:50%" class="panel-title col-md-6">Add Meal</h3>
-                                                    <h4 style="width:50%" class="panel-title col-md-6 text-right" id="todayData"></h4>
+                                                    <h3 class="panel-title text-center">Add Meal</h3>
                                                 </div>
                                                 <div class="panel-body">
 
@@ -90,7 +100,7 @@
                                         <div class="col-lg-12">
                                             <div class="panel panel-custom panel-border">
                                                 <div class="panel-heading">
-                                                    <h3 class="panel-title">Today Meal Status</h3>
+                                                    <h3 class="panel-title text-center" id="mealListPanel">Today Meal Status</h3>
                                                 </div>
                                                 <div class="panel-body">
                                                     <div class="col-md-12">
@@ -222,9 +232,9 @@
                 if(res.msg == 'success'){
                     if(res.data !== null){
                         if(value == today){
-                            $('.panel-title').text('Today Meal Status');
+                            $('#mealListPanel').text('Today Meal Status');
                         }else{
-                            $('.panel-title').text('Day '+ value+' Meal Status');
+                            $('#mealListPanel').text('Day '+ value+' Meal Status');
                         }
                         $('#todayMealList li.data').remove();
                         var totalMealAll = 0;
