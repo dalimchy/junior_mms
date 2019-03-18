@@ -176,6 +176,16 @@ var datebyBazar = (data,callback)=>{
 	});
 }
 
+var deleteBazar = (data, callback)=>{
+	Bazar.deleteOne({bazar_id:data.id}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg: 'success'})
+		}
+	});
+}
+
 var findFixedCost = (data,callback)=>{
 	FixedCost.findOne(data,function(err,docs){
 		if(err){
@@ -320,5 +330,6 @@ module.exports = {
 	deactiveUser,
 	activeUser,
 	monthlyReportClose,
-	findMonthlyReportOne
+	findMonthlyReportOne,
+	deleteBazar
 };
