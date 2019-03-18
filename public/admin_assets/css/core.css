@@ -1232,3 +1232,7 @@ pre {
     margin-top: 0px;
   }
 }
+
+#memberDropy .dropify-wrapper{
+  height: 161px !important;
+}
