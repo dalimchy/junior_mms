@@ -143,7 +143,6 @@ var newMember = (data,callback)=>{
 }
 
 var updateAccount = (data,callback)=>{
-    console.log(data);
     User.updateOne({user_id:data.assign_user_id},{$inc: { account: data.total_amount}},function(err,result){
         if(err){
             console.log(err);

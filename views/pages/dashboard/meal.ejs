@@ -16,12 +16,10 @@
                     <div class="col-sm-12">
                         <div class="card-box">
                             <h4 class="header-title m-t-0 m-b-30">Add Meal</h4>
-                            <% if(ses_msg !== null){ %>
-                                <div class="alert alert-success alert-dismissable">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <%= ses_msg %>
-                                </div>
-                            <%   } %>
+                            <div class="alert alert-success alert-dismissable" id="alertMessageMeal" style="display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <span> </span>
+                            </div>
 
                             <div class="row">
                                     <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
@@ -91,7 +89,7 @@
                                                             <ul class="list-group" id="todayMealList"> 
                                                                 <% _.each(meal_list, function(va,ka){ var t=va.lunch + va.dinner + va.breakfast + va.guest%>
                                                                     <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
-                                                                        <li class="list-group-item data" data-value="<%= t %>">
+                                                                        <li class="list-group-item data _mealUser<%= v.user_id %>" data-value="<%= t %>">
                                                                                 <span class="badge badge-primary"><%= t %></span>
                                                                             <%= v.user_name%>
                                                                         </li>
@@ -158,8 +156,14 @@
     }
 
     function addMeal(type){
+
         var day = $('#mealOfTheDay').val()
         var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
+        var data_user_name = '';
+        $.each(allMemberlist, function(k,v){
+            if(v.user_id == $('#selectMember_id').val())
+                data_user_name = v.user_name;
+        });
 
         var data = {
             member:$('#selectMember_id').val(),
@@ -177,7 +181,21 @@
             url: '/meal/addMeal',
             data: data,
             success: function(res) {
-                location.replace('/meal');
+                var alertMsg = '';
+                if($('._mealUser'+data.member).is(':visible')){
+                    alertMsg = 'Meal Update Successfully.'
+                }else{
+                    alertMsg = 'Meal Saved Successfully.'
+                }
+                $('#alertMessageMeal').slideDown().find('span').text(alertMsg);
+                var totalMeal = Number(data.lunch) + Number(data.breakfast) + Number(data.dinner) + Number(data.guest_meal);
+                $('._mealUser'+data.member).remove();               
+                var html ='<li class="list-group-item data _mealUser'+data.member+'" data-value="'+ totalMeal +'">';
+                    html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+data_user_name+'';
+                    html +='</li>';
+                $('#todayMealList').prepend(html);
+                setTimeout(function(){ $('#alertMessageMeal').slideUp(); }, 2000);
+                // location.replace('/meal');
             },
             error: function() {
                 console.log('failed');
@@ -213,7 +231,7 @@
                                 if(va.assign_user_id == v.user_id){
                                     var totalMeal = va.lunch + va.breakfast + va.dinner + va.guest;
                                     totalMealAll = totalMeal + totalMealAll;
-                                    var html ='<li class="list-group-item data" data-value="'+ totalMeal +'">';
+                                    var html ='<li class="list-group-item data _mealUser'+v.user_id+'" data-value="'+ totalMeal +'">';
                                         html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+v.user_name+'';
                                         html +='</li>';
                                     $('#todayMealList').prepend(html);
