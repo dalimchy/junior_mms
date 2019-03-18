@@ -3,6 +3,7 @@
 <%- include('../../layouts/dashboard/left_bar') %>
 <script>
 var allmonthReport = <%- JSON.stringify(all_month_report) %>;
+var allUserList = <%- JSON.stringify(user_data) %>;
 var thisMonthAllMeal = <%- JSON.stringify(this_month_meal) %>;
 var bazar_list = <%- JSON.stringify(bazar_list) %>;
 var thisMonth = moment().format('MM');
@@ -19,25 +20,31 @@ var thisYear = moment().format('YYYY');
                             <div class="col-lg-4">
                                 <div class="card-box">
                                     <h4 class="header-title m-t-0">Meal Statistics</h4>
-                                    <div id="meal-bar-example" style="height: 280px;"></div>
+                                    <div id="meal-bar-example" style="height: 200px;"></div>
                                 </div>
                             </div><!-- end col -->
                             <div class="col-lg-4">
                                 <div class="card-box">
                                     <h4 class="header-title m-t-0">Bazar Statistics</h4>
-                                    <div id="bazar-bar-example" style="height: 280px;"></div>
+                                    <div id="bazar-bar-example" style="height: 200px;"></div>
                                 </div>
                             </div><!-- end col -->
                             <div class="col-lg-4">
                                 <div class="card-box">
                                     <h4 class="header-title m-t-0">Meal Rate Statistics</h4>
-                                    <div id="mealRate-bar-example" style="height: 280px;"></div>
+                                    <div id="mealRate-bar-example" style="height: 200px;"></div>
                                 </div>
                             </div><!-- end col -->
                         </div>
                         <!-- end row -->
                         <div class="row">
-                                <div class="col-lg-7">
+                                <div class="col-lg-12">
+                                    <div class="card-box">
+                                        <h4 class="header-title m-t-0">A/C Balance</h4>
+                                        <div id="balance-bar-example" style="height: 200px;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
                                         <div class="card-box">
         
                                             <h4 class="header-title m-t-0 m-b-30">Bazar Update</h4>
@@ -58,7 +65,7 @@ var thisYear = moment().format('YYYY');
                                                             <tr>
                                                                 <td><%= k + 1 %></td>
                                                                 <td><%= vu.user_name %></td>
-                                                                <td><span class="label label-danger"><%= v.total_amount %></span></td>
+                                                                <td><span class="label label-danger"><%= v.total_amount %> Tk.</span></td>
                                                                 <td><%= v.bazar_details %></td>
                                                                 <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('DD-MM-YYYY') %></td>
                                                             </tr>

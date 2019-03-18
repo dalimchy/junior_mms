@@ -139,31 +139,35 @@
         }
 
     }
+    var holdClick = 1;
     function addBazar(type){
-        var day = $('#bazarOfTheDay').val()
-        var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
-
-        var data = {
-            member:$('#selectMember_id').val(),
-            bazar_details:$('#bazarDetails2').val(),
-            amount:$('#totalAmount').val(),
-            day:day,
-            month:thisMonth,
-            year:thisYear,
-            date_of_meal:date
-        }
-        // console.log(data);
-        $.ajax({
-            type: "POST",
-            url: '/meal/addBazar',
-            data: data,
-            success: function(res) {
-                location.replace('/bazar');
-            },
-            error: function() {
-                console.log('failed');
+        if(holdClick == 1){
+            holdClick = 0;
+            var day = $('#bazarOfTheDay').val()
+            var date = moment(day+'-'+thisMonth+'-'+thisYear, "DD-MM-YYYY").unix();
+    
+            var data = {
+                member:$('#selectMember_id').val(),
+                bazar_details:$('#bazarDetails2').val(),
+                amount:$('#totalAmount').val(),
+                day:day,
+                month:thisMonth,
+                year:thisYear,
+                date_of_meal:date
             }
-        });
+            // console.log(data);
+            $.ajax({
+                type: "POST",
+                url: '/meal/addBazar',
+                data: data,
+                success: function(res) {
+                    location.replace('/bazar');
+                },
+                error: function() {
+                    console.log('failed');
+                }
+            });
+        }
     }
     var totalAmount = 0;
     var count = $('#todayBazarList').find('.data');
