@@ -14,103 +14,105 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="card-box">
-                            <h4 class="header-title m-t-0 m-b-30">Add Meal</h4>
-                            <div class="alert alert-success alert-dismissable" id="alertMessageMeal" style="display: none">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <span> </span>
-                            </div>
+                        <div class="alert alert-success alert-dismissable" id="alertMessageMeal" style="display: none">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <span> </span>
+                        </div>
 
-                            <div class="row">
-                                    <h4 class="header-title m-t-0 m-b-30 text-center" id="todayData"></h4>
-                                <form action="" class="form-horizontal" role="form" method="POST">
-                                    
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="col-md-5 control-label">Select Day </label>
-                                            <div class="col-md-7">
-                                                <select class="form-control select2" onchange="getDatewise(this)" name="day" id="mealOfTheDay">
-                                                    
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <% if(userData.user_role == 'Manager'){ %>
-                                        <div class="form-group">
-                                            <label class="col-md-5 control-label">Select Member </label>
-                                            <div class="col-md-7">
-                                                <select class="form-control select2" name="member_id" id="selectMember_id" required>
-                                                    <% _.each(member_list,function(v,k){ %>
-                                                        <option value="<%= v.user_id %>"><%= v.user_name %></option>
-                                                    <% })%>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-5 control-label">Breakfast</label>
-                                            <div class="col-md-3">
-                                                <input type="number" class="form-control"  name="meal_breakfast" value="0.5" id="breakfastMeal">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <label class="col-md-5 control-label">Lunch</label>
-                                                <div class="col-md-3">
-                                                    <input type="number" class="form-control"  name="meal_lunch" value="1" id="lunchMeal">
+                        <div class="row">
+                            <form action="" class="form-horizontal" role="form" method="POST">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-custom panel-border">
+                                                <div class="panel-heading col-md-12 m-b-15">
+                                                    <h3 style="width:50%" class="panel-title col-md-6">Add Meal</h3>
+                                                    <h4 style="width:50%" class="panel-title col-md-6 text-right" id="todayData"></h4>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <label class="col-md-5 control-label">Dinner</label>
-                                                <div class="col-md-3">
-                                                    <input type="number" class="form-control"  name="meal_dinner" value="0.5" id="dinnerMeal">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <label class="col-md-5 control-label">Guest</label>
-                                                <div class="col-md-3">
-                                                    <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal" value="0" id="guestMeal">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <% } %>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="panel panel-custom panel-border">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">Today Meal Status</h3>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <div class="col-md-12">
-                                                            <ul class="list-group" id="todayMealList"> 
-                                                                <% _.each(meal_list, function(va,ka){ var t=va.lunch + va.dinner + va.breakfast + va.guest%>
-                                                                    <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
-                                                                        <li class="list-group-item data _mealUser<%= v.user_id %>" data-value="<%= t %>">
-                                                                                <span class="badge badge-primary"><%= t %></span>
-                                                                            <%= v.user_name%>
-                                                                        </li>
-                                                                    <% }})%>
-                                                                <%})%>
-                                                                <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00</span> </li>
-                                                            </ul>
+                                                <div class="panel-body">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Select Day </label>
+                                                        <div class="col-md-7">
+                                                            <select class="form-control select2" onchange="getDatewise(this)" name="day" id="mealOfTheDay">
+                                                                
+                                                            </select>
                                                         </div>
                                                     </div>
+                                                    <% if(userData.user_role == 'Manager'){ %>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Select Member </label>
+                                                        <div class="col-md-7">
+                                                            <select class="form-control select2" name="member_id" id="selectMember_id" required>
+                                                                <% _.each(member_list,function(v,k){ %>
+                                                                    <option value="<%= v.user_id %>"><%= v.user_name %></option>
+                                                                <% })%>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Breakfast</label>
+                                                        <div class="col-md-7">
+                                                            <input type="number" class="form-control"  name="meal_breakfast" value="0.5" id="breakfastMeal">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Lunch</label>
+                                                        <div class="col-md-7">
+                                                            <input type="number" class="form-control"  name="meal_lunch" value="1" id="lunchMeal">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Dinner</label>
+                                                        <div class="col-md-7">
+                                                            <input type="number" class="form-control"  name="meal_dinner" value="0.5" id="dinnerMeal">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Guest</label>
+                                                        <div class="col-md-7">
+                                                            <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal" value="0" id="guestMeal">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-lg-7 col-md-offset-5 text-center">
+                                                        <a style="width:100%" class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Add Meal</a>
+                                                    </div>
+                                                    
+                                                    <% } %>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                                <% if(userData.user_role == 'Manager'){ %>
-                                    <div class="col-lg-12 text-center">
-                                        <button class="btn btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Submit</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-custom panel-border">
+                                                <div class="panel-heading">
+                                                    <h3 class="panel-title">Today Meal Status</h3>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12">
+                                                        <ul class="list-group" id="todayMealList"> 
+                                                            <% _.each(meal_list, function(va,ka){ var t=va.lunch + va.dinner + va.breakfast + va.guest%>
+                                                                <% _.each(member_list,function(v,k){if(va.assign_user_id == v.user_id){%>
+                                                                    <li class="list-group-item data _mealUser<%= v.user_id %>" data-value="<%= t %>">
+                                                                            <span class="badge badge-primary"><%= t %></span>
+                                                                        <%= v.user_name%>
+                                                                    </li>
+                                                                <% }})%>
+                                                            <%})%>
+                                                            <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> 00</span> </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                <% } %>
-                            </div><!-- end row -->
-                        </div>
+                                </div>
+                            </form>
+                        </div><!-- end row -->
                     </div><!-- end col -->
                 </div>
                 <!-- end row -->
