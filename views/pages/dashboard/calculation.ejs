@@ -107,7 +107,7 @@ var monthYear = '<%= month%> <%= year %>';
                                                                                     <% var this_meal_cost = thisTotalMeal * mealRate %>
                                                                                     <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
                                                                                     <% var thisMonthTotalDeposit = (totalDeposit) + (thisTotalBazar) %>
-                                                                                    <% var totalCost = perHeadFixedCost - this_meal_c_s + thisMonthTotalDeposit%>
+                                                                                    <% var totalCost = perHeadFixedCost + this_meal_cost %>
                                                                                     <% var balance = vu.account - totalCost %>
                                                                                     
                                                                                     <tr class="active">
