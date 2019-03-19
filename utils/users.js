@@ -152,6 +152,16 @@ var updateAccount = (data,callback)=>{
     })
 }
 
+var deleteAmount = (data, callback)=>{
+    User.updateOne({user_id: data.member},{$inc: { account: - data.amount}}, function (err, result) {
+        if (err) {
+            console.log(err)
+        } else {
+            callback({msg: 'success'});
+        }
+    })
+}
+
 var addPayment = (data,callback)=>{
     User.updateOne({user_id:data.payment_user_id},{$inc: { account: data.amount}},function(err,result){
         if(err){
@@ -283,6 +293,7 @@ module.exports = {
     messCheck,
     newMember,
     updateAccount,
+    deleteAmount,
     addPayment,
     updateMemberAccount,
     findMonthRe,
