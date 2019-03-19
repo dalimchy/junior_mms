@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var footerTitle = 'Rich IT';
+var _ = require('lodash');
 const nodemailer = require("nodemailer");
 var transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -11,6 +13,14 @@ var transporter = nodemailer.createTransport({
  });
 
  var siteAddress = require('../config/siteInfo').siteAddress;
+
+ var {
+
+  findAllManager,
+  findAllMess,
+  updateUser
+
+  } = require('./../utils/super_admin');
 
 
 router.get('/login/:email',function(req,res){
@@ -108,5 +118,35 @@ router.post('/checkVerification',function(req,res){
 router.get('/logout', function(req,res){
     req.session.destroy();
     res.redirect('/login');
+});
+
+router.get('/manage-mess',function(req,res){
+  if(req.session.admin_login){
+    findAllManager(function(manager){
+      findAllMess(function(allmess){
+        if(allmess.msg == 'success'){
+          var data = {
+              title : 'Manage Mess',
+              all_manager :manager.data,
+              all_mess :allmess.data,
+              footerTitle:footerTitle,
+              _:_
+          }
+         res.render('pages/dashboard/super_mess_manage', data);
+        }
+      })
+    })
+  }else{
+    res.redirect('/login');
+  }
+});
+
+router.post('/manage-mess/active-inactive',function(req,res){
+    updateUser(req.body,function(docs){
+      if(docs.msg == 'success'){
+        res.send({msg:'success'});
+      }
+    })
 })
+
 module.exports = router;

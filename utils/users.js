@@ -73,16 +73,20 @@ var loginCheck = (data,callback)=>{
                         console.log(err);
                     }else{
                         if(res == true){
-                            var data ={
-                                user_id:result.user_id,
-                                user_name:result.user_name,
-                                user_email:result.user_email,
-                                user_img:result.user_img,
-                                mess_id:result.mess_id,
-                                user_role:result.user_role,
-                                email_validation:result.email_validation,
+                            if(result.rich_it_approval){
+                                var data ={
+                                    user_id:result.user_id,
+                                    user_name:result.user_name,
+                                    user_email:result.user_email,
+                                    user_img:result.user_img,
+                                    mess_id:result.mess_id,
+                                    user_role:result.user_role,
+                                    email_validation:result.email_validation,
+                                }
+                                callback({msg:'success',data});
+                            }else{
+                                callback({msg:'Your account is not active. Please contact with Rich IT Support.'})
                             }
-                            callback({msg:'success',data});
                         }else{
                             callback({msg:'Password does not match.'})
                         }
