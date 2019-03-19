@@ -205,6 +205,12 @@
                     html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+data_user_name+'';
                     html +='</li>';
                 $('#todayMealList').prepend(html);
+                var totalMeal = 0;
+                var count = $('#todayMealList').find('.data');
+                $.each(count,function(k,v){
+                    totalMeal = totalMeal + Number($(v).attr('data-value'))
+                    $('#todayMealTotal span').text(totalMeal);
+                })
                 setTimeout(function(){ $('#alertMessageMeal').slideUp(); }, 2000);
                 // location.replace('/meal');
             },
