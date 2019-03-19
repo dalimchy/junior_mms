@@ -137,30 +137,29 @@
                             <div class="col-sm-12">
                                 <div class="panel panel-success panel-border">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Fixed Cost List</h3>                                    
+                                        <h3 class="panel-title text-center">Fixed Cost Report</h3>                                    
                                     </div>
                                     <div class="panel-body">                                                
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
                                                 <table id="tech-companies-1" class="table  table-striped">
                                                     <thead>
-                                                        <tr>
-                                                            <th>SL</th>
-                                                            <th>Status</th>
-                                                            <th>Time</th>
-                                                            <th style="width:150px">Action</th>
+                                                        <tr class="text-center">
+                                                            <th class="text-center">SL</th>
+                                                            <th class="text-center">Status</th>
+                                                            <th class="text-center">Time</th>
+                                                            <th style="width:150px" class="text-center">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <% var i = 1; _.each(fixed_cost_log, function(v,k){%>
-                                                            <tr>
-                                                                <td><%= i++ %></td>
-                                                                <td>Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
-                                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
-                                                                <td>
+                                                            <tr class="text-center">
+                                                                <td class="text-center"><%= i++ %></td>
+                                                                <td class="text-center">Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
+                                                                <td class="text-center"><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
+                                                                <td class="text-center">
                                                                     <span style="width:100%;display:flex;justify-content:center">
                                                                         <a href="#custom-modal" onclick="viewOldFdata(this)" data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"> <i class="dripicons-preview"></i> </a>
-                                                                        <button data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-danger m-l-5 m-r-5"> <i class="fa fa-remove"></i> </button>
                                                                     </span>
                                                                 </td>
                                                             </tr>
