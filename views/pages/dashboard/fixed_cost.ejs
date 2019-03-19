@@ -30,52 +30,54 @@
                                                 </div>
                                             <%   } %>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">House Rent</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">House Rent</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="house_rent" placeholder="House Bill"  value="<%= fixed_cost.house_rent %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Electricity Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Electricity Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Gas Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Gas Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Water Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Water Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Garbage Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Garbage Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Internet Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Internet Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="internet_bill" placeholder="Internet Bill"  value="<%= fixed_cost.internet_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Chef Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Chef Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="chef_bill" placeholder="Chef Bill" value="<%= fixed_cost.chef_bill %>">
                                                 </div>
                                             </div>
-                                            <% if(userData.user_role == 'Manager'){ %>
-                                                <div class="col-md-12 text-center">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light w-xs m-b-5 col-md-12">Update Fixed Cost</button>
-                                                </div>
-                                            <% } %>
+                                            <div class="form-group">
+                                                <% if(userData.user_role == 'Manager'){ %>
+                                                    <div class="col-md-8 col-md-offset-4 text-center">
+                                                        <button type="submit" class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5">Update Fixed Cost</button>
+                                                    </div>
+                                                <% } %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -133,32 +135,41 @@
                         <!-- end row -->
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card-box table-responsive">
-                                    <table id="datatable" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>SL</th>
-                                                <th>Status</th>
-                                                <th>Time</th>
-                                                <th style="width:150px">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <% var i = 1; _.each(fixed_cost_log, function(v,k){%>
-                                            <tr>
-                                                <td><%= i++ %></td>
-                                                <td>Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
-                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
-                                                <td>
-                                                    <span style="width:100%;display:flex;justify-content:center">
-                                                        <a href="#custom-modal" onclick="viewOldFdata(this)" data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"> <i class="dripicons-preview"></i> </a>
-                                                        <button data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-danger m-l-5 m-r-5"> <i class="fa fa-remove"></i> </button>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        <% }); %>
-                                        </tbody>
-                                    </table>
+                                <div class="panel panel-success panel-border">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Fixed Cost List</h3>                                    
+                                    </div>
+                                    <div class="panel-body">                                                
+                                        <div class="table-rep-plugin">
+                                            <div class="table-responsive" data-pattern="priority-columns">
+                                                <table id="tech-companies-1" class="table  table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SL</th>
+                                                            <th>Status</th>
+                                                            <th>Time</th>
+                                                            <th style="width:150px">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% var i = 1; _.each(fixed_cost_log, function(v,k){%>
+                                                            <tr>
+                                                                <td><%= i++ %></td>
+                                                                <td>Updated by <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <%} }); %></td>
+                                                                <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('hh:mm a DD-MM-YYYY') %></td>
+                                                                <td>
+                                                                    <span style="width:100%;display:flex;justify-content:center">
+                                                                        <a href="#custom-modal" onclick="viewOldFdata(this)" data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-info m-l-5 m-r-5" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"> <i class="dripicons-preview"></i> </a>
+                                                                        <button data_log_id="<%= v.log_id %>" class="btn btn-icon waves-effect waves-light btn-danger m-l-5 m-r-5"> <i class="fa fa-remove"></i> </button>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div><!-- end col -->
                         </div>
