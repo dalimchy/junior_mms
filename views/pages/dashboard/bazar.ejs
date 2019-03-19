@@ -273,14 +273,35 @@
                     url: '/bazar/addBazar',
                     data: data,
                     success: function(res) {
+                        console.log(res.data);
                         holdClick = 1;
                         var alertMsg = "Bazar Added Successfully.";
+                        $('#bazarDetails2').val('');
                         $('#totalAmount').val(0);
                         $('#addBazarAlertMsg').slideDown().find('span').text(alertMsg);
                         var list = '<li class="list-group-item data" data-value="'+data.amount+'">';
                             list += '<span class="badge badge-primary">'+data.amount+' Tk.</span>'+data_user_name+'';
                             list += '</li>';
+                        var i = $('#dateByBazar_table tr').length + 1;
+                        var creator;
+                        $.each(allMemberlist, function(k,v){
+                            if(v.user_id == res.data.creator_id){
+                                creator = v.user_name;
+                            }
+                        });
+                        var tableData = '<tr data_amount="'+data.amount+'" data_details="'+ data.bazar_details +'">';
+                            tableData +=    '<td>'+ i +'</td>';
+                            tableData +=    '<td>'+data_user_name+'</td>';
+                            tableData +=    '<td>'+creator+'</td>';
+                            tableData +=    '<td>'+ data.bazar_details +'</td>';
+                            tableData +=    '<td>'+data.amount+'</td>';
+                            tableData +=    '<td>';
+                            tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light" onclick="editBazar(this)" href="#updateBazar" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>  ';
+                            tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="'+res.data.assign_user_id+'" data_amount="'+data.amount+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
+                            tableData +=    '</td>';
+                            tableData += '</tr>';
                         $('#todayBazarList').prepend(list);
+                        $('#dateByBazar_table').append(tableData);
 
                         let count = $('#todayBazarList').find('.data');
                         var totalBazarAmount = 0
@@ -289,7 +310,6 @@
                             $('#todayBazarTotal span').text(totalBazarAmount+' Tk.');
                         });
                         setTimeout(function(){ $('#addBazarAlertMsg').slideUp(); }, 2000);
-                        // location.replace('/bazar');
                     },
                     error: function() {
                         console.log('failed');

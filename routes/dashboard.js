@@ -472,7 +472,7 @@ router.post('/bazar/addBazar', function(req, res) {
         addBazar(data,(response)=>{
           if(response.msg == 'success'){
               // req.session.msg = 'Bazar Save Successfully.'
-              res.send({msg:'success'});
+              res.send(response);
           }else{
             res.send({msg:'failed'});
           }
