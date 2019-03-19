@@ -12,16 +12,16 @@ var monthYear = '<%= month%> <%= year %>';
                 <div class="content">
                     <div class="container">
                         <div class="col-md-12">                            
-                            <div class="panel panel-info panel-border">
-                                <div class="panel-heading"></div>
-                                <div class="panel-body">
-                                <select class="select2 panel-title col-md-6" id="changeMonthSelect">
-                                    <option selected>Select Month</option>
-                                </select>
-                                <h4 class="panel-title text-center col-md-6" id="">
-                                    <script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script>
-                                </h4>
+                            <div class="panel panel-custom panel-border">
+                                <div class="panel-heading">                                
+                                    <select class="select2 panel-title col-md-6" id="changeMonthSelect">
+                                        <option selected>Select Month</option>
+                                    </select>
+                                    <h4 class="panel-title text-center col-md-6 m-t-6" id="">
+                                        <script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script>
+                                    </h4>
                                 </div>
+                                <div class="panel-body"></div>
                             </div>
                         </div>
 
