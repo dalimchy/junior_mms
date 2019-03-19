@@ -13,8 +13,7 @@ const MonthlyReport = require('../models/Monthly_report');
 
 var {
 	updateAccount,
-	deleteAmount,
-	// updateAmountByBazar
+	deleteAmount
 } = require('./../utils/users');
 
 var salt = bcrypt.genSaltSync(10);
