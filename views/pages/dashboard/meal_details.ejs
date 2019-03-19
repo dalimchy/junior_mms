@@ -85,43 +85,46 @@ var monthYear = '<%= month%> <%= year %>';
 
                         <div class="col-sm-12">
                             <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="panel <% if(monthly_report.status == 1){%> panel-danger <%}else{%> panel-success <%}%> panel-border table-responsive">
+                                <div class="col-sm-12">
+                                    <div class="panel <% if(monthly_report.status == 1){%> panel-danger <%}else{%> panel-success <%}%> panel-border table-responsive">
                                         <div class="panel-heading">
                                         <h3 class="panel-title text-center">Meal list </h3>
                                         </div>
                                         <div class="panel-body">                                            
-                                            <table id="datatable-buttons" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Day</th>
-                                                        <%  _.each(member_list,function(v,k){ %> 
-                                                            <th><%= v.user_name %>  </th>
-                                                        <%})%>
-                                                        <th>Sub Total</th>
-                                                    </tr>
-                                                </thead>
-        
-                                                <tbody>
-                                                    <% var sub_total = 0 ; %>
-                                                    <% for(var i=1; i<= totaldays; i++) {%>
-                                                    <tr>
-                                                        <td><button type="button" class="btn btn-info waves-effect w-md waves-light m-b-5"><%= i %></button></td>
-                                                        <% sub_total = 0;  _.each(member_list,function(v,k){ %> 
-                                                            <% var total= 0; %>
-                                                            
-                                                            <% if(meal_list.length != 0){var f = 0; _.each(meal_list, function(va,ka){ if(va.assign_user_id == v.user_id && va.day == i ){var total =va.lunch + va.dinner + va.breakfast + va.guest; sub_total = sub_total + total; f++; %>
-                                                                <td><button type="button" class="btn btn-success waves-effect w-md waves-light m-b-5"><%= total %></button> </td>
-                                                            <% }else if(ka == meal_list.length - 1  && f == 0 ){ %> <td><button type="button" class="btn btn-warning waves-effect w-md waves-light m-b-5">0</button></td> <% }}) %>
-                                                        <%}else{ %><td><button type="button" class="btn btn-warning waves-effect w-md waves-light m-b-5">0</button></td>  <%}})%>
-                                                        <td><button type="button" class="btn btn-purple waves-effect w-md waves-light m-b-5"><%= sub_total%></button></td>
-                                                    </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
+                                            <div class="table-rep-plugin">
+                                                <div class="table-responsive" data-pattern="priority-columns">
+                                                    <table id="tech-companies-1" class="table  table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Day</th>
+                                                                <%  _.each(member_list,function(v,k){ %> 
+                                                                    <th><%= v.user_name %>  </th>
+                                                                <%})%>
+                                                                <th>Sub Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% var sub_total = 0 ; %>
+                                                            <% for(var i=1; i<= totaldays; i++) {%>
+                                                            <tr>
+                                                                <td><button type="button" class="btn btn-info waves-effect w-md waves-light m-b-5"><%= i %></button></td>
+                                                                <% sub_total = 0;  _.each(member_list,function(v,k){ %> 
+                                                                    <% var total= 0; %>
+                                                                    
+                                                                    <% if(meal_list.length != 0){var f = 0; _.each(meal_list, function(va,ka){ if(va.assign_user_id == v.user_id && va.day == i ){var total =va.lunch + va.dinner + va.breakfast + va.guest; sub_total = sub_total + total; f++; %>
+                                                                        <td><button type="button" class="btn btn-success waves-effect w-md waves-light m-b-5"><%= total %></button> </td>
+                                                                    <% }else if(ka == meal_list.length - 1  && f == 0 ){ %> <td><button type="button" class="btn btn-warning waves-effect w-md waves-light m-b-5">0</button></td> <% }}) %>
+                                                                <%}else{ %><td><button type="button" class="btn btn-warning waves-effect w-md waves-light m-b-5">0</button></td>  <%}})%>
+                                                                <td><button type="button" class="btn btn-purple waves-effect w-md waves-light m-b-5"><%= sub_total%></button></td>
+                                                            </tr>
+                                                            <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </div>
-                                        </div>
-                                    </div><!-- end col -->
+                                    </div>
+                                </div><!-- end col -->
                             </div>
                         </div><!-- end col -->
                             
