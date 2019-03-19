@@ -10,7 +10,7 @@ var ip = require('ip');
 //     secret : "asdfy98wyrwaejfspdrqyrq234kjhrasudf"
 // }
 module.exports = {
-    mongoURI:'mongodb:dalimchy:123456789@mongodb-1134-0.cloudclusters.net/mmsMongoDB?authSource=admin',
+    mongoURI:'mongodb://dalimchy:123456789@mongodb-1134-0.cloudclusters.net/mmsMongoDB?authSource=admin',
     //mongoURI:'mongodb://172.16.0.54/blog24',
     secret : "asdfy98wyrwaejfspdrqyrq234kjhrasudf"
 }
