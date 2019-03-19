@@ -11,7 +11,11 @@ const FixedCost = require('../models/Fixed_cost');
 const ActivityLog = require('../models/Activity_log');
 const MonthlyReport = require('../models/Monthly_report');
 
-var {updateAccount} = require('./../utils/users');
+var {
+	updateAccount,
+	deleteAmount,
+	// updateAmountByBazar
+} = require('./../utils/users');
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -117,8 +121,66 @@ var addBazar = (data,callback)=>{
 			.catch(err => console.log(err));
 		}
 	})
-	
 }
+
+var datebyBazar = (data,callback)=>{
+	Bazar.find(data, function (err,result) {
+		if (err) {
+			console.log(err);
+		} else {
+			callback({msg: 'success',data: result});
+		}
+	});
+}
+
+// var updateBazar = (data, callback)=>{
+// 	Bazar.findOneAndUpdate({bazar_id:data.bazar_id},{bazar_details:data.details,total_amount:data.amount}, function (err, result) {
+// 		if (err) {
+// 			console.log(err);
+// 		} else {
+// 			callback({msg: 'success'});
+// 		}
+// 	});
+// }
+
+var updateBazar = (data, callback)=>{
+	Bazar.findOne({bazar_id:data.bazar_id}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			var b = result.total_amount;
+			var c = data.amount;
+			var d = c - b;
+			data['total_amount'] = d
+			updateAccount(data, function (res) {
+				if (res.msg == 'success') {
+					Bazar.updateOne({bazar_id:data.bazar_id},{bazar_details:data.details,total_amount:data.amount}, function (err, result) {
+						if (err) {
+							console.log(err);
+						} else {
+							callback({msg: 'success'});
+						}
+					});
+				}
+			});
+		}
+	});
+}
+
+var deleteBazar = (data, callback)=>{
+	Bazar.deleteOne({bazar_id:data.id}, function (err, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			deleteAmount(data, function (res) {
+				if (res.msg == 'success') {
+					callback({msg: 'success'})
+				}
+			})
+		}
+	});
+}
+
 var findTodayMeal = (data,callback)=>{
 	Meal.find(data,function(err,result){
 		if(err){
@@ -162,36 +224,6 @@ var getbydate = (data,callback)=>{
 			console.log(err);
 		} else {
 			callback({msg: 'success',data: result});
-		}
-	});
-}
-
-var datebyBazar = (data,callback)=>{
-	Bazar.find(data, function (err,result) {
-		if (err) {
-			console.log(err);
-		} else {
-			callback({msg: 'success',data: result});
-		}
-	});
-}
-
-var undateBazar = (data, callback)=>{
-	Bazar.findOneAndUpdate({bazar_id:data.id},{bazar_details:data.details,total_amount:data.amount}, function (err, result) {
-		if (err) {
-			console.log(err);
-		} else {
-			callback({msg: 'success'});
-		}
-	});
-}
-
-var deleteBazar = (data, callback)=>{
-	Bazar.deleteOne({bazar_id:data.id}, function (err, result) {
-		if (err) {
-			console.log(err);
-		} else {
-			callback({msg: 'success'})
 		}
 	});
 }
@@ -342,5 +374,5 @@ module.exports = {
 	monthlyReportClose,
 	findMonthlyReportOne,
 	deleteBazar,
-	undateBazar
+	updateBazar
 };

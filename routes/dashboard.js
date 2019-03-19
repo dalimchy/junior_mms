@@ -45,7 +45,7 @@ var {findMonthlyReport,addMeal,
     addPaymentLog,
     findMonthlyReport,
     deleteBazar,
-    undateBazar
+    updateBazar
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -529,9 +529,9 @@ router.get('/bazar', function(req, res) {
   }
 });
 
-router.post('/undateBazar', function(req, res){
+router.post('/updateBazar', function(req, res){
   if (req.session.login) {
-    undateBazar(req.body, (response)=>{
+    updateBazar(req.body, (response)=>{
       if (response.msg == 'success') {
         res.send(response);
       }
@@ -544,7 +544,9 @@ router.post('/undateBazar', function(req, res){
 router.post('/deleteBazar', function (req, res) {
   if (req.session.login) {
     deleteBazar(req.body, (response)=>{
-      res.send(response);
+      if (response.msg == 'success') {
+        res.send(response);
+      }
     });
   } else {
     res.redirect('/login');
