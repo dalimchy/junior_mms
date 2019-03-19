@@ -30,52 +30,54 @@
                                                 </div>
                                             <%   } %>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">House Rent</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">House Rent</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="house_rent" placeholder="House Bill"  value="<%= fixed_cost.house_rent %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Electricity Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Electricity Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="electricity_bill" placeholder="Electricity Bill"  value="<%= fixed_cost.electricity_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Gas Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Gas Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="gas_bill" placeholder="Gas Bill"  value="<%= fixed_cost.gas_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Water Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Water Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="water_bill" placeholder="Water Bill"  value="<%= fixed_cost.water_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Garbage Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Garbage Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="garbage_bill" placeholder="Garbage Bill"  value="<%= fixed_cost.garbage_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Internet Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Internet Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="internet_bill" placeholder="Internet Bill"  value="<%= fixed_cost.internet_bill %>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-5 control-label">Chef Bill</label>
-                                                <div class="col-md-7">
+                                                <label class="col-md-4 control-label">Chef Bill</label>
+                                                <div class="col-md-8">
                                                     <input type="number" class="form-control"  name="chef_bill" placeholder="Chef Bill" value="<%= fixed_cost.chef_bill %>">
                                                 </div>
                                             </div>
-                                            <% if(userData.user_role == 'Manager'){ %>
-                                                <div class="col-md-12 text-center">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light w-xs m-b-5 col-md-12">Update Fixed Cost</button>
-                                                </div>
-                                            <% } %>
+                                            <div class="form-group">
+                                                <% if(userData.user_role == 'Manager'){ %>
+                                                    <div class="col-md-8 col-md-offset-4 text-center">
+                                                        <button type="submit" class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5">Update Fixed Cost</button>
+                                                    </div>
+                                                <% } %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
