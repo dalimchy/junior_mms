@@ -125,7 +125,8 @@ var newMember = (data,callback)=>{
         user_img : data.user_img,
         user_role : 2,
         user_password : hash,
-        email_validation:true
+        email_validation:true,
+        rich_it_approval:true
         
     }
     var newUser = new User(userdata);
