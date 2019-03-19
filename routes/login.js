@@ -89,7 +89,7 @@ router.post('/forgotPassword',function(req,res){
                 from: 'RichITBD@gmail.com', // sender address
                 to:userDoc.data.user_email, // list of receivers
                 subject: 'Rich IT MMS Email Verification', // Subject line
-                html: '<p>Verification Code: '+randomNumber+'</p>'// plain text body
+                html: '<p>Verification Code: <h2>'+randomNumber+'</h2></p>'// plain text body
               };
               transporter.sendMail(mailOptions, function (err, info) {
                 if(err){

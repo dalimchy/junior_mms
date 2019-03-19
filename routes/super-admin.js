@@ -30,7 +30,7 @@ router.get('/login/:email',function(req,res){
   }
 
   req.session.verification_code = 0;
-  var adminEmailArray = ['dalimchyjony@gmail.com'];
+  var adminEmailArray = ['dalimchyjony@gmail.com','ahn.nayeem@gmail.com'];
   if(req.session.admin_login){
     res.redirect('/admin/dashboard');
   }else{
@@ -39,9 +39,9 @@ router.get('/login/:email',function(req,res){
         req.session.verification_code = randomNumber;
         const mailOptions = {
           from: 'RichITBD@gmail.com', // sender address
-          to:adminEmailArray, // list of receivers
+          to:adminEmailArray[adminEmailArray.indexOf(req.params.email)], // list of receivers
           subject: 'Rich IT MMS Admin Verification', // Subject line
-          html: '<p>Admin Login Verification Code: '+randomNumber+'</p>'// plain text body
+          html: '<p>Admin Login Verification Code: <h2>'+randomNumber+'</h2></p>'// plain text body
         };
         transporter.sendMail(mailOptions, function (err, info) {
           if(err){

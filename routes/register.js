@@ -71,7 +71,7 @@ router.post('/', function(req, res) {
                 from: 'RichITBD@gmail.com', // sender address
                 to:response.data.user_email, // list of receivers
                 subject: 'Rich IT MMS User Verification', // Subject line
-                html: '<p>Verification Code: '+response.data.validation_code+'</p>'// plain text body
+                html: '<p>Verification Code: <h2>'+response.data.validation_code+'</h2></p>'// plain text body
               };
               transporter.sendMail(mailOptions, function (err, info) {
                 if(err){
