@@ -29,6 +29,7 @@ var login = require('./routes/login');
 var register = require('./routes/register');
 var email_verification = require('./routes/email-verification');
 var logout = require('./routes/logout');
+var superAdmin = require('./routes/super-admin');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/login', login);
 app.use('/register', register);
 app.use('/email-verification', email_verification);
 app.use('/logout', logout);
+app.use('/admin', superAdmin);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
