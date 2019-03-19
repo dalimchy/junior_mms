@@ -54,16 +54,18 @@ router.get('/:user_id/:verification_code', function(req, res, next) {
       if(docs.msg == 'success'){
        if(docs.data.validation_code == req.params.verification_code){
          updateEmailVerification({user_id:req.params.user_id,validation_code: req.params.verification_code},function(response){
-            req.session.success = true;
-            req.session.login = true;
-            req.session.user_id = docs.data.user_id;
-            req.session.user_name = docs.data.user_name;
-            req.session.user_email = docs.data.user_email;
-            req.session.user_img = docs.data.user_img;
-            req.session.user_role = 1;
-            req.session.mess_id = docs.data.mess_id;
-            req.session.mess_name = docs.data.mess_name;
+            // req.session.success = true;
+            // req.session.login = true;
+            // req.session.user_id = docs.data.user_id;
+            // req.session.user_name = docs.data.user_name;
+            // req.session.user_email = docs.data.user_email;
+            // req.session.user_img = docs.data.user_img;
+            // req.session.user_role = 1;
+            // req.session.mess_id = docs.data.mess_id;
+            // req.session.mess_name = docs.data.mess_name;
+            req.session.msg = 'Your account is not active. Please contact with Rich IT Support.';
             res.send({msg:'success'});
+            // res.redirect('/login');
          });
        }else{
          res.send({msg:'Your verification your code doesn\'t match'})

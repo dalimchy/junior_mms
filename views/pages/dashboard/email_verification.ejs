@@ -153,7 +153,7 @@
                             url: '/email-verification/'+id+'/'+code+'',
                             success: function(res){
                                 if(res.msg == 'success'){
-                                    window.location.replace('/');
+                                    window.location.replace('/login');
                                 }else{
                                    $('#ses_msg').html('')
                                    $('#ses_msg').html('<strong>Heads up! </strong>  '+res.msg+'');
