@@ -33,7 +33,8 @@ var newManager =(data,callback)=>{
                         user_img : data.user_img,
                         user_role : 1,
                         validation_code : data.validation_code,
-                        user_password : hash
+                        user_password : hash,
+                        rich_it_approval:true
                     }
                     var newUser = new User(userdata);
                     User.findOne({user_email:userdata.user_email}, function (err, result) {

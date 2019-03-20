@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# config directories
+config/
+
+#user images directories
+public/admin_assets/images/users/

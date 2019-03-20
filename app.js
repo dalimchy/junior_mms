@@ -5,7 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-var session = require('express-session');
+const secret = require('./config/keys').secret;
+var session = require('express-session')({
+    secret: secret,
+    resave: true,
+    saveUninitialized: true
+  });
+
+var socketIO = require('socket.io');
+var sharedsession = require("express-socket.io-session");
+
 var _ = require('lodash');
 var fs = require('file-system');
 var ejs = require('ejs');
@@ -13,7 +22,7 @@ var ejs = require('ejs');
 
 //DB config
 const db = require('./config/keys').mongoURI;
-const secret = require('./config/keys').secret;
+
 //Mongo DB connection
 mongoose.connect(db, {
     useNewUrlParser: true
@@ -37,11 +46,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(session({
-    secret: secret,
-    resave: false,
-    saveUninitialized: true
-  }));
+app.use(session);
 
 app.use(favicon());
 app.use(logger('dev'));

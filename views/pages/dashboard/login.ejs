@@ -41,11 +41,15 @@
                 <h5 class="text-muted m-t-0 font-600">2019 © Rich IT.</h5>
             </div>
         	<div class="m-t-40 card-box" id="signInDiv" style="display: block">
-                <% if(ses_msg !== null){ %>
+                <% if(ses_msg !== null){ if(ses_msg == 'Your email is now verified. Please login... Thank You'){ %> 
+                    <div class="alert alert-success">
+                       <strong>Success!</strong> <%= ses_msg %>
+                    </div>
+                <%}else{%>
                     <div class="alert alert-warning">
                        <strong>Warning!</strong> <%= ses_msg %>
                     </div>
-                <%   } %>
+                <%   } }%>
                 <div class="text-center">
                     <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
                 </div>

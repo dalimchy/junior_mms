@@ -63,7 +63,8 @@ router.get('/:user_id/:verification_code', function(req, res, next) {
             // req.session.user_role = 1;
             // req.session.mess_id = docs.data.mess_id;
             // req.session.mess_name = docs.data.mess_name;
-            req.session.msg = 'Your account is not active. Please contact with Rich IT Support.';
+            req.session.msg = 'Your email is now verified. Please login... Thank You';
+            // req.session.msg = 'Your account is not active. Please contact with Rich IT Support.';
             res.send({msg:'success'});
             // res.redirect('/login');
          });
