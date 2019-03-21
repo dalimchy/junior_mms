@@ -45,7 +45,8 @@ var {findMonthlyReport,addMeal,
     addPaymentLog,
     findMonthlyReport,
     deleteBazar,
-    updateBazar
+    updateBazar,
+    deletePayment
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -500,6 +501,7 @@ router.get('/bazar', function(req, res) {
               monthly_report : monthlyReport.data,
               bazar_list : response2.data,
               footer_name:footerTitle,
+              moment : moment,
               _ : _,
               mess_name:req.session.mess_name,
               userData : {
@@ -827,6 +829,19 @@ router.post('/payment', function(req, res) {
     res.redirect('/login');
   }
 });
+
+router.post('/deletePayment', function (req, res) {
+  if (req.session.login) {
+    deletePayment(req.body, (response)=>{
+      if (response.msg == 'success') {
+        res.send(response);
+      }
+    });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 router.get('/monthly-calculation', function(req, res) {
   if(req.session.msg == undefined){
       req.session.msg = null;
