@@ -172,7 +172,14 @@
             $('.side-bar.right-bar').css('right','-266px')
         }
     }
-    
+    function hideMsgContainer(){
+      $('#msgContainer').hide();
+      $('#convAllUserList').show();
+    }
+    function startConversation(){
+      $('#convAllUserList').hide();
+      $('#msgContainer').show();
+    }
         $(window).load(function() {
         	// Animate loader off screen
         	$("#pageLoader").fadeOut("slow");;

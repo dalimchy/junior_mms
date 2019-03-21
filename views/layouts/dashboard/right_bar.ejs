@@ -4,10 +4,10 @@
                 <a href="javascript:void(0);"  onclick="toggleMsgBar('close')" class="right-bar-toggle">
                     <i class="zmdi zmdi-close-circle-o"></i>
                 </a>
-                <h4 class="">Conversations</h4>
+                <h4 class=""> <i class="fa fa-comments"></i>  Conversations</h4>
                 <div class="notification-list nicescroll">
-                    <ul class="list-group list-no-border user-list">
-                        <li class="list-group-item">
+                    <ul class="list-group list-no-border user-list" id="convAllUserList" style="display: block">
+                        <li class="list-group-item" onclick="startConversation()">
                             <a href="#" class="user-list-item">
                                 <div class="avatar" style="width:30px;height:30px;">
                                     <img style="width:100%;height:100%;" src="/admin_assets/images/users/chuttersnap-185060-unsplash@1552901639588.jpg" alt="">
@@ -19,7 +19,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="list-group-item">
+                        <li class="list-group-item" onclick="startConversation()">
                             <a href="#" class="user-list-item">
                                 <div class="avatar" style="width:30px;height:30px;">
                                     <img style="width:100%;height:100%;" src="/admin_assets/images/users/chuttersnap-185060-unsplash@1552901639588.jpg" alt="">
@@ -32,6 +32,136 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="col-md-12" id="msgContainer" style="display: none">
+                        <div class="col-md-12 m-b-10" id="msgBodyLabel" style="border-bottom: 1px solid #d8d8d8; padding-bottom: 10px;">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="media-heading" style="line-height: 16px;margin: 0px;">Mat Helme</h3>
+                                    <p class="font-13 text-muted m-b-0">Online
+                                    </p>
+                                </div>
+                                 <div class="media-right" >
+                                    <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="hideMsgContainer()"> <i class="fa fa-remove" ></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="msgBodyContainer" style="overflow: auto;height: calc(100vh - 168px);">
+
+                            <div class="media m-b-10">
+                                <div class="media-left" >
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla. 
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-right" style="float: right">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla.
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-left" >
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla. 
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-right" style="float: right">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla.
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-left" >
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla. 
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-right" style="float: right">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla.
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-left" >
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla. 
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                            <div class="media m-b-10">
+                                <div class="media-right" style="float: right">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    
+                                    <p class="font-13 text-muted m-b-0" style="background: #7e85dd;padding: 4px;box-sizing: border-box;border-radius: 4px; color:#fff !important">
+                                        
+                                        Cras sit amet nibh libero, in gravida nulla.
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sendMsg" class="col-md-12" style="width: 100%">
+                            <div class="media" style="position: fixed; bottom: 10px">
+                                <div class="media-left">
+                                    <a href="#"> <img class="media-object img-circle thumb-sm" alt="64x64" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1552755793901@1553059907209.jpg"> </a>
+                                </div>
+                                <div class="media-body">
+                                    <input type="text" class="form-control input-sm" placeholder="Some text value...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /Right-bar -->
