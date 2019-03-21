@@ -640,3 +640,15 @@ input.app-search-input::-moz-placeholder {
 input.app-search-input:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
+.user-activity-status.online .zmdi{
+  position: absolute;
+  right: 12px;
+  bottom: 30px;
+  color: #009a9c;
+}
+.user-activity-status.offline .zmdi{
+  position: absolute;
+  right: 12px;
+  bottom: 30px;
+  color: #d8d8d8;
+}
