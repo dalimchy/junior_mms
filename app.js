@@ -12,6 +12,8 @@ var session = require('express-session')({
     saveUninitialized: true
   });
 
+alluserlist = [];
+
 var socketIO = require('socket.io');
 var sharedsession = require("express-socket.io-session");
 
@@ -54,6 +56,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Socket.io
+var io = socketIO();
+app.io = io;
+io.use(sharedsession(session, {
+    autoSave: true
+}));
+io.of('/namespace').use(sharedsession(session, {
+    autoSave: true
+}));
+
+require('./socket/socket.js')(io);
 
 app.use('/', dashboard);
 app.use('/login', login);
