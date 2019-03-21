@@ -153,7 +153,7 @@ var updateBazar = (data, callback)=>{
 			data['total_amount'] = d
 			updateAccount(data, function (res) {
 				if (res.msg == 'success') {
-					Bazar.updateOne({bazar_id:data.bazar_id},{bazar_details:data.details,total_amount:data.amount}, function (err, result) {
+					Bazar.updateOne({bazar_id:data.bazar_id},{bazar_details:data.details,total_amount:data.amount,created_at:data.c_time}, function (err, result) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -175,7 +175,7 @@ var deleteBazar = (data, callback)=>{
 				if (res.msg == 'success') {
 					callback({msg: 'success'})
 				}
-			})
+			});
 		}
 	});
 }
@@ -292,23 +292,37 @@ var updateFixedCost =(data,callback)=>{
 
 var addPaymentLog = (data,callback)=>{
 	var logData = {
-			log_id:uuidv4(),
-			mess_id:data.mess_id,
-			creator_id:data.creator_id,
-			type:'payment',
-			day:data.day,
-			month:data.month,
-			year:data.year,
-			log_data:{
-				payment_info:data.pay_info,
-				payment_user_id:data.payment_user_id,
-				amount:data.amount
-			}
+		log_id:uuidv4(),
+		mess_id:data.mess_id,
+		creator_id:data.creator_id,
+		type:'payment',
+		day:data.day,
+		month:data.month,
+		year:data.year,
+		log_data:{
+			payment_info:data.pay_info,
+			payment_user_id:data.payment_user_id,
+			amount:data.amount
 		}
-		new ActivityLog(logData).save().then(res =>{
-		        callback({msg:'success'});
-		    })
-		    .catch(err => console.log(err));
+	}
+	new ActivityLog(logData).save().then(res =>{
+			callback({msg:'success'});
+	})
+	.catch(err => console.log(err));
+}
+
+var deletePayment = (data, callback)=>{
+	ActivityLog.deleteOne({log_id:data.id,type:data.type}, function (err, result) {
+		if (err) {
+			console.log(err)
+		} else {
+			deleteAmount(data, function (res) {
+				if (res.msg == 'success') {
+					callback({msg: 'success'})
+				}
+			});
+		}
+	});
 }
 
 var findLog = (data,callback)=>{
@@ -320,6 +334,7 @@ var findLog = (data,callback)=>{
 		}
 	})
 }
+
 var findMonthlyReportOne = (data,callback)=>{
 	MonthlyReport.findOne(data).sort({created_at: 'desc'}).exec(function (err, result){
 		if(err){
@@ -373,5 +388,6 @@ module.exports = {
 	monthlyReportClose,
 	findMonthlyReportOne,
 	deleteBazar,
-	updateBazar
+	updateBazar,
+	deletePayment
 };

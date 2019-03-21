@@ -139,6 +139,7 @@
                                                             <th>Creator</th>
                                                             <th>Bazar Details</th>
                                                             <th>Amount</th>
+                                                            <th>Date & Time</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -151,6 +152,7 @@
                                                             <td> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <% } }) %></td>
                                                             <td><%= v.bazar_details%></td>
                                                             <td><%= v.total_amount %> Tk.</td>
+                                                            <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('DD-MM-YYYY hh:mm a') %> </td>
                                                             <td>
                                                             <button class="btn btn--md btn-info waves-effect waves-light" onclick="editBazar(this)" href="#updateBazar" data_member_id="<%= v.assign_user_id %>" data-id="<%= v.bazar_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>
                                                             <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="<%= v.assign_user_id %>" data_amount="<%= v.total_amount %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
@@ -296,6 +298,7 @@
                             tableData +=    '<td>'+creator+'</td>';
                             tableData +=    '<td>'+ data.bazar_details +'</td>';
                             tableData +=    '<td>'+data.amount+'</td>';
+                            tableData +=    '<td>'+ moment().format('DD-MM-YYYY hh:mm a') +'</td>';
                             tableData +=    '<td>';
                             tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light" onclick="editBazar(this)" href="#updateBazar" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>  ';
                             tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="'+res.data.assign_user_id+'" data_amount="'+data.amount+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
@@ -442,6 +445,7 @@
             bazar_id: $('#bazar_id').val(),
             details: $('#bazarDetail').val(),
             amount: $('#bazarAmount').val(),
+            c_time: Date.now,
         }
         $.ajax({
             type: 'POST',
