@@ -53,6 +53,22 @@
         <![endif]-->
 
         <script src="/admin_assets/js/modernizr.min.js"></script>
+        <script>
+            var user_id = <%- JSON.stringify(userData.user_id) %>;
+            var user_name = <%- JSON.stringify(userData.user_name) %>;
+
+            
+            function removeA(arr) {
+                var what, a = arguments, L = a.length, ax;
+                while (L > 1 && arr.length) {
+                    what = a[--L];
+                    while ((ax = arr.indexOf(what)) !== -1) {
+                        arr.splice(ax, 1);
+                    }
+                }
+                return arr;
+            }
+        </script>
 
     </head>
 
