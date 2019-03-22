@@ -3,6 +3,7 @@ var moment = require('moment');
 const nodemailer = require("nodemailer");
 
 var {getMessUsers} = require('./../utils/users')
+var {findConv_and_Messages} = require('./../utils/conversations')
 
 module.exports = function (io) {
   var app = require('express');
@@ -53,7 +54,20 @@ module.exports = function (io) {
           console.log(usr);
         }
       })
-    })
+    });
+
+
+    socket.on('findConv_and_Messages',function(data,callback){
+      findConv_and_Messages(data,function(res){
+        if(res.msg == 'success'){
+          callback(res);
+        }else{
+          console.log(res);
+        }
+      })
+    });
+
+    
   });
   return router;
 }

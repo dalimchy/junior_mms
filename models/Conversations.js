@@ -16,6 +16,10 @@ const conversationSchema = new Schema({
         type:String,
         default:null
     },
+    mess_id:{
+        type:String,
+        required:true
+    },
     created_by:{
         type:String,
         required:true

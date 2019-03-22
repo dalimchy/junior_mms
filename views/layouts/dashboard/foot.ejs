@@ -170,8 +170,11 @@
         socket.emit('getMessUsers',{mess_id:mess_id},function(res){
             $('#convAllUserList').html('');
             $.each(res.data,function(k,v){
-                $('#convAllUserList').append(conv_listDesign(v));
+                if(user_id !== v.user_id)
+                    $('#convAllUserList').append(conv_listDesign(v));
             });
+            $('#msgContainer').hide();
+            $('#convAllUserList').show();
             $('#Conv_list_label').show();
             if(type == 'open'){
                 $('.side-bar.right-bar').css('right','0px');
@@ -183,11 +186,11 @@
     }
 
     function conv_listDesign(data){
-        var html = '<li class="list-group-item" onclick="startConversation()">';
+        var html = '<li class="list-group-item" onclick="startConversation(this)" user-id="'+data.user_id+'" user-name="'+data.user_name+'" user-img="'+data.user_img+'">';
             html +=     '<a href="#" class="user-list-item">';
             html +=         '<div class="avatar" style="width:30px;height:30px;">';
             html +=             '<img style="width:100%;height:100%;" src="/admin_assets/images/users/'+data.user_img+'" alt="">';
-            html +=             '<div class="user-activity-status user-status  '+((onlineUserList.indexOf(data.user_id) > -1 )? 'online':'offline') +'   user_activity_'+data.user_id+'"><i class="zmdi zmdi-dot-circle"></i></div>';
+            html +=             '<div class="user-activity-status user-status  '+((onlineUserList.indexOf(data.user_id) > -1 )? 'online':'offline') +' user_activity_'+data.user_id+'"><i class="zmdi zmdi-dot-circle"></i></div>';
             html +=         '</div>';
             html +=         '<div class="user-desc">';
             html +=             '<span class="name">'+data.user_name+'</span>';
@@ -203,10 +206,35 @@
       $('#convAllUserList').show();
       $('#Conv_list_label').show();
     }
-    function startConversation(){
-      $('#convAllUserList').hide();
-      $('#msgContainer').show();
-      $('#Conv_list_label').hide();
+    function startConversation(ele){
+        var data_user = $(ele).attr('user-id');
+        var data_name = $(ele).attr('user-name');
+        var data_img = $(ele).attr('user-img');
+        if(data_user !== ''){
+            var data = {
+                participants:[user_id,data_user],
+                mess_id :mess_id,
+                conv_type:'personal',
+                created_by:user_id
+            }
+            socket.emit('findConv_and_Messages',data,function(res){
+                if(res.msg == 'success'){
+                    $('#userHeadLabelimg').attr('src','/admin_assets/images/users/'+data_img+'');
+                    $('#userHeadLabelName').text(data_name);
+                    $('#userHeadLabelActivity').attr('class', '');
+                    $('#userHeadLabelActivity').attr('class', 'font-13 text-muted m-b-0 '+((onlineUserList.indexOf(data_user) > -1 )? 'online':'offline') +' user_activity_'+data_user+'');
+                    $('#sendMsgUserImg').attr('src','/admin_assets/images/users/'+data_img+'')
+                    $('#msgBodyContainer').html('');
+                    $('#msgBodyContainer').attr('data-conv-id', res.conversation_id);
+                    $('#msgBox').attr('data-conv-id', res.conversation_id);
+                    $('#convAllUserList').hide();
+                    $('#msgContainer').show();
+                    $('#msgBox').focus();
+                    $('#Conv_list_label').hide();
+                }
+            })
+            
+        }
     }
         $(window).load(function() {
         	// Animate loader off screen

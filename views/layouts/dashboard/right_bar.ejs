@@ -7,7 +7,7 @@
                     </a>
                     <h4 class=""> <i class="fa fa-comments"></i>  Conversations</h4>
                 </div>
-                <div class="notification-list nicescroll col-md-12" >
+                <div class="notification-list col-md-12" >
                     <ul class="list-group list-no-border user-list" id="convAllUserList" style="display: block">
                         
                     </ul>
@@ -21,11 +21,11 @@
                                         </a>
                                 </div>
                                 <div class="media-left">
-                                    <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle" alt="30x30" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1553015206169.jpg"> </a>
+                                    <a href="#"> <img style="width: 30px;height: 30px" id="userHeadLabelimg" class="media-object img-circle" alt="30x30" src=""> </a>
                                 </div>
                                 <div class="media-body">
-                                    <h3 class="media-heading" style="line-height: 16px;margin: 0px;">Mat Helme</h3>
-                                    <p class="font-13 text-muted m-b-0">Online
+                                    <h3 class="media-heading" style="line-height: 16px;margin: 0px;" id="userHeadLabelName"></h3>
+                                    <p class="font-13 text-muted m-b-0" id="userHeadLabelActivity">
                                     </p>
                                 </div>
                                  <div class="media-right" >
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12" id="msgBodyContainer">
+                        <div class="col-md-12" id="msgBodyContainer" data-conv-id="">
 
                             <div class="media m-b-10 left_user">
                                 <div class="media-left" >
@@ -116,10 +116,10 @@
                         <div id="sendMsg" class="col-md-12" style="width: 100%">
                             <div class="media msg_send_area">
                                 <div class="media-left" style="width: 30px;">
-                                    <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle thumb-sm" alt="30x30" src="/admin_assets/images/users/51270175_1976062585844014_6844650695417659392_n@1553015206169.jpg"> </a>
+                                    <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle thumb-sm" alt="30x30" src="" id="sendMsgUserImg"> </a>
                                 </div>
                                 <div class="media-body">
-                                    <div class="msg_text_box" contenteditable="true"></div>
+                                    <div class="msg_text_box" id="msgBox" contenteditable="true"></div>
                                     <div class="msg_send_btn">
                                         <img src="/admin_assets/images/f_send.svg" alt="">
                                     </div>

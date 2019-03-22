@@ -723,3 +723,9 @@ input.app-search-input:-ms-input-placeholder {
   width:100%;
   height:100%
 }
+#userHeadLabelActivity.online:after{
+  content:'Online';
+}
+#userHeadLabelActivity.offline:after{
+  content:'Offline';
+}
