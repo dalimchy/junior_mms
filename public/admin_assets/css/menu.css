@@ -729,3 +729,7 @@ input.app-search-input:-ms-input-placeholder {
 #userHeadLabelActivity.offline:after{
   content:'Offline';
 }
+
+.right_user .media-right{
+  float:right;
+}

@@ -119,8 +119,8 @@
                                     <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle thumb-sm" alt="30x30" src="" id="sendMsgUserImg"> </a>
                                 </div>
                                 <div class="media-body">
-                                    <div class="msg_text_box" id="msgBox" contenteditable="true"></div>
-                                    <div class="msg_send_btn">
+                                    <div class="msg_text_box" id="msgBox" contenteditable="true" onkeydown="msgboxkeydown(event,this)" onkeyup="msgBoxKeyup(event,this)"></div>
+                                    <div class="msg_send_btn" id="msgSendBtn" onclick="sendMsg(this)" >
                                         <img src="/admin_assets/images/f_send.svg" alt="">
                                     </div>
                                 </div>

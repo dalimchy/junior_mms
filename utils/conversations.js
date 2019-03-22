@@ -10,10 +10,11 @@ const Conversation = require('../models/Conversations');
 
 
 var findConv_and_Messages = (data,callback)=>{
-    Conversation.findOne({mess_id:data.mess_id,participants:data.participants,conv_type:data.conv_type},function(err,docs){
+    Conversation.findOne({mess_id:data.mess_id,participants:{ "$in": data.participants },conv_type:data.conv_type},function(err,docs){
         if(err){
             console.log(err);
         }else{
+            console.log(docs);
             if(docs == null){
                 var query = {
                     conversation_id:uuidv4(),
@@ -28,7 +29,7 @@ var findConv_and_Messages = (data,callback)=>{
                 })
                 .catch(err => console.log(err));
             }else{
-                Message.findOne({conversation_id:docs.conversation_id},function(err,allMsg){
+                Message.find({conversation_id:docs.conversation_id},function(err,allMsg){
                     if(err){
                         console.log(err);
                     }else{
@@ -39,7 +40,24 @@ var findConv_and_Messages = (data,callback)=>{
         }
     })
 }
+var sendMessage = (data,callback)=>{
+    var query = {
+        msg_id:uuidv4(),
+        conversation_id:data.conversation_id,
+        msg_body:data.msg_body,
+        mess_id:data.mess_id,
+        sender_id:data.sender_id,
+        created_at: new Date()
+    }
+    var newMsg =  new Message(query);
 
+    newMsg.save().then(res =>{
+        callback({msg:'success',data:query})
+    })
+    .catch(err => console.log(err));
+
+}
 module.exports = {
-    findConv_and_Messages
+    findConv_and_Messages,
+    sendMessage
 };

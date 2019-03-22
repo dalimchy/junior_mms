@@ -24,7 +24,7 @@ const messagesSchema = new Schema({
         type:String,
         required:true
     },
-    created_by:{
+    sender_id:{
         type:String,
         required:true
     },

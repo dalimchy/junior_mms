@@ -206,6 +206,7 @@
       $('#convAllUserList').show();
       $('#Conv_list_label').show();
     }
+    var activeConversation_id = '';
     function startConversation(ele){
         var data_user = $(ele).attr('user-id');
         var data_name = $(ele).attr('user-name');
@@ -225,8 +226,17 @@
                     $('#userHeadLabelActivity').attr('class', 'font-13 text-muted m-b-0 '+((onlineUserList.indexOf(data_user) > -1 )? 'online':'offline') +' user_activity_'+data_user+'');
                     $('#sendMsgUserImg').attr('src','/admin_assets/images/users/'+data_img+'')
                     $('#msgBodyContainer').html('');
-                    $('#msgBodyContainer').attr('data-conv-id', res.conversation_id);
-                    $('#msgBox').attr('data-conv-id', res.conversation_id);
+                    $('#msgBodyContainer').attr('data-conv-id', res.conv_data.conversation_id);
+                    $('#userHeadLabelimg').attr('data-img', data_img)
+                    $('#msgBox').attr('data-conv-id', res.conv_data.conversation_id);
+                    activeConversation_id = res.conv_data.conversation_id;
+                    if(res.messages !== null){
+
+                        $.each(res.messages, function(k,v){
+                            $('#msgBodyContainer').append(drawMsg(v));
+                        });
+                    }
+                    
                     $('#convAllUserList').hide();
                     $('#msgContainer').show();
                     $('#msgBox').focus();
@@ -236,6 +246,65 @@
             
         }
     }
+
+    function sendMsg(ele){
+        var msg_body = $('#msgBox').html();
+        var conv_id =  $('#msgBodyContainer').attr('data-conv-id');
+        $('#msgBox').html("")
+
+        var data = {
+            msg_body:msg_body,
+            conversation_id:activeConversation_id,
+            sender_id:user_id,
+            mess_id:mess_id
+        }
+        socket.emit('sendNewMsg',data,function(res){
+            if(res.msg == 'success')
+                $('#msgBodyContainer').append(drawMsg(res.data));
+
+            console.log(res);
+        });
+    }
+
+    function drawMsg(msg){
+        var html = '';
+            html += '<div class="media m-b-10 '+((msg.sender_id == user_id)? 'right_user':'left_user')+'">';
+            html +=     '<div class=" '+((msg.sender_id == user_id)? 'media-right':'media-left')+'">';
+            html +=         '<a href="#"> <img class="media-object img-circle thumb-sm user_img" alt="30x30" src="/admin_assets/images/users/'+((msg.sender_id == user_id)? user_img:$('#userHeadLabelimg').attr('data-img'))+'"> </a>';
+            html +=     '</div>';
+            html +=     '<div class="media-body">';
+            html +=         '<p class="font-13 text-muted m-b-0 '+((msg.sender_id == user_id)? 'msg_body_right':'msg_body_left')+'">'+msg.msg_body+'</p>';
+            html +=     '</div>';
+            html += '</div>';
+        
+            return html;                    
+                            
+    }
+
+    function msgBoxKeyup(e,ele){
+        var keyCode = 'which' in e ? e.which : e.keyCode;
+        if(e.shiftKey && keyCode == 13){
+            
+        }else if(keyCode == 13){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $('#msgSendBtn').trigger('click');
+
+        }
+    }
+    function msgboxkeydown(e,ele){
+        var keyCode = 'which' in e ? e.which : e.keyCode;
+        if(e.shiftKey && keyCode == 13){
+           
+        }else if(keyCode == 13){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+        }
+    }
+
+
+
         $(window).load(function() {
         	// Animate loader off screen
         	$("#pageLoader").fadeOut("slow");;
