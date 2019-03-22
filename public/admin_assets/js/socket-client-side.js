@@ -65,3 +65,6 @@ socket.on('new_user_notification', function(notification) {
 socket.on('disconnect', function(){
     console.log('Disconnected');
 });
+
+
+

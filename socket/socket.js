@@ -2,6 +2,8 @@ var _ = require('lodash');
 var moment = require('moment');
 const nodemailer = require("nodemailer");
 
+var {getMessUsers} = require('./../utils/users')
+
 module.exports = function (io) {
   var app = require('express');
   var router = app.Router();
@@ -39,6 +41,19 @@ module.exports = function (io) {
           socket.handshake.session.save();
         }
     });
+
+
+
+    // get mess all users data
+    socket.on('getMessUsers',function(data,callback){
+      getMessUsers(data,function(usr){
+        if(usr.msg == 'success'){
+          callback(usr);
+        }else{
+          console.log(usr);
+        }
+      })
+    })
   });
   return router;
 }

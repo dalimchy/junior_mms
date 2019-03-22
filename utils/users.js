@@ -298,6 +298,16 @@ var findAndUpdatePassword = (data,callback)=>{
     });
 }
 
+var getMessUsers = (data,callback)=>{
+    var mess_id = data.mess_id;
+    User.find({mess_id:mess_id},function(err,docs){
+        if(err){
+            console.log(err);
+        }else{
+            callback({msg:'success',data:docs})
+        }
+    })
+}
 module.exports = {
     newManager,
     loginCheck,
@@ -313,5 +323,6 @@ module.exports = {
     updateEmailVerification,
     userFindByEmail,
     userValidationUpdate,
-    findAndUpdatePassword
+    findAndUpdatePassword,
+    getMessUsers
 };

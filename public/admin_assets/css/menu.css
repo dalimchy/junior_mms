@@ -505,7 +505,7 @@ File: Menu
 /* Right sidebar */
 .side-bar.right-bar {
   float: right !important;
-  right: -266px;
+  right: -400px;
   top: 0px;
 }
 .side-bar {
@@ -651,4 +651,75 @@ input.app-search-input:-ms-input-placeholder {
   right: 12px;
   bottom: 30px;
   color: #d8d8d8;
+}
+
+.side-bar{
+  width: 400px;
+}
+
+#msgBodyContainer{
+  overflow: auto;
+  height: calc(100vh - 120px);
+}
+.left_user .user_img{
+  width: 30px;
+  height: 30px
+}
+.left_user .msg_body_left{
+  line-height: 18px;
+  width: calc(100% - 42px);
+  background: #0084ff;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  color:#fff !important
+}
+
+.right_user .user_img{
+  width: 30px;
+  height: 30px;
+}
+
+.right_user .msg_body_right{
+  line-height: 18px;
+  width: calc(100% - 42px);
+  float:right;
+  background: #0084ff;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  border-radius: 15px; 
+  color:#fff !important
+}
+
+.msg_send_area{
+  position: fixed; 
+  bottom: 10px;
+  background:#fff
+}
+
+.msg_text_box{
+  padding: 3.5px 6px;
+  overflow: hidden;
+  overflow-y: auto;
+  float: left;
+  width: 269px;
+  min-height: 30px;
+  max-height:106px;
+  border: 1px solid #0084ff;
+  border-radius: 5px
+}
+
+.msg_send_btn{
+  height:30px;
+  width:30px;
+  float: left;
+  margin-left: 10px;
+  cursor: pointer;
+  position: absolute;
+  right: 31px;
+  bottom: 0px;
+}
+.msg_send_btn img{
+  width:100%;
+  height:100%
 }
