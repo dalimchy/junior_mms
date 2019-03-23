@@ -194,7 +194,7 @@
             html +=         '</div>';
             html +=         '<div class="user-desc">';
             html +=             '<span class="name">'+data.user_name+'</span>';
-            html +=             '<span class="desc">User bio</span>';
+            html +=             '<span class="desc">'+((data.user_role == 1)? 'Manageer':'Member')+'</span>';
             html +=         '</div>';
             html +=     '</a>';
             html +='</li>';
@@ -275,7 +275,7 @@
 
     function drawMsg(msg){
         var html = '';
-            html += '<div class="media m-b-10 '+((msg.sender_id == user_id)? 'right_user':'left_user')+'">';
+            html += '<div class="media m-b-5 m-t-5 '+((msg.sender_id == user_id)? 'right_user':'left_user')+'">';
             html +=     '<div class=" '+((msg.sender_id == user_id)? 'media-right':'media-left')+'">';
             html +=         '<a href="#"> <img class="media-object img-circle thumb-sm user_img" alt="30x30" src="/admin_assets/images/users/'+((msg.sender_id == user_id)? user_img:$('#userHeadLabelimg').attr('data-img'))+'"> </a>';
             html +=     '</div>';

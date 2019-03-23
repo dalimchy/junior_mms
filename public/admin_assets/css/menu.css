@@ -667,7 +667,7 @@ input.app-search-input:-ms-input-placeholder {
 }
 .left_user .msg_body_left{
   line-height: 18px;
-  width: calc(100% - 42px);
+  max-width: calc(100% - 42px);
   background: #0084ff;
   padding: 6px 10px;
   box-sizing: border-box;
@@ -682,7 +682,7 @@ input.app-search-input:-ms-input-placeholder {
 
 .right_user .msg_body_right{
   line-height: 18px;
-  width: calc(100% - 42px);
+  max-width: calc(100% - 42px);
   float:right;
   background: #0084ff;
   padding: 6px 10px;
@@ -691,11 +691,11 @@ input.app-search-input:-ms-input-placeholder {
   color:#fff !important
 }
 
-.msg_send_area{
+/*.msg_send_area{
   position: fixed; 
   bottom: 10px;
   background:#fff
-}
+}*/
 
 .msg_text_box{
   padding: 3.5px 6px;
@@ -713,10 +713,9 @@ input.app-search-input:-ms-input-placeholder {
   height:30px;
   width:30px;
   float: left;
-  margin-left: 10px;
   cursor: pointer;
   position: absolute;
-  right: 31px;
+  right: 22px;
   bottom: 0px;
 }
 .msg_send_btn img{
@@ -732,4 +731,10 @@ input.app-search-input:-ms-input-placeholder {
 
 .right_user .media-right{
   float:right;
+}
+#sendMsg{
+    width: calc(100% - 72%);
+    position: fixed;
+    bottom: 10px;
+    background: #fff;
 }
