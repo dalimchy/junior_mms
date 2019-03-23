@@ -662,17 +662,17 @@ input.app-search-input:-ms-input-placeholder {
   height: calc(100vh - 120px);
 }
 .left_user .user_img{
-  width: 30px;
-  height: 30px
+  width: 26px;
+  height: 26px
 }
 .left_user .msg_body_left{
-  line-height: 14px;
-  max-width: calc(100% - 42px);
-  background: #98a6ad;
-  padding: 6px 10px;
+  line-height: 18px;
+  max-width: calc(100% - 80px);
+  background: #f1f0f0;
+  padding: 4px 10px;
   box-sizing: border-box;
-  border-radius: 20px; 
-  color:#fff !important;
+  border-radius: 4px 16px 16px 16px; 
+  color:#444950 !important;
   float:left;
 }
 
@@ -682,13 +682,13 @@ input.app-search-input:-ms-input-placeholder {
 }
 
 .right_user .msg_body_right{
-  line-height: 14px;
-  max-width: calc(100% - 42px);
+  line-height: 18px;
+  max-width: calc(100% - 80px);
   float:right;
   background: #0084ff;
-  padding: 6px 10px;
+  padding: 4px 10px;
   box-sizing: border-box;
-  border-radius: 20px; 
+  border-radius: 16px 16px 4px 16px;
   color:#fff !important;
   
 }
@@ -697,7 +697,7 @@ input.app-search-input:-ms-input-placeholder {
   /* position: fixed; 
   bottom: 10px; */
   background:#fff;
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .msg_text_box{
@@ -705,7 +705,7 @@ input.app-search-input:-ms-input-placeholder {
   overflow: hidden;
   overflow-y: auto;
   float: left;
-  width: 229px;
+  width: 285px;
   min-height: 30px;
   max-height:106px;
   border: 1px solid #0084ff;
@@ -718,7 +718,7 @@ input.app-search-input:-ms-input-placeholder {
   float: left;
   cursor: pointer;
   position: absolute;
-  right: 22px;
+  right: 8px;
   bottom: 0px;
 }
 .msg_send_btn img{
@@ -745,4 +745,5 @@ input.app-search-input:-ms-input-placeholder {
 .notification-list {
     padding-bottom: 10px;
     height: 100%;
+    background: #ffffff;
 }
