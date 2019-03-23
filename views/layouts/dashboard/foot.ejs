@@ -178,8 +178,10 @@
             $('#Conv_list_label').show();
             if(type == 'open'){
                 $('.side-bar.right-bar').css('right','0px');
+                $('html').css('overflow','hidden');
             }else{
-                $('.side-bar.right-bar').css('right','-400px')
+                $('.side-bar.right-bar').css('right','-400px');
+                $('html').css('overflow','auto');
             }
         })
         
