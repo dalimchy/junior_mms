@@ -68,11 +68,15 @@ module.exports = function (io) {
     });
 
     socket.on('sendNewMsg',function(data,callback){
+      var receiver_id = data.receiver_id
       sendMessage(data,function(res){
         if(res.msg == 'success'){
+          var resdata = res;
+          res['sender_info'] = data;
+          io.to(receiver_id).emit('newMessage', resdata);
           callback(res);
         }else{
-          console.log(res);
+          console.log(res);                                                                                                                                                                                                                                             
         }
       })
     })

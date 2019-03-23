@@ -10,7 +10,7 @@ const Conversation = require('../models/Conversations');
 
 
 var findConv_and_Messages = (data,callback)=>{
-    Conversation.findOne({mess_id:data.mess_id,participants:{ "$in": data.participants },conv_type:data.conv_type},function(err,docs){
+    Conversation.findOne({mess_id:data.mess_id,participants:{ "$all": data.participants },conv_type:data.conv_type},function(err,docs){
         if(err){
             console.log(err);
         }else{

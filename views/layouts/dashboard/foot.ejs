@@ -224,7 +224,8 @@
                     $('#userHeadLabelName').text(data_name);
                     $('#userHeadLabelActivity').attr('class', '');
                     $('#userHeadLabelActivity').attr('class', 'font-13 text-muted m-b-0 '+((onlineUserList.indexOf(data_user) > -1 )? 'online':'offline') +' user_activity_'+data_user+'');
-                    $('#sendMsgUserImg').attr('src','/admin_assets/images/users/'+data_img+'')
+                    $('#sendMsgUserImg').attr('src','/admin_assets/images/users/'+data_img+'');
+                    $('#sendMsgUserImg').attr('user-id',data_user);
                     $('#msgBodyContainer').html('');
                     $('#msgBodyContainer').attr('data-conv-id', res.conv_data.conversation_id);
                     $('#userHeadLabelimg').attr('data-img', data_img)
@@ -241,6 +242,8 @@
                     $('#msgContainer').show();
                     $('#msgBox').focus();
                     $('#Conv_list_label').hide();
+                    var scrollHeight = $('#msgBodyContainer').get(0).scrollHeight;
+                    $('#msgBodyContainer').animate({ scrollTop: scrollHeight });
                 }
             })
             
@@ -256,13 +259,17 @@
             msg_body:msg_body,
             conversation_id:activeConversation_id,
             sender_id:user_id,
-            mess_id:mess_id
+            mess_id:mess_id,
+            receiver_id: $('#sendMsgUserImg').attr('user-id'),
+            sender_img:user_img,
+            sender_name:user_name
         }
         socket.emit('sendNewMsg',data,function(res){
             if(res.msg == 'success')
                 $('#msgBodyContainer').append(drawMsg(res.data));
 
-            console.log(res);
+                var scrollHeight = $('#msgBodyContainer').get(0).scrollHeight;
+                $('#msgBodyContainer').animate({ scrollTop: scrollHeight });
         });
     }
 
@@ -302,6 +309,20 @@
 
         }
     }
+
+    socket.on('newMessage',function(message){
+        if(message.sender_info.receiver_id == user_id){
+            if($('#msgContainer').is(':visible')){
+                if(activeConversation_id == message.sender_info.conversation_id){
+                    if(message.msg == 'success')
+                        $('#msgBodyContainer').append(drawMsg(message.data));
+
+                        var scrollHeight = $('#msgBodyContainer').get(0).scrollHeight;
+                        $('#msgBodyContainer').animate({ scrollTop: scrollHeight });
+                }
+            }
+        }
+    });
 
 
 
