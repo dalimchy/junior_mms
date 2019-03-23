@@ -691,11 +691,12 @@ input.app-search-input:-ms-input-placeholder {
   color:#fff !important
 }
 
-/*.msg_send_area{
-  position: fixed; 
-  bottom: 10px;
-  background:#fff
-}*/
+.msg_send_area{
+  /* position: fixed; 
+  bottom: 10px; */
+  background:#fff;
+  margin-top: 10px;
+}
 
 .msg_text_box{
   padding: 3.5px 6px;
