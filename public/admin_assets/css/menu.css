@@ -666,13 +666,14 @@ input.app-search-input:-ms-input-placeholder {
   height: 30px
 }
 .left_user .msg_body_left{
-  line-height: 18px;
+  line-height: 14px;
   max-width: calc(100% - 42px);
-  background: #0084ff;
+  background: #98a6ad;
   padding: 6px 10px;
   box-sizing: border-box;
-  border-radius: 15px;
-  color:#fff !important
+  border-radius: 20px; 
+  color:#fff !important;
+  float:left;
 }
 
 .right_user .user_img{
@@ -688,7 +689,8 @@ input.app-search-input:-ms-input-placeholder {
   padding: 6px 10px;
   box-sizing: border-box;
   border-radius: 20px; 
-  color:#fff !important
+  color:#fff !important;
+  
 }
 
 .msg_send_area{
@@ -738,4 +740,9 @@ input.app-search-input:-ms-input-placeholder {
     position: sticky;
     bottom: 10px;
     background: #fff;
+}
+
+.notification-list {
+    padding-bottom: 10px;
+    height: 100%;
 }
