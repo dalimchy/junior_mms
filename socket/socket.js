@@ -31,7 +31,7 @@ module.exports = function (io) {
     });
 
     socket.on('disconnect', function () {
-      console.log('disconnect*********************',socket.handshake.session.userdata.text);
+      console.log('disconnect*********************',socket.handshake.session.userdata);
       io.sockets.in('richIT-2019').emit('logout', { userdata: socket.handshake.session.userdata });
       if (socket.handshake.session.userdata) {
           alluserlist = alluserlist.filter(function (el) {
