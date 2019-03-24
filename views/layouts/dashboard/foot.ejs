@@ -336,7 +336,16 @@
         $(window).load(function() {
         	// Animate loader off screen
             $("#pageLoader").fadeOut("slow");
+            socket.emit('getUnreadMsg', {mess_id:mess_id,user_id:user_id},function(res){
+                if(res.msg == 'success'){
+                    $('#allunreadMsgCount').text(res.count);
+                    console.log(res)
+                }
+            })
         });
+
+
+
 
 </script>
 

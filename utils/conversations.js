@@ -56,7 +56,39 @@ var sendMessage = (data,callback)=>{
     .catch(err => console.log(err));
 
 }
+
+var getAllunreadMsg=(data,callback)=>{
+    Conversation.find({mess_id:data.mess_id,participants:{"$in": data.user_id}},function(err,docs){
+        if(err){
+            console.log(err);
+        }else{
+            console.log(docs);
+            var allUnreadMsgCount = 0;
+            var allUnreadMsg = [];
+            var i = 0;
+            _.each(docs,function(v,k){ i++ ;
+                Message.find({conversation_id:v.conversation_id, has_delivered:0, sender_id:{ $ne: data.user_id }},function(err,uMsg){
+                    if(err){
+                        console.log(err);
+                    }else{
+                       allUnreadMsgCount = allUnreadMsgCount + Number(uMsg.length);
+                        _.each(uMsg,function(v,k){
+                            allUnreadMsg.push(v);
+
+                            if(docs.length === i ){
+                                callback({msg:'success',count:allUnreadMsgCount,allUnreadMsg:allUnreadMsg});
+                            }
+                        });
+                    }
+                })
+            });
+            // callback({msg:'success'})
+        }
+    })
+}
+
 module.exports = {
     findConv_and_Messages,
-    sendMessage
+    sendMessage,
+    getAllunreadMsg
 };
