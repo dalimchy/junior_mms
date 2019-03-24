@@ -748,6 +748,7 @@ input.app-search-input:-ms-input-placeholder {
     bottom: 0px;
     border-top: 1px solid #c9d0da;
     padding: 10px 20px 10px;
+    background: #ffffff;
 }
 
 .notification-list {
