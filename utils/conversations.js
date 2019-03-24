@@ -14,7 +14,6 @@ var findConv_and_Messages = (data,callback)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(docs);
             if(docs == null){
                 var query = {
                     conversation_id:uuidv4(),

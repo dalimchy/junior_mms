@@ -540,7 +540,7 @@ File: Menu
   padding: 0px 10px;
 }
 .notification-list {
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
   height: 100%;
 }
 .notification-list .list-group-item {
@@ -697,7 +697,7 @@ input.app-search-input:-ms-input-placeholder {
   /* position: fixed; 
   bottom: 10px; */
   background:#fff;
-  margin-top: 10px !important;
+  /* margin-top: 10px !important; */
 }
 
 .msg_text_box{
@@ -719,7 +719,7 @@ input.app-search-input:-ms-input-placeholder {
   cursor: pointer;
   position: absolute;
   right: 8px;
-  bottom: 0px;
+  bottom: 10px;
 }
 .msg_send_btn img{
   width:100%;
@@ -735,15 +735,24 @@ input.app-search-input:-ms-input-placeholder {
 .right_user .media-right{
   float:right;
 }
+
+#msgBodyLabel{
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 10px;
+  /* box-shadow: 0 2px 1px rgba(0, 0, 0, .1), 0 -1px 0 #dadde1; */
+}
+
 #sendMsg{
     width: calc(100% - 72%);
-    position: sticky;
+    position: static;
     bottom: 10px;
-    background: #fff;
+    /* background: red; */
+    border-top: 1px solid #c9d0da;
+    padding: 10px 20px 10px;
 }
 
 .notification-list {
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     height: 100%;
     background: #ffffff;
 }

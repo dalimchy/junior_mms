@@ -12,30 +12,32 @@
                     <ul class="list-group list-no-border user-list" id="convAllUserList" style="display: block"> </ul>
 
                     <div class="col-md-12" id="msgContainer" style="display: none">
-                        <div class="row">                            
-                            <div class="col-md-12 m-b-10 m-t-10" id="msgBodyLabel" style="border-bottom: 1px solid #d8d8d8; padding-bottom: 10px;">
-                                <div class="media">
-                                    <div class="media-left">
-                                            <a href="javascript:void(0);"  onclick="hideMsgContainer()" style="font-size:20px;">
-                                                <i class="fa fa-arrow-circle-o-left"></i>
-                                            </a>
-                                    </div>
-                                    <div class="media-left">
-                                        <a href="#"> <img style="width: 30px;height: 30px" id="userHeadLabelimg" class="media-object img-circle" alt="30x30" src=""> </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h3 class="media-heading" style="line-height: 16px;margin: 0px;" id="userHeadLabelName"></h3>
-                                        <p class="font-13 text-muted m-b-0" id="userHeadLabelActivity">
-                                        </p>
-                                    </div>
-                                    <div class="media-right" >
-                                            <a href="javascript:void(0);"  onclick="toggleMsgBar('close')" style="font-size:20px; color:#333">
-                                                <i class="zmdi zmdi-close-circle-o"></i>
-                                            </a>
-                                        <!-- <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="hideMsgContainer()"> <i class="fa fa-remove" ></i> </button> -->
+                        <div class="row">
+                            <div class="row">                                
+                                <div class="col-md-12 p-t-10" id="msgBodyLabel">
+                                    <div class="media">
+                                        <div class="media-left">
+                                                <a href="javascript:void(0);"  onclick="hideMsgContainer()" style="font-size:20px;">
+                                                    <i class="fa fa-arrow-circle-o-left"></i>
+                                                </a>
+                                        </div>
+                                        <div class="media-left">
+                                            <a href="#"> <img style="width: 30px;height: 30px" id="userHeadLabelimg" class="media-object img-circle" alt="30x30" src=""> </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h3 class="media-heading" style="line-height: 16px;margin: 0px;" id="userHeadLabelName"></h3>
+                                            <p class="font-13 text-muted m-b-0" id="userHeadLabelActivity">
+                                            </p>
+                                        </div>
+                                        <div class="media-right" >
+                                                <a href="javascript:void(0);"  onclick="toggleMsgBar('close')" style="font-size:20px; color:#333">
+                                                    <i class="zmdi zmdi-close-circle-o"></i>
+                                                </a>
+                                            <!-- <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="hideMsgContainer()"> <i class="fa fa-remove" ></i> </button> -->
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                          
                             <div class="col-md-12 nicescroll" id="msgBodyContainer" data-conv-id="">
 
                                 <div class="media m-b-10 left_user">
@@ -113,15 +115,17 @@
                                 </div>
 
                             </div>
-                            <div id="sendMsg" class="col-md-12" style="width: 100%">
-                                <div class="media msg_send_area">
-                                    <div class="media-left" style="width: 30px;">
-                                        <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle thumb-sm" alt="30x30" src="" id="sendMsgUserImg" user-id=""> </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="msg_text_box" id="msgBox" contenteditable="true" onkeydown="msgboxkeydown(event,this)" onkeyup="msgBoxKeyup(event,this)"></div>
-                                        <div class="msg_send_btn" id="msgSendBtn" onclick="sendMsg(this)" >
-                                            <img src="/admin_assets/images/f_send.svg" alt="">
+                            <div class="row">                                
+                                <div id="sendMsg" class="col-md-12" style="width: 100%">
+                                    <div class="media msg_send_area">
+                                        <div class="media-left" style="width: 30px;">
+                                            <a href="#"> <img style="width: 30px;height: 30px" class="media-object img-circle thumb-sm" alt="30x30" src="" id="sendMsgUserImg" user-id=""> </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="msg_text_box" id="msgBox" contenteditable="true" onkeydown="msgboxkeydown(event,this)" onkeyup="msgBoxKeyup(event,this)"></div>
+                                            <div class="msg_send_btn" id="msgSendBtn" onclick="sendMsg(this)" >
+                                                <img src="/admin_assets/images/f_send.svg" alt="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

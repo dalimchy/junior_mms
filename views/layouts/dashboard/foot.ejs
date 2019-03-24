@@ -189,7 +189,7 @@
 
     function conv_listDesign(data){
         var html = '<li class="list-group-item" onclick="startConversation(this)" user-id="'+data.user_id+'" user-name="'+data.user_name+'" user-img="'+data.user_img+'">';
-            html +=     '<a href="#" class="user-list-item">';
+            html +=     '<a href="javascript:void(0);" class="user-list-item">';
             html +=         '<div class="avatar" style="width:30px;height:30px;">';
             html +=             '<img style="width:100%;height:100%;" src="/admin_assets/images/users/'+data.user_img+'" alt="">';
             html +=             '<div class="user-activity-status user-status  '+((onlineUserList.indexOf(data.user_id) > -1 )? 'online':'offline') +' user_activity_'+data.user_id+'"><i class="zmdi zmdi-dot-circle"></i></div>';
