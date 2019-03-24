@@ -3,7 +3,7 @@ var moment = require('moment');
 const nodemailer = require("nodemailer");
 
 var {getMessUsers} = require('./../utils/users')
-var {findConv_and_Messages,sendMessage} = require('./../utils/conversations')
+var {findConv_and_Messages,sendMessage,getAllunreadMsg} = require('./../utils/conversations')
 
 module.exports = function (io) {
   var app = require('express');
@@ -77,6 +77,16 @@ module.exports = function (io) {
           callback(res);
         }else{
           console.log(res);                                                                                                                                                                                                                                             
+        }
+      })
+    });
+
+    socket.on('getUnreadMsg',function(data,callback){
+      getAllunreadMsg(data,function(res){
+        if(res.msg == 'success'){
+          callback(res);
+        }else{
+          console.log(res);
         }
       })
     })
