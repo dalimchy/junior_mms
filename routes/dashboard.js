@@ -28,7 +28,8 @@ var {newMember,
     addPayment,
     updateMemberAccount,
     findMonthRe,
-    updateUser
+    updateUser,
+    updateProPic
   } = require('./../utils/users');
 var {findAllMember,findAllActiveMembers,deactiveUser,activeUser,monthlyReportClose,findMonthlyReportOne} = require('./../utils/mess');
 var {findMonthlyReport,addMeal,
@@ -227,9 +228,9 @@ router.get('/profile',function (req, res) {
     findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
 
       findAllMember({mess_id:req.session.mess_id},(response)=>{
+        console.log(req.session)
         var data = {
           title: 'Profile',
-          user_data : response.data,
           user_data : response.data,
           monthly_report : monthlyReport.data,
           user_phone:_Obj(response.data,'user_id',req.session.user_id).user_phone,
@@ -258,12 +259,38 @@ router.post('/updateUser', function(req, res){
   if(req.session.login){
     updateUser(req.body, (response)=>{
       if(response.msg == 'success'){
+        req.session.user_name = response.data.name;
         res.send(response);
       }else{
         res.send(response);
       }
     });
   }else{
+    res.redirect('/login');
+  }
+});
+
+
+router.post('/profile/updateProPic', function (req, res) {
+  if (req.session.login) {
+    console.log(req.body)
+    upload(req, res, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        var data = {
+          user_id: req.session.user_id,
+          user_img: res.req.file.filename,
+        }
+        updateProPic(data, (response)=>{
+          if (response.msg == 'success') {
+            req.session.user_img = response.data.user_img;
+            res.send(response);
+          }
+        });
+      }
+    });
+  } else {
     res.redirect('/login');
   }
 });

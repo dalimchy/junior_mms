@@ -207,7 +207,7 @@ var updateUser = (data, callback)=>{
                         if(err){
                             console.log(err);
                         }else{
-                            callback({msg:'success',data:docs});
+                            callback({msg:'success',data:data});
                         }
                     })
                 }else{
@@ -221,7 +221,7 @@ var updateUser = (data, callback)=>{
                                     if(err){
                                         console.log(err);
                                     }else{
-                                        callback({msg:'success',data:docs});
+                                        callback({msg:'success',data:data});
                                     }
                                 })
                             }else{
@@ -231,6 +231,16 @@ var updateUser = (data, callback)=>{
                     });
                 }
             }
+        }
+    });
+}
+
+var updateProPic = (data, callback)=>{
+    User.findOneAndUpdate({user_id: data.user_id},{user_img:data.user_img}, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            callback({msg:'success',data:data});
         }
     });
 }
@@ -319,6 +329,7 @@ module.exports = {
     updateMemberAccount,
     findMonthRe,
     updateUser,
+    updateProPic,
     findUserOne,
     updateEmailVerification,
     userFindByEmail,

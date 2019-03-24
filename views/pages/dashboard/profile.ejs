@@ -115,9 +115,14 @@
                 </button>
                 <h4 class="custom-modal-title">Edit Profile</h4>
                 <div class="bg-picture card-box">
-                    <div class="profile-info-name">
-                        <img id="e_u_img" src="/admin_assets/images/users/<%= userData.user_img %>" class="img-thumbnail" alt="profile-image">
-
+                    <div class="profile-info-name">                    
+                        <label for="updateProPic" class="updateProPic" style="display:unset;cursor:pointer">
+                            <img id="e_u_img" src="/admin_assets/images/users/<%= userData.user_img %>" class="img-thumbnail" alt="profile-image">
+                            <form id="updateImage" method="POST" enctype="multipart/form-data">
+                                <input type="file" onchange="updateimg(this)" name="profile_pic" id="updateProPic" value="" style="display:none">
+                            </form>
+                        </label>
+                        
                         <div class="profile-info-detail">
                             <h3 class="profileTitle" class="m-t-0 m-b-0"><%= userData.user_name %></h3>
                             <p class="text-muted m-b-20"><i><%= userData.user_role %></i></p>
@@ -184,6 +189,28 @@
                     Custombox.close();
                 }else{
                     console.log(res);
+                }
+            }
+        });
+    }
+
+    function updateimg(elm){
+        var dataF = new FormData($('#updateImage')[0]);
+
+        // data.append('file',$(elm).prop("files")[0]);
+        // console.log(data)
+        $.ajax({
+            method: 'POST',
+            url: '/profile/updateProPic',
+            data: dataF,
+            dataType:'json',
+            contentType:false,
+            processData:false,
+            success: function(res){
+                if(res.msg == 'success'){
+                    console.log(res);
+                    $('#e_u_img').attr('src','/admin_assets/images/users/'+res.data.user_img+'')
+                    // Custombox.close();
                 }
             }
         });

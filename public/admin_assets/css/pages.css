@@ -2289,6 +2289,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-ar
 .bg-picture {
   padding: 30px;
 }
+.profile-info-name .updateProPic img ,
 .profile-info-name img {
   width: 200px;
   float: left;
