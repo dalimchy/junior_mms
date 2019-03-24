@@ -534,7 +534,7 @@ File: Menu
 }
 .right-bar .right-bar-toggle {
   float: right;
-  line-height: 46px;
+  line-height: 57px;
   font-size: 20px;
   color: #333;
   padding: 0px 10px;
@@ -755,6 +755,11 @@ input.app-search-input:-ms-input-placeholder {
     /* padding-bottom: 10px; */
     height: 100%;
     background: #ffffff;
+}
+
+#Conv_list_label h4{
+  margin: 0 !important;
+  padding: 17.5px 14px !important;
 }
 
 @media screen and (min-width: 768px) {
