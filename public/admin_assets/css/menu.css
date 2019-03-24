@@ -785,4 +785,7 @@ input.app-search-input:-ms-input-placeholder {
   .msg_send_btn{
     right: 18px;
   }
+  #msgBodyContainer{
+    height: calc(100vh - 170px);
+  }
 }
