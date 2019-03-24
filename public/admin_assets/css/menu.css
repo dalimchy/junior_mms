@@ -744,9 +744,8 @@ input.app-search-input:-ms-input-placeholder {
 
 #sendMsg{
     width: calc(100% - 72%);
-    position: static;
-    bottom: 10px;
-    /* background: red; */
+    position: fixed;
+    bottom: 0px;
     border-top: 1px solid #c9d0da;
     padding: 10px 20px 10px;
 }
@@ -755,4 +754,34 @@ input.app-search-input:-ms-input-placeholder {
     /* padding-bottom: 10px; */
     height: 100%;
     background: #ffffff;
+}
+
+@media screen and (min-width: 768px) {
+  .side-bar.right-bar{
+    width: 400px;
+  }
+  #sendMsg{
+    width:400px;
+  }
+  .msg_text_box{
+    width: 282px;
+  }
+  .msg_send_btn{
+    right: 19px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .side-bar.right-bar{
+    width: 100%;
+  }
+  #sendMsg{
+    width: 100%;
+  }
+  .msg_text_box{
+    width: calc(100% - 37px);
+  }
+  .msg_send_btn{
+    right: 18px;
+  }
 }

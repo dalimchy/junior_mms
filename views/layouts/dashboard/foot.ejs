@@ -166,6 +166,8 @@
     });
     
     function toggleMsgBar(type){
+        var wid = $('.side-bar.right-bar').width();
+        console.log(wid);
 
         socket.emit('getMessUsers',{mess_id:mess_id},function(res){
             $('#convAllUserList').html('');
@@ -333,7 +335,7 @@
 
         $(window).load(function() {
         	// Animate loader off screen
-        	$("#pageLoader").fadeOut("slow");;
+            $("#pageLoader").fadeOut("slow");
         });
 
 </script>
