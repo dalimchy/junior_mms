@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var _ = require('lodash');
 const uuidv4 = require('uuid/v4');
+const fs = require('fs')
 var footerTitle = 'Feel free to contact 0182885295. 2019 © Rich IT.';
 var moment = require('moment');
 var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
@@ -283,9 +284,19 @@ router.post('/profile/updateProPic', function (req, res) {
           user_img: res.req.file.filename,
         }
         updateProPic(data, (response)=>{
+          
           if (response.msg == 'success') {
+            const path = './public/admin_assets/images/users/'+response.data.oldFile;
             req.session.user_img = response.data.user_img;
-            res.send(response);
+
+            fs.unlink(path, (err) => {
+                if (err) {
+                  console.log(err);
+                }else{
+                  console.log('successs')
+                  res.send(response);
+                }
+            });
           }
         });
       }
