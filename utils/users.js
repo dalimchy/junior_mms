@@ -236,11 +236,18 @@ var updateUser = (data, callback)=>{
 }
 
 var updateProPic = (data, callback)=>{
-    User.findOneAndUpdate({user_id: data.user_id},{user_img:data.user_img}, function (err, result) {
+    User.findOne({user_id: data.user_id}, function (err, result){
         if (err) {
             console.log(err);
         } else {
-            callback({msg:'success',data:data});
+            data['oldFile'] = result.user_img;
+            User.findOneAndUpdate({user_id: data.user_id},{user_img:data.user_img}, function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    callback({msg:'success',data:data,});
+                }
+            });
         }
     });
 }
