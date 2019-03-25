@@ -70,7 +70,7 @@ var getAllunreadMsg=(data,callback)=>{
                 if(err){
                     console.log(err);
                 }else{
-                   callback({msg:'success',count:umsg.length,allUnreadMsg:umsg});
+                   callback({msg:'success',count:umsg.length,allUnreadMsg:umsg,uConv:docs});
                 }
             })
             // callback({msg:'success'})
@@ -78,8 +78,34 @@ var getAllunreadMsg=(data,callback)=>{
     })
 }
 
+var msgSeen = (data,callback)=>{
+    if(data.type == 'single'){
+        Message.updateOne({msg_id:data.msg_id},{has_delivered:1},function(err,umsg){
+            if(err){
+                console.log(err);
+            }else{
+                callback({msg:'success'});
+            }
+        });
+
+    }else{
+        _.each(data.msg_array,function(v,k){
+            Message.updateOne({msg_id:v},{has_delivered:1},function(err,umsg){
+                if(err){
+                    console.log(err);
+                }else{
+                    if(data.msg_array.length == k +1 ){
+                        callback({msg:'success'});
+                    }
+                }
+            });
+        });
+    }
+}
+
 module.exports = {
     findConv_and_Messages,
     sendMessage,
-    getAllunreadMsg
+    getAllunreadMsg,
+    msgSeen
 };
