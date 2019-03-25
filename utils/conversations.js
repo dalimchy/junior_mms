@@ -62,26 +62,17 @@ var getAllunreadMsg=(data,callback)=>{
         if(err){
             console.log(err);
         }else{
-            console.log(docs);
-            var allUnreadMsgCount = 0;
-            var allUnreadMsg = [];
-            var i = 0;
-            _.each(docs,function(v,k){ i++ ;
-                Message.find({conversation_id:v.conversation_id, has_delivered:0, sender_id:{ $ne: data.user_id }},function(err,uMsg){
-                    if(err){
-                        console.log(err);
-                    }else{
-                       allUnreadMsgCount = allUnreadMsgCount + Number(uMsg.length);
-                        _.each(uMsg,function(v,k){
-                            allUnreadMsg.push(v);
-
-                            if(docs.length === i ){
-                                callback({msg:'success',count:allUnreadMsgCount,allUnreadMsg:allUnreadMsg});
-                            }
-                        });
-                    }
-                })
-            });
+            var alldocsid = [];
+            _.each(docs,function(v,k){
+                alldocsid.push(v.conversation_id);
+            })
+            Message.find({conversation_id:{$in: alldocsid}, has_delivered:0, sender_id:{ $ne: data.user_id }},function(err,umsg){
+                if(err){
+                    console.log(err);
+                }else{
+                   callback({msg:'success',count:umsg.length,allUnreadMsg:umsg});
+                }
+            })
             // callback({msg:'success'})
         }
     })
