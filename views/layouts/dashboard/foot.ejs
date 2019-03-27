@@ -1,7 +1,7 @@
 </div>
 <!-- END wrapper -->
 
-
+ 
 
 <script>
     var resizefunc = [];
@@ -368,22 +368,70 @@
     }
 
     socket.on('newMessage',function(message){
+        console.log(message)
         if(message.sender_info.receiver_id == user_id){
-            if($('#msgContainer').is(':visible')){
-                if(activeConversation_id == message.sender_info.conversation_id){
-                    if(message.msg == 'success')
-                        $('#msgBodyContainer').append(drawMsg(message.data));
+            if($('#msgBodyLabel').is(':visible') && (activeConversation_id == message.sender_info.conversation_id)){
+                if(message.msg == 'success')
+                    $('#msgBodyContainer').append(drawMsg(message.data));
 
-                        var scrollHeight = $('#msgBodyContainer').get(0).scrollHeight;
-                        $('#msgBodyContainer').animate({ scrollTop: scrollHeight });
-                        socket.emit('msg_seen',{conversation_id:message.sender_info.conversation_id, msg_id:message.data.msg_id,receiver_id:user_id,type:'single'},function(response){
+                    var scrollHeight = $('#msgBodyContainer').get(0).scrollHeight;
+                    $('#msgBodyContainer').animate({ scrollTop: scrollHeight });
+                    socket.emit('msg_seen',{conversation_id:message.sender_info.conversation_id, msg_id:message.data.msg_id,receiver_id:user_id,type:'single'},function(response){
 
-                        });
+                    });
+
+            }else{
+                var oldUnread = Number($('#allunreadMsgCount').text());
+                $('#allunreadMsgCount').text(oldUnread + 1);
+                var oldtext = Number($('.conv_list_user_'+message.data.sender_id).find('.countunread').text());
+                $('.conv_list_user_'+message.data.sender_id).find('.countunread').text(oldtext + 1);
+
+                if(findConveForCheck(allUconv,'conversation_id',message.data.conversation_id)){
+
+                }else{
+                    var conv_data = {
+                        _id:'',
+                        conv_title:'',
+                        conv_type:'personal',
+                        conversation_id:message.data.conversation_id,
+                        created_at:'',
+                        created_by:message.data.sender_id,
+                        mess_id:message.data.mess_id,
+                        participants:[user_id,message.data.sender_id]
+
+                    }
+
+                    allUconv.push(conv_data);
+                }
+
+                var msg_data = {
+                    _id:'',
+                    attach_img:null,
+                    conversation_id:message.data.conversation_id,
+                    created_at:'',
+                    has_delivered:0,
+                    mess_id:message.data.mess_id,
+                    msg_body:message.data.msg_body,
+                    msg_id: message.data.msg_id, 
+                    sender_id: message.data.sender_id 
 
                 }
+
+                allUmsg.push(msg_data);
+
             }
         }
     });
+
+    function findConveForCheck(array,key,value){
+        $.each(array,function(k,v){
+            if(v.key == value){
+                return true
+            }
+        });
+
+        return false;
+    }
 
 
         var allUconv = [];
@@ -402,6 +450,7 @@
                     }
                     allUconv = res.uConv ;
                     allUmsg = res.allUnreadMsg;
+                    console.log(439,res.allUnreadMsg)
                 }
             })
         });
