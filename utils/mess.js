@@ -10,6 +10,7 @@ const Bazar = require('../models/Bazar');
 const FixedCost = require('../models/Fixed_cost');
 const ActivityLog = require('../models/Activity_log');
 const MonthlyReport = require('../models/Monthly_report');
+const CateringMenu = require('../models/Catering_menu');
 
 var {
 	updateAccount,
@@ -366,6 +367,16 @@ var monthlyReportClose = (data,callback)=>{
 	})
 }
 
+var findAllCatering = (data,callback)=>{
+	CateringMenu.find({mess_id:data.mess_id},function(err,docs){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:docs});
+		}
+	})
+}
+
 module.exports = {
 	findMonthlyReport,
 	findAllMember,
@@ -389,5 +400,6 @@ module.exports = {
 	findMonthlyReportOne,
 	deleteBazar,
 	updateBazar,
-	deletePayment
+	deletePayment,
+	findAllCatering
 };
