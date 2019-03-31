@@ -48,7 +48,8 @@ var {findMonthlyReport,addMeal,
     findMonthlyReport,
     deleteBazar,
     updateBazar,
-    deletePayment
+    deletePayment,
+    findAllCatering
   } = require('./../utils/mess');
 
 /* GET home page. */
@@ -1028,6 +1029,40 @@ router.post('/findAllMonthReport', function(req,res){
         res.send(allmonthRe);
       }
     })
+  }
+});
+
+
+router.get('/catering-menu', function(req,res){
+  if(req.session.login){
+    findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
+      findAllCatering({mess_id:req.session.mess_id},(resCatering)=>{
+        findAllMember({mess_id:req.session.mess_id},(response)=>{
+          var data = {
+            title: 'Catering Menu',
+            user_data : response.data,
+            monthly_report : monthlyReport.data,
+            _:_,
+            mess_name:req.session.mess_name,
+            footer_name:footerTitle,
+            all_catering_menu:resCatering.data,
+            userData : {
+              user_name : req.session.user_name,
+              user_id:req.session.user_id,
+              user_email:req.session.user_email,
+              user_img:req.session.user_img,
+              mess_name:req.session.mess_name,
+              mess_id:req.session.mess_id,
+              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+            }
+          }
+          res.render('pages/dashboard/catering', data);
+        });
+      });
+    });
+    
+  }else{
+    res.redirect('/login');
   }
 });
 
