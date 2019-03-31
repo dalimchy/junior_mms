@@ -8,6 +8,165 @@
 .mce-container.mce-menubar{
     display: none;
 }
+
+
+html.modal-active, body.modal-active {
+  overflow: hidden;
+}
+.modal-header{
+    padding: 0px 25px;
+    font-size: 18px;
+    background-color: #36404a;
+    color: #ffffff;
+    text-align: left;
+    margin: 0px;
+    width: 100%;
+}
+.modal-header h4{
+    color: #eeeeee;
+    margin: 0px;
+    padding: 0px;
+    line-height: 52px;
+}
+.closeModal{
+    position: absolute;
+    right: 15px;
+    font-size: 21px;
+    font-weight: 700;
+    top: 11px;
+    cursor: pointer;
+}
+
+#modal-container {
+  position: fixed;
+  display: table;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: scale(0);
+  z-index: 1;
+}
+
+#modal-container.customModal {
+  transform: scale(1);
+}
+#modal-container.customModal .modal-background {
+  background: rgba(0, 0, 0, 0);
+  animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.customModal .modal-background .modal {
+  opacity: 0;
+  animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* #modal-container.two + .content {
+  animation: scaleBack 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+} */
+
+#modal-container.customModal.out {
+  animation: quickScaleDown 0s .5s linear forwards;
+}
+#modal-container.customModal.out .modal-background {
+  animation: fadeOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.customModal.out .modal-background .modal {
+  animation: scaleDown 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+/* 
+#modal-container.two.out + .content {
+  animation: scaleForward 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+} */
+
+#modal-container .modal-background {
+  display: table-cell;
+  background: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  vertical-align: middle;
+}
+#modal-container .modal-background .modal {
+  background: white;
+  /* padding: 50px; */
+  display: inline-block;
+  border-radius: 0 0 3px 3px;
+  font-weight: 300;
+  position: relative;
+  width: 450px;
+}
+/* #modal-container .modal-background .modal h2 {
+  font-size: 25px;
+  line-height: 25px;
+  margin-bottom: 15px;
+}
+#modal-container .modal-background .modal p {
+  font-size: 18px;
+  line-height: 22px;
+} */
+
+@keyframes fadeIn {
+  0% {
+    background: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+@keyframes fadeOut {
+  0% {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+@keyframes scaleUp {
+  0% {
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+}
+@keyframes scaleDown {
+  0% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
+}
+@keyframes scaleBack {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.85);
+  }
+}
+@keyframes scaleForward {
+  0% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes quickScaleDown {
+  0% {
+    transform: scale(1);
+  }
+  99.9% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
 </style> 
 <!-- ============================================================== -->
     <!-- Start right Content here -->
@@ -152,10 +311,10 @@
                                                             <td> <% _.each(member_list, function(vm,km){ if(vm.user_id == v.creator_id){ %> <%= vm.user_name %> <% } }) %></td>
                                                             <td><%= v.bazar_details%></td>
                                                             <td><%= v.total_amount %> Tk.</td>
-                                                            <td><%= moment(v.created_at,'ddd MMM DD YYYY hh:mm:ss').format('DD-MM-YYYY hh:mm a') %> </td>
+                                                            <td><%= moment.unix(v.date_of_bazar).format('DD-MM-YYYY') %> </td>
                                                             <td>
-                                                            <button class="btn btn--md btn-info waves-effect waves-light" onclick="editBazar(this)" href="#updateBazar" data_member_id="<%= v.assign_user_id %>" data-id="<%= v.bazar_id %>" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>
-                                                            <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="<%= v.assign_user_id %>" data_amount="<%= v.total_amount %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
+                                                                <button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="<%= v.assign_user_id %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-edit (alias)"></i> </button>
+                                                                <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="<%= v.assign_user_id %>" data_amount="<%= v.total_amount %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
                                                             </td>
                                                         </tr>
                                                         <% }); %>
@@ -171,13 +330,33 @@
                     </div>
                 </div>
                         <!-- end row -->
+
             </div> <!-- container -->
-            <div id="updateBazar" class="modal-demo" style="width:400px !important">
-                <button type="button" class="close" onclick="Custombox.close();">
-                    <span>&times;</span><span class="sr-only">Close</span>
-                </button>
-                <h4 class="custom-modal-title">Edit Bazar</h4>
-                <div class="bg-picture card-box">
+
+        </div> <!-- content -->
+        <footer class="footer text-right">
+                 <%= footer_name %>.
+            </footer>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+
+<%- include('../../layouts/dashboard/right_bar') %>
+<%- include('../../layouts/dashboard/foot') %>
+
+
+<div class="test_row row">
+    <div id="modal-container">
+        <div class="modal-background">
+          <div class="modal">
+              <div class="modal-header">
+                  <h4>Edit Bazar</h4>
+                  <span class="closeModal">&times;</span><span class="sr-only">Close</span>
+              </div>
+              <div class="bg-picture card-box" style="margin:0px;">
                     <div class="profile-info-name">
                         <div class="profile-info-detail">
                             <h3 class="profileTitle" class="m-t-0 m-b-0"></h3>
@@ -198,27 +377,17 @@
 
                             <div class="button-list m-t-20">
                                 <button onclick="updateBazar()" style="float:right" type="button" class="btn btn-sm btn-twitter waves-effect waves-light">Update</button>
-                                <button onclick="Custombox.close();" style="float:right" type="button" class="btn btn-facebook btn-sm waves-effect waves-light">Cancel</button>
+                                <button onclick="$('.closeModal').trigger('click')" style="float:right" type="button" class="btn btn-facebook btn-sm waves-effect waves-light">Cancel</button>
                             </div>
                         </div>
 
                         <div class="clearfix"></div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- content -->
-        <footer class="footer text-right">
-                 <%= footer_name %>.
-            </footer>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- End Right content here -->
-    <!-- ============================================================== -->
-
-
-<%- include('../../layouts/dashboard/right_bar') %>
-<%- include('../../layouts/dashboard/foot') %>
+          </div>
+        </div>
+      </div>
+</div>
 
 <!-- Sweet Alert js -->
 <script src="/admin_assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
@@ -269,13 +438,12 @@
                     date_of_meal:date
                 }
                 
-                // console.log(data);
                 $.ajax({
                     type: "POST",
                     url: '/bazar/addBazar',
                     data: data,
                     success: function(res) {
-                        console.log(res.data);
+                        console.log(res)
                         holdClick = 1;
                         var alertMsg = "Bazar Added Successfully.";
                         $('#bazarDetails2').val('');
@@ -297,14 +465,15 @@
                             tableData +=    '<td class="data_member">'+data_user_name+'</td>';
                             tableData +=    '<td>'+creator+'</td>';
                             tableData +=    '<td>'+ data.bazar_details +'</td>';
-                            tableData +=    '<td>'+data.amount+'</td>';
-                            tableData +=    '<td>'+ moment().format('DD-MM-YYYY hh:mm a') +'</td>';
+                            tableData +=    '<td>'+data.amount+' Tk.</td>';
+                            tableData +=    '<td>'+ moment.unix(res.data.date_of_bazar).format('DD-MM-YYYY') +'</td>';
                             tableData +=    '<td>';
-                            tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light" onclick="editBazar(this)" href="#updateBazar" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'" data-animation="fall" data-plugin="custommodal" data-overlayspeed="100" data-overlaycolor="#36404a"> <i class="fa fa-edit (alias)"></i> </button>  ';
+                            tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
                             tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="'+res.data.assign_user_id+'" data_amount="'+data.amount+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
                             tableData +=    '</td>';
                             tableData += '</tr>';
-                        $('#todayBazarList').append(list);
+                        // $('#todayBazarList').append(list);
+                        $(list).insertBefore('#todayBazarTotal');
                         $('#dateByBazar_table').append(tableData);
 
                         let count = $('#todayBazarList').find('.data');
@@ -337,12 +506,12 @@
 
     function datebyBazar(elm){
         let value = $(elm).val();
-
         $.ajax({
             type: 'GET',
             url: '/bazar/'+value+'',
             success: function(res){
                 if(res.msg == 'success'){
+                    console.log(res.data);
                     if(res.data !== null){
                         if(value == today){
                             $('#bazarStatus').text('Today Bazar Status');
@@ -365,15 +534,16 @@
                                 var list = '<li class="list-group-item data" data-value="'+v.total_amount+'">';
                                     list += '<span class="badge badge-primary">'+v.total_amount+' Tk.</span>'+vm.user_name+'';
                                     list += '</li>';
-                                var tableData =  '<tr>';
+                                var tableData =  '<tr data_amount="'+v.total_amount+'" data_details="'+ v.bazar_details +'">';
                                     tableData +=    '<td>'+(k+1)+'</td>';
-                                    tableData +=    '<td>'+vm.user_name+'</td>';
+                                    tableData +=    '<td class="data_member">'+vm.user_name+'</td>';
                                     tableData +=    '<td>'+Creator+'</td>';
                                     tableData +=    '<td>'+v.bazar_details+'</td>';
                                     tableData +=    '<td>'+v.total_amount+' Tk.</td>';
+                                    tableData +=    '<td>'+ moment.unix(v.date_of_bazar).format('DD-MM-YYYY') +'</td>';
                                     tableData +=    '<td>';
-                                    tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light"> <i class="fa fa-edit (alias)"></i> </button>';
-                                    tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data-id="'+v.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
+                                    tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+v.assign_user_id+'" data-id="'+v.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
+                                    tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)"  data_member_id="'+v.assign_user_id+'" data_amount="'+v.total_amount+'" data-id="'+v.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
                                     tableData +=    '</td>';
                                     tableData += '</tr>';
                                 $('#todayBazarList').prepend(list);
@@ -436,7 +606,8 @@
         $('#bazar_id').val(id);
         $('#bazarDetail').val(details);
         $('#bazarAmount').val(amount);
-        console.log('check');
+        $('#modal-container').removeAttr('class').addClass('customModal').css('z-index','999');
+        $('body').addClass('modal-active');
     }
 
     function updateBazar(){
@@ -458,5 +629,10 @@
             }
         });
     }
+
+    $('.closeModal').click(function(){
+        $('#modal-container').addClass('out');
+        $('body').removeClass('modal-active');
+    });
 
 </script>
