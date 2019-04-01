@@ -3,7 +3,10 @@ var moment = require('moment');
 const nodemailer = require("nodemailer");
 
 var {getMessUsers} = require('./../utils/users')
-var {findConv_and_Messages,sendMessage,getAllunreadMsg,msgSeen} = require('./../utils/conversations')
+var {findConv_and_Messages,sendMessage,getAllunreadMsg,msgSeen} = require('./../utils/conversations');
+var {getbydate,
+    datebyBazar
+  } = require('./../utils/mess');
 
 module.exports = function (io) {
   var app = require('express');
@@ -99,6 +102,22 @@ module.exports = function (io) {
           console.log(res);
         }
       })
+    });
+
+    socket.on('getDateBy_bazar',function(data,callback){
+      datebyBazar(data, (response)=>{
+        if (response.msg == 'success') {
+          callback(response);
+        }
+      });
+    });
+
+    socket.on('getMealby_date',function(data,callback){
+      getbydate(data, (response)=>{
+        if (response.msg == 'success') {
+          callback(response);
+        }
+      });
     })
 
     

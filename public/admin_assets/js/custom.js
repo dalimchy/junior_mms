@@ -183,7 +183,7 @@ $(function () {
         success: function(res) {
             if(res.msg == 'success'){
               $.each(res.data,function(k,v){
-                var design = '<option value="'+v.month_id+'"><a href="/monthly-calculation/'+v.month_id+'">'+moment(v.month+' '+v.year,'MM YYYY').format('MMMM YYYY')+'</a></option>';
+                var design = '<option value="'+v.month_id+'">'+moment(v.month+' '+v.year,'MM YYYY').format('MMMM YYYY')+'</option>';
                 $('#changeMonthSelect').append(design);
                 
               })

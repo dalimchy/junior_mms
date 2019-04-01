@@ -3,6 +3,8 @@
 <%- include('../../layouts/dashboard/left_bar') %>   
 <script>
     var allMemberlist = <%- JSON.stringify(member_list) %>;
+    var monthYear = '<%= month%> <%= year %>';
+    var userData = <%- JSON.stringify(userData) %>;
 
 </script>
         <!-- ============================================================== -->
@@ -15,14 +17,18 @@
                 <div class="row">
                     <div class="col-md-12">                            
                         <div class="panel panel-custom panel-border">
-                            <div class="panel-heading">
-                                <h4 class="panel-title text-center col-md-12" id="">
-                                    <script type="text/javascript">document.write(moment().format('MMMM YYYY'));</script>
+                            <div class="panel-heading">                            
+                                <select class="select2 panel-title col-md-6" id="changeMonthSelect">
+                                    <option selected>Select Month</option>
+                                </select>
+                                <h4 class="panel-title text-center col-md-6 m-t-6" id="">
+                                    <script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script>
                                 </h4>
                             </div>
                             <div class="panel-body"></div>
                         </div>
                     </div>
+
                     <div class="col-sm-12">
                         <div class="alert alert-success alert-dismissable" id="alertMessageMeal" style="display: none">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -83,11 +89,13 @@
                                                             <input type="number" class="form-control"  name="guest_meal" placeholder="Guest Meal" value="0" id="guestMeal">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <div class="col-lg-7 col-md-offset-5 text-center">
-                                                            <a class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Add Meal</a>
+                                                    <% if(monthly_report.status == 0 ){ %> 
+                                                        <div class="form-group">
+                                                            <div class="col-lg-7 col-md-offset-5 text-center">
+                                                                <a class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5" onclick="addMeal('new')">Add Meal</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <% } %>
                                                     <% } %>
                                                 </div>
                                             </div>
@@ -147,12 +155,13 @@
 
 <script type="text/javascript">
     $('#todayData').text('Month: '+moment().format('MMMM YYYY'));
-    var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    // var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    var totaldays = <%- JSON.stringify(totaldays) %>;
     var today = moment().format('DD');
-    var thisMonth = moment().format('MM');
-    var thisYear = moment().format('YYYY');
+    var thisMonth = <%- JSON.stringify(month) %>;
+    var thisYear = <%- JSON.stringify(year) %>;
     var i;
-    for (i = 1; i <= today; i++) { 
+    for (i = 1; i <= totaldays; i++) { 
         if(i == today){
             $('#mealOfTheDay').append('<option id="todayOption" selected="selected" value="'+i+'">Day '+i+'</option>');
             $("#mealOfTheDay").select2({
@@ -230,37 +239,42 @@
     function getDatewise(elm){
         let value = $(elm).val();
 
-        $.ajax({
-            type: 'GET',
-            url: '/meal/'+value+'',
-            success: function (res){
-                if(res.msg == 'success'){
-                    if(res.data !== null){
-                        if(value == today){
-                            $('#mealListPanel').text('Today Meal Status');
-                        }else{
-                            $('#mealListPanel').text('Day '+ value+' Meal Status');
-                        }
-                        $('#todayMealList li.data').remove();
-                        var totalMealAll = 0;
-                        $.each(allMemberlist, function(k,v){
-                            $.each(res.data,function(ka,va){
-                                if(va.assign_user_id == v.user_id){
-                                    var totalMeal = va.lunch + va.breakfast + va.dinner + va.guest;
-                                    totalMealAll = totalMeal + totalMealAll;
-                                    var html ='<li class="list-group-item data _mealUser'+v.user_id+'" data-value="'+ totalMeal +'">';
-                                        html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+v.user_name+'';
-                                        html +='</li>';
-                                    $('#todayMealList').prepend(html);
-                                }
-                            });
-                        });
-                        $('#todayMealTotal span').text(totalMealAll);
+        var data = {
+          day: value,
+          month: thisMonth,
+          year: thisYear,
+          mess_id: userData.mess_id
+        }
+
+        socket.emit('getMealby_date',data,function(res){
+            if(res.msg == 'success'){
+                if(res.data !== null){
+                    if(value == today){
+                        $('#mealListPanel').text('Today Meal Status');
+                    }else{
+                        $('#mealListPanel').text('Day '+ value+' Meal Status');
                     }
+                    $('#todayMealList li.data').remove();
+                    var totalMealAll = 0;
+                    $.each(allMemberlist, function(k,v){
+                        $.each(res.data,function(ka,va){
+                            if(va.assign_user_id == v.user_id){
+                                var totalMeal = va.lunch + va.breakfast + va.dinner + va.guest;
+                                totalMealAll = totalMeal + totalMealAll;
+                                var html ='<li class="list-group-item data _mealUser'+v.user_id+'" data-value="'+ totalMeal +'">';
+                                    html +=       '<span class="badge badge-primary">'+ totalMeal +'</span> '+v.user_name+'';
+                                    html +='</li>';
+                                $('#todayMealList').prepend(html);
+                            }
+                        });
+                    });
+                    $('#todayMealTotal span').text(totalMealAll);
                 }
             }
         });
     }
 
-    
+    $('#changeMonthSelect').on('change',function(){
+        window.location.replace('/meal/'+$(this).val()+'');
+    });
 </script>

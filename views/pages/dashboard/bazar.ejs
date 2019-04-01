@@ -3,6 +3,9 @@
 <%- include('../../layouts/dashboard/left_bar') %>
 <script>
     var allMemberlist = <%- JSON.stringify(member_list) %>;
+    var monthYear = '<%= month%> <%= year %>';
+    var userData = <%- JSON.stringify(userData) %>;
+    var monthly_report = <%- JSON.stringify(monthly_report) %>
 </script>
 <style>
 .mce-container.mce-menubar{
@@ -178,8 +181,13 @@ html.modal-active, body.modal-active {
                 <div class="row">
                     <div class="col-md-12">                            
                         <div class="panel panel-custom panel-border">
-                            <div class="panel-heading">
-                                <h4 class="panel-title text-center col-md-12" id="todayData"></h4>
+                            <div class="panel-heading">                            
+                                <select class="select2 panel-title col-md-6" id="changeMonthSelect">
+                                    <option selected>Select Month</option>
+                                </select>
+                                <h4 class="panel-title text-center col-md-6 m-t-6" id="">
+                                    <script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script>
+                                </h4>
                             </div>
                             <div class="panel-body"></div>
                         </div>
@@ -234,11 +242,13 @@ html.modal-active, body.modal-active {
                                                                 <input type="number" class="form-control" name="total_amount" value="0" id="totalAmount">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <div class="col-lg-8 col-md-offset-4 text-center">
-                                                                <a class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5" onclick="addBazar('new')">Add Bazar</a>
-                                                            </div>
-                                                        </div>
+                                                        <% if(monthly_report.status == 0 ){ %>  
+                                                          <div class="form-group">
+                                                              <div class="col-lg-8 col-md-offset-4 text-center">
+                                                                  <a class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5" onclick="addBazar('new')">Add Bazar</a>
+                                                              </div>
+                                                          </div>
+                                                        <% } %>
                                                         <% } %>
                                                     </div>
                                                 </div>
@@ -299,7 +309,9 @@ html.modal-active, body.modal-active {
                                                             <th>Bazar Details</th>
                                                             <th>Amount</th>
                                                             <th>Date & Time</th>
-                                                            <th>Action</th>
+                                                            <% if(monthly_report.status == 0){ %> 
+                                                              <th>Action</th>
+                                                            <% } %>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="dateByBazar_table">
@@ -312,10 +324,13 @@ html.modal-active, body.modal-active {
                                                             <td><%= v.bazar_details%></td>
                                                             <td><%= v.total_amount %> Tk.</td>
                                                             <td><%= moment.unix(v.date_of_bazar).format('DD-MM-YYYY') %> </td>
-                                                            <td>
-                                                                <button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="<%= v.assign_user_id %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-edit (alias)"></i> </button>
-                                                                <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="<%= v.assign_user_id %>" data_amount="<%= v.total_amount %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
-                                                            </td>
+                                                            <% if(monthly_report.status == 0){ %> 
+
+                                                              <td>
+                                                                  <button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="<%= v.assign_user_id %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-edit (alias)"></i> </button>
+                                                                  <button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="<%= v.assign_user_id %>" data_amount="<%= v.total_amount %>" data-id="<%= v.bazar_id %>"> <i class="fa fa-trash-o"></i> </button>
+                                                              </td>
+                                                            <% } %>
                                                         </tr>
                                                         <% }); %>
                                                     </tbody>
@@ -396,12 +411,13 @@ html.modal-active, body.modal-active {
 
 <script type="text/javascript">
     $('#todayData').text('Month: '+moment().format('MMMM YYYY'));
-    var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    // var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    var totaldays = <%- JSON.stringify(totaldays) %>;
     var today = moment().format('DD');
-    var thisMonth = moment().format('MM');
-    var thisYear = moment().format('YYYY');
+    var thisMonth = <%- JSON.stringify(month) %>;
+    var thisYear = <%- JSON.stringify(year) %>;
     var i;
-    for (i = 1; i <= today; i++) { 
+    for (i = 1; i <= totaldays; i++) { 
         if(i == today){
             $('#bazarOfTheDay').append('<option id="todayOption" selected="selected" value="'+i+'">Day '+i+'</option>');
             $("#bazarOfTheDay").select2({
@@ -467,10 +483,12 @@ html.modal-active, body.modal-active {
                             tableData +=    '<td>'+ data.bazar_details +'</td>';
                             tableData +=    '<td>'+data.amount+' Tk.</td>';
                             tableData +=    '<td>'+ moment.unix(res.data.date_of_bazar).format('DD-MM-YYYY') +'</td>';
-                            tableData +=    '<td>';
-                            tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
-                            tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="'+res.data.assign_user_id+'" data_amount="'+data.amount+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
-                            tableData +=    '</td>';
+                            if(monthly_report.status == 0){
+                              tableData +=    '<td>';
+                              tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+res.data.assign_user_id+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
+                              tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)" data_member_id="'+res.data.assign_user_id+'" data_amount="'+data.amount+'" data-id="'+res.data.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
+                              tableData +=    '</td>';
+                            }
                             tableData += '</tr>';
                         // $('#todayBazarList').append(list);
                         $(list).insertBefore('#todayBazarTotal');
@@ -506,57 +524,59 @@ html.modal-active, body.modal-active {
 
     function datebyBazar(elm){
         let value = $(elm).val();
-        $.ajax({
-            type: 'GET',
-            url: '/bazar/'+value+'',
-            success: function(res){
-                if(res.msg == 'success'){
-                    console.log(res.data);
-                    if(res.data !== null){
-                        if(value == today){
-                            $('#bazarStatus').text('Today Bazar Status');
-                        }else{
-                            $('#bazarStatus').text('Day '+ value+' Bazar Status');
-                        }
-                        $('#todayBazarList li.data').remove();
-                        $('#dateByBazar_table tr').remove();
-                        let totalBazarAll = 0;
-                        $.each(res.data,function(k,v){
-                            let Creator;
-                            $.each(allMemberlist, function(kc,vc){
-                                if(vc.user_id == v.creator_id){
-                                    Creator = vc.user_name;
-                                }
-                            });
-                            $.each(allMemberlist,function(km, vm){
-                                if(v.assign_user_id == vm.user_id){
-                                    totalBazarAll = Number(v.total_amount) + totalBazarAll;
-                                var list = '<li class="list-group-item data" data-value="'+v.total_amount+'">';
-                                    list += '<span class="badge badge-primary">'+v.total_amount+' Tk.</span>'+vm.user_name+'';
-                                    list += '</li>';
-                                var tableData =  '<tr data_amount="'+v.total_amount+'" data_details="'+ v.bazar_details +'">';
-                                    tableData +=    '<td>'+(k+1)+'</td>';
-                                    tableData +=    '<td class="data_member">'+vm.user_name+'</td>';
-                                    tableData +=    '<td>'+Creator+'</td>';
-                                    tableData +=    '<td>'+v.bazar_details+'</td>';
-                                    tableData +=    '<td>'+v.total_amount+' Tk.</td>';
-                                    tableData +=    '<td>'+ moment.unix(v.date_of_bazar).format('DD-MM-YYYY') +'</td>';
-                                    tableData +=    '<td>';
-                                    tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+v.assign_user_id+'" data-id="'+v.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
-                                    tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)"  data_member_id="'+v.assign_user_id+'" data_amount="'+v.total_amount+'" data-id="'+v.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
-                                    tableData +=    '</td>';
-                                    tableData += '</tr>';
-                                $('#todayBazarList').prepend(list);
-                                $('#dateByBazar_table').append(tableData);
-                                console.log(v);
-                                }
-                            });
-                        });
-                        $('#todayBazarTotal span').text(totalBazarAll+' Tk.');
-                    }
-                }
-            }
-        });
+        var data2 = {
+          day: value,
+          month: thisMonth,
+          year: thisYear,
+          mess_id: userData.mess_id
+        }
+        socket.emit('getDateBy_bazar',data2,function(res){
+          if(res.data !== null){
+              if(value == today){
+                  $('#bazarStatus').text('Today Bazar Status');
+              }else{
+                  $('#bazarStatus').text('Day '+ value+' Bazar Status');
+              }
+              $('#todayBazarList li.data').remove();
+              $('#dateByBazar_table tr').remove();
+              let totalBazarAll = 0;
+              $.each(res.data,function(k,v){
+                  let Creator;
+                  $.each(allMemberlist, function(kc,vc){
+                      if(vc.user_id == v.creator_id){
+                          Creator = vc.user_name;
+                      }
+                  });
+                  $.each(allMemberlist,function(km, vm){
+                      if(v.assign_user_id == vm.user_id){
+                          totalBazarAll = Number(v.total_amount) + totalBazarAll;
+                      var list = '<li class="list-group-item data" data-value="'+v.total_amount+'">';
+                          list += '<span class="badge badge-primary">'+v.total_amount+' Tk.</span>'+vm.user_name+'';
+                          list += '</li>';
+                      var tableData =  '<tr data_amount="'+v.total_amount+'" data_details="'+ v.bazar_details +'">';
+                          tableData +=    '<td>'+(k+1)+'</td>';
+                          tableData +=    '<td class="data_member">'+vm.user_name+'</td>';
+                          tableData +=    '<td>'+Creator+'</td>';
+                          tableData +=    '<td>'+v.bazar_details+'</td>';
+                          tableData +=    '<td>'+v.total_amount+' Tk.</td>';
+                          tableData +=    '<td>'+ moment.unix(v.date_of_bazar).format('DD-MM-YYYY') +'</td>';
+                          if(monthly_report.status == 0){
+
+                            tableData +=    '<td>';
+                            tableData +=        '<button class="btn btn--md btn-info waves-effect waves-light customModal" onclick="editBazar(this)" data_member_id="'+v.assign_user_id+'" data-id="'+v.bazar_id+'"> <i class="fa fa-edit (alias)"></i> </button> ';
+                            tableData +=        '<button class="btn btn--md btn-danger waves-effect waves-light" onclick="deleteBazar(this)"  data_member_id="'+v.assign_user_id+'" data_amount="'+v.total_amount+'" data-id="'+v.bazar_id+'"> <i class="fa fa-trash-o"></i> </button>';
+                            tableData +=    '</td>';
+                          }
+                          tableData += '</tr>';
+                      $('#todayBazarList').prepend(list);
+                      $('#dateByBazar_table').append(tableData);
+                      console.log(v);
+                      }
+                  });
+              });
+              $('#todayBazarTotal span').text(totalBazarAll+' Tk.');
+          }
+        })
     }
 
     function deleteBazar(elm){
@@ -633,6 +653,10 @@ html.modal-active, body.modal-active {
     $('.closeModal').click(function(){
         $('#modal-container').addClass('out');
         $('body').removeClass('modal-active');
+    });
+
+    $('#changeMonthSelect').on('change',function(){
+        window.location.replace('/bazar/'+$(this).val()+'');
     });
 
 </script>
