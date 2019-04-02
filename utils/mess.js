@@ -368,11 +368,39 @@ var monthlyReportClose = (data,callback)=>{
 }
 
 var findAllCatering = (data,callback)=>{
-	CateringMenu.find({mess_id:data.mess_id},function(err,docs){
+	CateringMenu.findOne({mess_id:data.mess_id},function(err,docs){
 		if(err){
 			console.log(err);
 		}else{
 			callback({msg:'success',data:docs});
+		}
+	})
+}
+
+var addCateringMenuItem = (data,callback)=>{
+	CateringMenu.findOne({mess_id:data.mess_id},function(err,docs){
+		if(err){
+			console.log(err);
+		}else{
+			if(docs !== null){
+				CateringMenu.updateOne({catering_id:docs.catering_id},{$push:{menu_item: data.menu_item}},function(err1,result1){
+					if(err1){
+						console.log(err1);
+					}else{
+						callback({msg:'success',data:'old'});
+					}
+				});
+			}else{
+				var insertData = {
+					catering_id : uuidv4(),
+					menu_item:[data.menu_item],
+					mess_id:data.mess_id,
+				}
+				new CateringMenu(insertData).save().then(res =>{
+			        callback({msg:'success',data:'new'});
+			    })
+			    .catch(err => console.log(err));
+			}
 		}
 	})
 }
@@ -401,5 +429,6 @@ module.exports = {
 	deleteBazar,
 	updateBazar,
 	deletePayment,
-	findAllCatering
+	findAllCatering,
+	addCateringMenuItem
 };

@@ -5,7 +5,9 @@ const nodemailer = require("nodemailer");
 var {getMessUsers} = require('./../utils/users')
 var {findConv_and_Messages,sendMessage,getAllunreadMsg,msgSeen} = require('./../utils/conversations');
 var {getbydate,
-    datebyBazar
+    datebyBazar,
+    addCateringMenuItem,
+    findAllCatering
   } = require('./../utils/mess');
 
 module.exports = function (io) {
@@ -115,6 +117,22 @@ module.exports = function (io) {
     socket.on('getMealby_date',function(data,callback){
       getbydate(data, (response)=>{
         if (response.msg == 'success') {
+          callback(response);
+        }
+      });
+    });
+
+    socket.on('addCateringMenuItem',function(data,callback){
+      addCateringMenuItem(data,function(response){
+        if(response.msg == 'success'){
+          callback(response);
+        }
+      })
+    });
+
+    socket.on('getCatering',function(data,callback){
+      findAllCatering(data,function(response){
+        if(response.msg == 'success'){
           callback(response);
         }
       });

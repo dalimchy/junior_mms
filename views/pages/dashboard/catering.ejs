@@ -21,10 +21,10 @@
                                                 <div class="form-group">
                                                     <label style="line-height: 38px;" class="col-md-3 col-sm-3 panel-title">Menu Name</label>
                                                     <div class="col-md-6 col-sm-6 m-b-5">
-                                                        <input type="text" class="form-control" name="" id="">
+                                                        <input type="text" class="form-control" name="" id="cateRingMenuName">
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
-                                                        <button style="height: 38px;" class="btn btn-block btn-info waves-effect waves-light w-xs">Add Menu</button>
+                                                        <button style="height: 38px;" class="btn btn-block btn-info waves-effect waves-light w-xs" onclick="addCateringMenu()" >Add Menu</button>
                                                     </div>
                                                 </div>    
                                             </div>
@@ -204,3 +204,41 @@
 
 <%- include('../../layouts/dashboard/right_bar') %>
 <%- include('../../layouts/dashboard/foot') %>
+
+<script type="text/javascript">
+    var allCateMenuitem = [];
+    var mess_id = <%- JSON.stringify(userData.mess_id) %>;
+
+    socket.emit('getCatering',{mess_id:mess_id},function(res){
+        if(res.msg == 'success'){
+            if(res.data.length !== 0){
+                allCateMenuitem = res.data.menu_item;
+            }
+        }
+    });
+
+    function addCateringMenu(){
+        var value = $('#cateRingMenuName').val();
+
+        if(value !== ''){
+            if(allCateMenuitem.indexOf(value) == -1){
+                var data = {
+                    mess_id : mess_id,
+                    menu_item:value
+                }
+                socket.emit('addCateringMenuItem',data,function(res){
+                    if(res.msg == 'success'){
+                        allCateMenuitem.push(value);
+                        $('#cateRingMenuName').val('').focus();
+                        console.log('Successfully Save.');
+                    }
+                });
+            }else{
+                console.log('Your menu item already exist.');
+            }
+        }else{
+            console.log('Please enter your menu item.');
+        }
+
+    }
+</script>

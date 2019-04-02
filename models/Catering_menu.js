@@ -4,13 +4,13 @@ const Schema = mongoose.Schema;
 
 //create schema
 const catering_menuSchema = new Schema({
-    menu_id:{
+    catering_id:{
         type:String,
         required:true
     },
-    menu_name:{
-        type:String,
-        required:true
+    menu_item:{
+        type:Array,
+        default:[]
     },
     mess_id:{
         type:String,
@@ -18,7 +18,7 @@ const catering_menuSchema = new Schema({
     },
     day_name:{
         type:Array,
-        default:[1,2,3,4,5,6,7]
+        default:['Saturday','Sunday','Monday','Tuesday','Wednesday','Thusday','Friday']
     },
     breakfast:{
         type:Array,
@@ -31,10 +31,6 @@ const catering_menuSchema = new Schema({
     dinner:{
         type:Array,
         default:[]
-    },
-    status:{
-        type:Number,
-        default:1
     },
     created_at:{
         type:Date,
