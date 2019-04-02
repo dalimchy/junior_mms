@@ -994,11 +994,12 @@ router.get('/monthly-calculation', function(req, res) {
                     fixed_cost_list : (monthlyReport.data.status == 1)? monthlyReport.data.report.fixed_cost:fixedCost.data,
                     payment_log : paymentLog.data,
                     day : today,
-                    month : monthlyReport.data.month,
-                    year : monthlyReport.data.year,
+                    month : thisMonth,
+                    year : thisYear,
                     moment : moment,
                     monthly_report : monthlyReport.data,
                     footer_name:footerTitle,
+                    totaldays : returnTotalDays(thisMonth,thisYear),
                     _:_,
                     mess_name:req.session.mess_name,
                     userData : {
@@ -1053,6 +1054,7 @@ router.get('/monthly-calculation/:month_id', function(req, res) {
                     moment : moment,
                     monthly_report : monthlyReport.data,
                     footer_name:footerTitle,
+                    totaldays : returnTotalDays(monthlyReport.data.month,monthlyReport.data.year),
                     _:_,
                     mess_name:req.session.mess_name,
                     userData : {

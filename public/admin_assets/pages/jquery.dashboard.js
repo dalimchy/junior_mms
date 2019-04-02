@@ -66,12 +66,13 @@
                 if(v.month == thisMonth && v.year == thisYear){
                     var totalMeal = 0;
                     $.each(thisMonthAllMeal,function(ka,va){
+
                         totalMeal = totalMeal + va.lunch + va.dinner + va.breakfast + va.guest;
                     });
                     var data = { m: moment(v.month,'MM').format('MMMM'), a:totalMeal}
                     $barData.push(data);
 
-                }else if(v.year == thisYear){
+                }else{
 
                     var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.total_meal == '')? 0:v.total_meal}
                     $barData.push(data);
@@ -96,7 +97,7 @@
                     var data = { m: moment(v.month,'MM').format('MMMM'), a:totalBazar}
                     $totalBazar.push(data);
 
-                }else if(v.year == thisYear){
+                }else{
                     var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.total_meal == '')? 0:v.total_bazar}
                     $totalBazar.push(data);
                 }
@@ -122,7 +123,7 @@
                     var data = { m: moment(v.month,'MM').format('MMMM'), a:mealRate}
                     $mealRate.push(data);
 
-                }else if(v.year == thisYear){
+                }else{
 
                     var data = { m: moment(v.month,'MM').format('MMMM'), a: (v.meal_rate == '')? 0:v.meal_rate}
                     $mealRate.push(data);

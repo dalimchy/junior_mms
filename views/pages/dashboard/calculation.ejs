@@ -7,8 +7,8 @@ var monthYear = '<%= month%> <%= year %>';
 <% var totalMeal =  0; %>
 <% var totalBazar =  0; %>
 <% var fixedCost =  fixed_cost_list.house_rent + fixed_cost_list.electricity_bill + fixed_cost_list.gas_bill + fixed_cost_list.water_bill + fixed_cost_list.garbage_bill + fixed_cost_list.chef_bill + fixed_cost_list.internet_bill; %>
-<%  _.each(meal_list,function(vm,km){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest;}) %>
-<%  _.each(bazar_list,function(vb,kb){ totalBazar = totalBazar + Number(vb.total_amount)}) %>
+<%  _.each(member_list,function(vu,ku){ _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest } }) })  %>
+<%   _.each(member_list,function(vu,ku){  _.each(bazar_list,function(vb,kb){  if(vu.user_id == vb.assign_user_id) {totalBazar = totalBazar + Number(vb.total_amount) } })  }); %>
 <% var mealRate =  Math.ceil(totalBazar / totalMeal); %>
 <% var perHeadFixedCost = Math.ceil(fixedCost / member_list.length) %>
 
@@ -170,10 +170,10 @@ var monthYear = '<%= month%> <%= year %>';
         <script src="/admin_assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
         <script src="/admin_assets/pages/jquery.sweet-alert.init.js"></script>
 <script type="text/javascript">
-    var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
+    var totaldays = <%- JSON.stringify(totaldays) %>;
     var today = moment().format('DD');
-    var thisMonth = moment().format('MM');
-    var thisYear = moment().format('YYYY');
+    var thisMonth = <%- JSON.stringify(month) %>;
+    var thisYear = <%- JSON.stringify(year) %>;
 
     function closeThisMonth(ele){
                 var month_id = $(ele).attr('monthly-report-id');
