@@ -5,7 +5,7 @@ var multer = require('multer');
 var _ = require('lodash');
 const uuidv4 = require('uuid/v4');
 const fs = require('fs')
-var footerTitle = 'Feel free to contact 0182885295. 2019 © Rich IT.';
+var footerTitle = '2019 © Rich IT.';
 var moment = require('moment');
 // var totaldays = moment(moment().format('MMMM YYYY'), "MMMM YYYY").daysInMonth();
 

@@ -2,7 +2,10 @@
 <%- include('../../layouts/dashboard/topbar') %>
 <%- include('../../layouts/dashboard/left_bar') %>
 <script> 
-var monthYear = '<%= month%> <%= year %>';
+var monthYear = '<%= month %> <%= year %>';
+var mess_name = <%- JSON.stringify(userData.mess_name) %>;
+
+var footer_name = <%- JSON.stringify(footer_name) %>
 </script>    
 <% var totalMeal =  0; %>
 <% var totalBazar =  0; %>
@@ -81,7 +84,9 @@ var monthYear = '<%= month%> <%= year %>';
                                             <div class="panel-heading">
                                                 <h3 class="panel-title text-center">Monthly Total Calculations</h3>
                                             </div>
-                                            <div class="panel-body">                                                
+                                            <div class="panel-body" id="monthlyCalculationView"> 
+                                                <h3 style="text-align:center; margin:4px 0px;"><%= userData.mess_name %></h3> 
+                                                <h5 style="text-align:center;margin:4px 0px;" ><script type="text/javascript">document.write(moment(monthYear,'MM YYYY').format('MMMM YYYY'));</script></h5>                                            
                                                 <div class="table-rep-plugin">
                                                     <div class="table-responsive" data-pattern="priority-columns">
                                                         <table id="tech-companies-1" class="table  table-striped">
@@ -130,11 +135,15 @@ var monthYear = '<%= month%> <%= year %>';
                                                         </table>
                                                     </div>
                                                 </div>
+
+                                                <h5 style="text-align:center"><%= footer_name %></h5>
+
                                             </div>
                                         </div>
                                         <% if(userData.user_role == 'Manager'){ %>
                                         <% if(monthly_report.status == 1){ %> 
                                             <button class="btn btn-danger waves-effect waves-light m-b-5" style="float: right;"> <span>Closed</span> <i class="fa fa-lock m-l-5"></i> </button>
+                                            <button class="btn btn-info waves-effect waves-light m-b-5 m-r-10" style="float: right;" onclick="printMonthlyCalculation()" > <span>Print</span> <i class="zmdi zmdi-print m-l-5"></i> </button>
                                         <%}else{%> 
 
                                             <button class="btn btn-danger waves-effect waves-light m-b-5" onclick="closeThisMonth(this)" style="float: right;"  monthly-report-id="<%= monthly_report.month_id %>" meal-rate="<%= mealRate %>" total-bazar="<%= totalBazar %>" total-meal="<%= totalMeal %>"> <span>Close Calculations</span> <i class="fa fa-lock m-l-5"></i> </button>
@@ -232,4 +241,18 @@ var monthYear = '<%= month%> <%= year %>';
     $('#changeMonthSelect').on('change',function(){
         window.location.replace('/monthly-calculation/'+$(this).val()+'');
     })
+
+    function printData(){
+       var divToPrint=$('#monthlyCalculationView');
+       divToPrint.find('td').css({'border':'1px solid #d8d8d8','text-align':'center'});
+       divToPrint.find('th').css({'border':'1px solid #d8d8d8','text-align':'center'});
+       newWin = window.open("");
+       newWin.document.write(divToPrint.html());
+       newWin.print();
+       newWin.close();
+    }
+
+    function printMonthlyCalculation(){
+        printData();
+    }
 </script>

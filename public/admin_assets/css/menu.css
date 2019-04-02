@@ -794,3 +794,10 @@ input.app-search-input:-ms-input-placeholder {
     height: calc(100vh - 170px);
   }
 }
+
+#monthlyCalculationView th,
+#monthlyCalculationView td{
+  border:1px solid #d8d8d8;
+  text-align: center;
+  background-color:#f5f5f5;
+}
