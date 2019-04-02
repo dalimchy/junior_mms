@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel-body">                                                
+                                <div class="panel-body" id="customSelectCatering">                                                
                                     <div class="row">
                                         <div class="col-md-3 col-sm-3 col-xs-3 m-b-5">
                                             <h4>Days</h4>
@@ -211,8 +211,9 @@
 
     socket.emit('getCatering',{mess_id:mess_id},function(res){
         if(res.msg == 'success'){
-            if(res.data.length !== 0){
+            if(res.data !== null){
                 allCateMenuitem = res.data.menu_item;
+                loadAllSelectCateringOption();
             }
         }
     });
@@ -230,6 +231,7 @@
                     if(res.msg == 'success'){
                         allCateMenuitem.push(value);
                         $('#cateRingMenuName').val('').focus();
+                        loadAllSelectCateringOption();
                         console.log('Successfully Save.');
                     }
                 });
@@ -240,5 +242,15 @@
             console.log('Please enter your menu item.');
         }
 
+    }
+
+    function loadAllSelectCateringOption(){
+        $.each($('#customSelectCatering select'),function(k,v){
+            $.each(allCateMenuitem,function(ka,va){
+                if($(v).find('[data-value="'+va+'"]').length == 0){
+                    $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                }
+            });    
+        })
     }
 </script>
