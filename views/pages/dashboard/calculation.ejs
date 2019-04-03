@@ -9,7 +9,7 @@ var footer_name = <%- JSON.stringify(footer_name) %>
 </script>    
 <% var totalMeal =  0; %>
 <% var totalBazar =  0; %>
-<% var fixedCost =  fixed_cost_list.house_rent + fixed_cost_list.electricity_bill + fixed_cost_list.gas_bill + fixed_cost_list.water_bill + fixed_cost_list.garbage_bill + fixed_cost_list.chef_bill + fixed_cost_list.internet_bill; %>
+<% var fixedCost =  fixed_cost_list.house_rent + fixed_cost_list.electricity_bill + fixed_cost_list.gas_bill + fixed_cost_list.water_bill + fixed_cost_list.garbage_bill + fixed_cost_list.chef_bill + fixed_cost_list.internet_bill + fixed_cost_list.others; %>
 <%  _.each(member_list,function(vu,ku){ _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest } }) })  %>
 <%   _.each(member_list,function(vu,ku){  _.each(bazar_list,function(vb,kb){  if(vu.user_id == vb.assign_user_id) {totalBazar = totalBazar + Number(vb.total_amount) } })  }); %>
 <% var mealRate =  totalBazar / totalMeal; mealRate = Number(mealRate.toFixed(2)) %>
@@ -115,7 +115,7 @@ var footer_name = <%- JSON.stringify(footer_name) %>
                                                                     <% var this_meal_cost = Math.ceil(thisTotalMeal * mealRate) %>
                                                                     <% var this_meal_c_s = Math.ceil(thisTotalBazar - this_meal_cost); %>
                                                                     <% var thisMonthTotalDeposit = Math.ceil((totalDeposit) + (thisTotalBazar));%>
-                                                                    <% var totalCost = Math.ceil(perHeadFixedCost + this_meal_cost) %>
+                                                                    <% var totalCost = perHeadFixedCost + this_meal_cost %>
                                                                     <% var balance = Math.ceil(vu.account - totalCost) %>
                                                                     
                                                                     <tr class="active text-center">
@@ -126,7 +126,7 @@ var footer_name = <%- JSON.stringify(footer_name) %>
                                                                         <td class="text-center"><% if(isNaN(this_meal_cost)){ %> 0 <%}else{%> <%= this_meal_cost %><%} %> Tk.</td>
                                                                         <td class="text-center"><% if(isNaN(this_meal_c_s)){ %> 0 <%}else{%> <%= this_meal_c_s %><%} %> Tk.</td>
                                                                         <td class="text-center"><%= thisMonthTotalDeposit %> Tk.</td>
-                                                                        <td class="_userTotal text-center" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %>0<%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> 0 <%}else{%> <%= totalCost %><%} %> Tk.</td>
+                                                                        <td class="_userTotal text-center" user-id="<%= vu.user_id %>" user-cost="<% if(isNaN(totalCost)){ %><%= perHeadFixedCost %><%}else{%><%= totalCost %><%} %>"><% if(isNaN(totalCost)){ %> <%= perHeadFixedCost %><%}else{%> <%= totalCost %><%} %> Tk.</td>
                                                                         <% if(monthly_report.status !== 1){%> <td><%= vu.account %> Tk.</td>  <%}%>
                                                                         <td class="text-center"><% if(monthly_report.status == 1){ _.each(monthly_report.mess_members, function(vmr,kmr){ if(vmr.user_id == vu.user_id){%> <%= vmr.account %><% }}); }else{ if(isNaN(balance)){ %> 0 <%}else{%> <%= balance %><%} }%> Tk.</td>
                                                                     </tr>

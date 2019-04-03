@@ -72,6 +72,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-md-4 control-label">Others Bill</label>
+                                                <div class="col-md-8">
+                                                    <input type="number" class="form-control"  name="others" placeholder="others Bill" value="<%= fixed_cost.others %>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <% if(userData.user_role == 'Manager'){ %>
                                                     <div class="col-md-8 col-md-offset-4 text-center">
                                                         <button type="submit" class="btn btn-block btn-primary waves-effect waves-light w-xs m-b-5">Update Fixed Cost</button>
@@ -121,6 +127,10 @@
                                                             <li class="list-group-item data">
                                                                 <span class="badge badge-primary"><%= fixed_cost.chef_bill %> Tk.</span>
                                                                 Chef Bill
+                                                            </li>
+                                                            <li class="list-group-item data">
+                                                                <span class="badge badge-primary"><%= fixed_cost.others %> Tk.</span>
+                                                                Others
                                                             </li>
                                                             <li class="list-group-item" id="todayMealTotal" style="font-weight:bold"> Total: <span class="badge badge-primary"> <%= fixed_cost.house_rent+fixed_cost.electricity_bill+fixed_cost.gas_bill+fixed_cost.water_bill+fixed_cost.garbage_bill+fixed_cost.internet_bill + fixed_cost.chef_bill%> Tk.</span> </li>
                                                         </ul>
@@ -215,6 +225,10 @@
                                         <span class="badge badge-primary" id="chefBill"></span>
                                         Chef Bill
                                     </li>
+                                    <li class="list-group-item text-left data">
+                                        <span class="badge badge-primary" id="othersBill"></span>
+                                        Others Bill
+                                    </li>
                                     <li class="list-group-item text-left" id="totalOldData" style="font-weight:bold"> Total: <span class="badge badge-primary">  Tk.</span> </li>
                                 </ul>
                                 <div class="button-list m-t-20">
@@ -255,7 +269,7 @@
         $.each(fixedCost, function(k,v){
             if(log_id == v.log_id){
                 console.log(v.log_data)
-                var totalValue = v.log_data.house_rent + v.log_data.electricity_bill + v.log_data.gas_bill + v.log_data.water_bill + v.log_data.garbage_bill + v.log_data.internet_bill + v.log_data.chef_bill;
+                var totalValue = v.log_data.house_rent + v.log_data.electricity_bill + v.log_data.gas_bill + v.log_data.water_bill + v.log_data.garbage_bill + v.log_data.internet_bill + v.log_data.chef_bill+v.log_data.others;
                 $('#houseRent').text(v.log_data.house_rent+' Tk.');
                 $('#electricity').text(v.log_data.electricity_bill+' Tk.');
                 $('#gasBill').text(v.log_data.gas_bill+' Tk.');
@@ -263,6 +277,7 @@
                 $('#garbageBill').text(v.log_data.garbage_bill+' Tk.');
                 $('#internetBill').text(v.log_data.internet_bill+' Tk.');
                 $('#chefBill').text(v.log_data.chef_bill+' Tk.');
+                $('#othersBill').text(v.log_data.chef_bill+' Tk.');
                 $('#totalOldData span').text(totalValue +' Tk.');
             }
         });

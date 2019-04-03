@@ -243,7 +243,8 @@ var findFixedCost = (data,callback)=>{
 					water_bill :0,
 					garbage_bill :0,
 					chef_bill :0,
-					internet_bill :0
+					internet_bill :0,
+					others :0
 				}
 				new FixedCost(resData).save().then(res =>{
 			        callback({msg:'success',data:resData});
@@ -265,7 +266,8 @@ var updateFixedCost =(data,callback)=>{
 		water_bill:data.water_bill,
 		garbage_bill:data.garbage_bill,
 		chef_bill:data.chef_bill,
-		internet_bill:data.internet_bill
+		internet_bill:data.internet_bill,
+		others:data.others
 	}
 	var olddata =  JSON.parse(data.old_fixed_cost);
 	FixedCost.updateOne({fixed_cost_id:data.fixed_cost_id},updateValue,function(err,result){
