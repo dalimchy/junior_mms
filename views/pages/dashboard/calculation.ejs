@@ -12,8 +12,8 @@ var footer_name = <%- JSON.stringify(footer_name) %>
 <% var fixedCost =  fixed_cost_list.house_rent + fixed_cost_list.electricity_bill + fixed_cost_list.gas_bill + fixed_cost_list.water_bill + fixed_cost_list.garbage_bill + fixed_cost_list.chef_bill + fixed_cost_list.internet_bill; %>
 <%  _.each(member_list,function(vu,ku){ _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id){ totalMeal = totalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest } }) })  %>
 <%   _.each(member_list,function(vu,ku){  _.each(bazar_list,function(vb,kb){  if(vu.user_id == vb.assign_user_id) {totalBazar = totalBazar + Number(vb.total_amount) } })  }); %>
-<% var mealRate =  Math.ceil(totalBazar / totalMeal); %>
-<% var perHeadFixedCost = Math.ceil(fixedCost / member_list.length) %>
+<% var mealRate =  totalBazar / totalMeal; mealRate = Number(mealRate.toFixed(2)) %>
+<% var perHeadFixedCost = fixedCost / member_list.length; perHeadFixedCost = Number(perHeadFixedCost.toFixed(2))%>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -110,13 +110,13 @@ var footer_name = <%- JSON.stringify(footer_name) %>
                                                                     <% var thisTotalBazar = 0 ; %>
                                                                     <% var totalDeposit = 0 %>
                                                                     <%  _.each(meal_list,function(vm,km){ if(vu.user_id == vm.assign_user_id ){thisTotalMeal = thisTotalMeal + vm.breakfast + vm.lunch + vm.dinner + vm.guest; }}) %>
-                                                                    <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = thisTotalBazar + Number(vb.total_amount);}}) %>
-                                                                    <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = totalDeposit + Number(vp.log_data.amount) }})%>
-                                                                    <% var this_meal_cost = thisTotalMeal * mealRate %>
-                                                                    <% var this_meal_c_s = thisTotalBazar - this_meal_cost %>
-                                                                    <% var thisMonthTotalDeposit = (totalDeposit) + (thisTotalBazar) %>
-                                                                    <% var totalCost = perHeadFixedCost + this_meal_cost %>
-                                                                    <% var balance = vu.account - totalCost %>
+                                                                    <%  _.each(bazar_list,function(vb,kb){ if(vu.user_id == vb.assign_user_id ){thisTotalBazar = Math.ceil(thisTotalBazar + Number(vb.total_amount))}}) %>
+                                                                    <% _.each(payment_log,function(vp,kp){if(vp.log_data.payment_user_id == vu.user_id ){totalDeposit = Math.ceil(totalDeposit + Number(vp.log_data.amount)) }})%>
+                                                                    <% var this_meal_cost = Math.ceil(thisTotalMeal * mealRate) %>
+                                                                    <% var this_meal_c_s = Math.ceil(thisTotalBazar - this_meal_cost); %>
+                                                                    <% var thisMonthTotalDeposit = Math.ceil((totalDeposit) + (thisTotalBazar));%>
+                                                                    <% var totalCost = Math.ceil(perHeadFixedCost + this_meal_cost) %>
+                                                                    <% var balance = Math.ceil(vu.account - totalCost) %>
                                                                     
                                                                     <tr class="active text-center">
                                                                         <th class="text-center" scope="row" id="<%= vu.user_id %>"><%= ku +1 %></th>
