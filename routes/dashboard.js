@@ -901,30 +901,35 @@ router.get('/payment', function(req, res) {
   if(req.session.login){
     findLog({mess_id:req.session.mess_id,type:'payment'}, function(paymentLog){
       findMonthlyReportOne({mess_id:req.session.mess_id,month:thisMonth,year:thisYear},(monthlyReport)=>{
-        findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
-          var resdata = {
-            title : 'Payment',
-            msg : null,
-            ses_msg : req.session.msg,
-            member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
-            monthly_report : monthlyReport.data,
-            payment_log : paymentLog.data,
-            moment : moment,
-            footer_name:footerTitle,
-            _:_,
-            mess_name:req.session.mess_name,
-            userData : {
-              user_name : req.session.user_name,
-              user_id:req.session.user_id,
-              user_email:req.session.user_email,
-              user_img:req.session.user_img,
+        findMonthRe({mess_id:req.session.mess_id},function(allmonthRe){
+          findAllActiveMembers({mess_id:req.session.mess_id},(response)=>{
+            var resdata = {
+              title : 'Payment',
+              msg : null,
+              ses_msg : req.session.msg,
+              member_list : (monthlyReport.data.status == 1)? monthlyReport.data.mess_members:response.data,
+              monthly_report : monthlyReport.data,
+              payment_log : paymentLog.data,
+              moment : moment,
+              footer_name:footerTitle,
+              allmonthRe:allmonthRe,
+              thisMonth:thisMonth,
+              thisYear:thisYear,
+              _:_,
               mess_name:req.session.mess_name,
-              mess_id:req.session.mess_id,
-              user_role:((req.session.user_role == 1)? 'Manager':'Member')
+              userData : {
+                user_name : req.session.user_name,
+                user_id:req.session.user_id,
+                user_email:req.session.user_email,
+                user_img:req.session.user_img,
+                mess_name:req.session.mess_name,
+                mess_id:req.session.mess_id,
+                user_role:((req.session.user_role == 1)? 'Manager':'Member')
+              }
             }
-          }
-          req.session.msg = null;
-          res.render('pages/dashboard/payment', resdata);
+            req.session.msg = null;
+            res.render('pages/dashboard/payment', resdata);
+          });
         });
       });
     });
@@ -944,8 +949,8 @@ router.post('/payment', function(req, res) {
     amount:req.body.pay_amount,
     pay_info:req.body.payment_info,
     day:today,
-    month:thisMonth,
-    year:thisYear
+    month:req.body.month,
+    year:req.body.year
   }
   if(req.session.login){
     addPayment(reqData,function(response){
