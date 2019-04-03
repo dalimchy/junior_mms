@@ -64,4 +64,4 @@ typings/
 config/keys.js
 
 #user images directories
-public/admin_assets/images/users/
+public/admin_assets/images/
