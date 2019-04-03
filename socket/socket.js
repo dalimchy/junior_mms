@@ -7,7 +7,8 @@ var {findConv_and_Messages,sendMessage,getAllunreadMsg,msgSeen} = require('./../
 var {getbydate,
     datebyBazar,
     addCateringMenuItem,
-    findAllCatering
+    findAllCatering,
+    updateCatering
   } = require('./../utils/mess');
 
 module.exports = function (io) {
@@ -136,6 +137,14 @@ module.exports = function (io) {
           callback(response);
         }
       });
+    });
+
+    socket.on('updateCatering', function(data){
+      updateCatering(data,function(response){
+        if(response.msg == 'success'){
+          console.log('success')
+        }
+      })
     })
 
     

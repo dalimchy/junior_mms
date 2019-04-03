@@ -15,7 +15,8 @@ var thisYear = moment().format('YYYY');
             <div class="content-page">
                 <!-- Start content -->
                 <div class="content">
-                    <div class="container">
+                    <div class="container" id="mainContainer">
+
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card-box">
@@ -99,3 +100,43 @@ var thisYear = moment().format('YYYY');
 <script src="/admin_assets/plugins/raphael/raphael-min.js"></script>
 <script type="text/javascript" src="/admin_assets/plugins/jquery-knob/excanvas.js"></script>
 <script src="/admin_assets/pages/jquery.dashboard.js"></script>
+
+<script>
+    function getIndexDay(value){
+        switch(value)
+            {
+                case 'Saturday':
+                    return 0;
+                    break;
+                case 'Sunday':
+                    return 1;
+                    break;
+                case 'Monday':
+                    return 2;
+                    break;
+                case 'Tuesday':
+                    return 3;
+                    break;
+                case 'Wednesday':
+                    return 4;
+                    break;
+                case 'Thusday':
+                    return 5;
+                    break;
+                case 'Friday':
+                    return 6;
+                    break;
+            }
+    }
+    var mess_id = <%- JSON.stringify(userData.mess_id) %>;
+    socket.emit('getCatering',{mess_id:mess_id},function(res){
+        var dayIndex = getIndexDay(moment().format('dddd'));
+        var dayname = moment().format('dddd');
+        console.log(res.data)
+        if(res.msg == 'success'){
+            if(res.data !== null){
+                $('#mainContainer').prepend('<div class="row text-center" style="height:32px;">Today Catering: <span class="badge badge-primary">Breakfast:'+res.data.day_catering[dayIndex][dayname]['breakfast']+'</span> <span class="badge badge-pink">Lunch:'+res.data.day_catering[dayIndex][dayname]['lunch']+'</span> <span class="badge badge-inverse">Dinner:'+res.data.day_catering[dayIndex][dayname]['dinner']+'</span></div>')
+            }
+        }
+    });
+</script>

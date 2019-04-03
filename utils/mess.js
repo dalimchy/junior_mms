@@ -405,6 +405,16 @@ var addCateringMenuItem = (data,callback)=>{
 	})
 }
 
+var updateCatering = (data,callback)=>{
+	CateringMenu.updateOne({mess_id:data.mess_id},{day_catering:data.day_catering}, function(err,result){
+		if(err){
+			console.log(err);
+		}else{
+			callback({msg:'success',data:result});
+		}
+	})
+}
+
 module.exports = {
 	findMonthlyReport,
 	findAllMember,
@@ -430,5 +440,6 @@ module.exports = {
 	updateBazar,
 	deletePayment,
 	findAllCatering,
-	addCateringMenuItem
+	addCateringMenuItem,
+	updateCatering
 };

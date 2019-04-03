@@ -16,19 +16,7 @@ const catering_menuSchema = new Schema({
         type:String,
         required:true
     },
-    day_name:{
-        type:Array,
-        default:['Saturday','Sunday','Monday','Tuesday','Wednesday','Thusday','Friday']
-    },
-    breakfast:{
-        type:Array,
-        default:[]
-    },
-    lunch:{
-        type:Array,
-        default:[]
-    },
-    dinner:{
+    day_catering:{
         type:Array,
         default:[]
     },

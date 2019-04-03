@@ -22,6 +22,7 @@
                                                     <label style="line-height: 38px;" class="col-md-3 col-sm-3 panel-title">Menu Name</label>
                                                     <div class="col-md-6 col-sm-6 m-b-5">
                                                         <input type="text" class="form-control" name="" id="cateRingMenuName">
+                                                        <span id="itemMessage" class=""></span>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
                                                         <button style="height: 38px;" class="btn btn-block btn-info waves-effect waves-light w-xs" onclick="addCateringMenu()" >Add Menu</button>
@@ -51,18 +52,18 @@
                                             <p>Saturday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Saturday" data-time="breakfast" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Saturday" data-time="lunch" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Saturday" data-time="dinner" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -71,18 +72,18 @@
                                             <p>Sunday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Sunday" data-time="breakfast" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Sunday" data-time="lunch" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Sunday" data-time="dinner" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -91,18 +92,18 @@
                                             <p>Monday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Monday" data-time="breakfast" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Monday" data-time="lunch" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Monday" data-time="dinner" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -111,18 +112,18 @@
                                             <p>Tuesday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Tuesday" data-time="breakfast" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Tuesday" data-time="lunch" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Tuesday" data-time="dinner" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -131,18 +132,18 @@
                                             <p>Wednesday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Wednesday" data-time="breakfast" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Wednesday" data-time="lunch" onchange="changedayCateringmenu(this)"  >
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Wednesday" data-time="dinner" onchange="changedayCateringmenu(this)"  >
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -151,18 +152,18 @@
                                             <p>Thusday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Thusday" data-time="breakfast" onchange="changedayCateringmenu(this)"  >
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Thusday" data-time="lunch" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Thusday" data-time="dinner" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -171,18 +172,18 @@
                                             <p>Friday</p>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Breakfast</option>
+                                            <select name="" class="form-control" id="" data-day="Friday" data-time="breakfast" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Breakfast</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Lunch</option>
+                                            <select name="" class="form-control" id="" data-day="Friday" data-time="lunch" onchange="changedayCateringmenu(this)" >
+                                                <option value="" selected disabled>Select Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 m-b-5">
-                                            <select name="" class="form-control" id="">
-                                                <option value="">Select Diner</option>
+                                            <select name="" class="form-control" id="" data-day="Friday" data-time="dinner" onchange="changedayCateringmenu(this)">
+                                                <option value="" selected disabled>Select Diner</option>
                                             </select>
                                         </div>
                                     </div>
@@ -207,12 +208,14 @@
 
 <script type="text/javascript">
     var allCateMenuitem = [];
+    var dayCatering = [];
     var mess_id = <%- JSON.stringify(userData.mess_id) %>;
 
     socket.emit('getCatering',{mess_id:mess_id},function(res){
         if(res.msg == 'success'){
             if(res.data !== null){
                 allCateMenuitem = res.data.menu_item;
+                dayCatering = res.data.day_catering;
                 loadAllSelectCateringOption();
             }
         }
@@ -220,7 +223,7 @@
 
     function addCateringMenu(){
         var value = $('#cateRingMenuName').val();
-
+        $('#itemMessage').text('');
         if(value !== ''){
             if(allCateMenuitem.indexOf(value) == -1){
                 var data = {
@@ -232,14 +235,23 @@
                         allCateMenuitem.push(value);
                         $('#cateRingMenuName').val('').focus();
                         loadAllSelectCateringOption();
-                        console.log('Successfully Save.');
+                        $('#itemMessage').attr('class','text-success').text('Successfully Save.');
+                        setTimeout(function(){
+                            $('#itemMessage').text('');
+                        },3000)
                     }
                 });
             }else{
-                console.log('Your menu item already exist.');
+                $('#itemMessage').attr('class','text-warning').text('Your menu item already exist.');
+                setTimeout(function(){
+                    $('#itemMessage').text('');
+                },3000);
             }
         }else{
-            console.log('Please enter your menu item.');
+            $('#itemMessage').attr('class','text-warning').text('Please enter your menu item.');
+            setTimeout(function(){
+                $('#itemMessage').text('');
+            },3000);
         }
 
     }
@@ -248,9 +260,116 @@
         $.each($('#customSelectCatering select'),function(k,v){
             $.each(allCateMenuitem,function(ka,va){
                 if($(v).find('[data-value="'+va+'"]').length == 0){
-                    $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                    if(dayCatering.length !== 0){
+                        var day     = $(v).attr('data-day');
+                        var time    = $(v).attr('data-time');
+
+                        if(day == 'Saturday'){
+                            if(dayCatering[0][day][time] !== ''){
+                                if(dayCatering[0][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Sunday'){
+                            if(dayCatering[1][day][time] !== ''){
+                                if(dayCatering[1][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Monday'){
+                            if(dayCatering[2][day][time] !== ''){
+                                if(dayCatering[2][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Tuesday'){
+                            if(dayCatering[3][day][time] !== ''){
+                                if(dayCatering[3][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Wednesday'){
+                            if(dayCatering[4][day][time] !== ''){
+                                if(dayCatering[4][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Thusday'){
+                            if(dayCatering[5][day][time] !== ''){
+                                if(dayCatering[5][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }else if(day == 'Friday'){
+                            if(dayCatering[6][day][time] !== ''){
+                                if(dayCatering[6][day][time] == va){
+                                    $(v).append('<option value="'+va+'" data-value="'+va+'" selected="">'+va+'</option>');
+                                }else{
+                                   $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>'); 
+                                }
+                            }else{
+                                $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                            }
+                        }
+
+                    }else{
+
+                        $(v).append('<option value="'+va+'" data-value="'+va+'">'+va+'</option>');
+                    }
                 }
             });    
         })
+    }
+
+    function changedayCateringmenu(elm){
+        if(dayCatering.length == 0){
+            dayCatering = [{'Saturday':{'breakfast':'','lunch':'','dinner':''}},{'Sunday':{'breakfast':'','lunch':'','dinner':''}},{'Monday':{'breakfast':'','lunch':'','dinner':''}},{'Tuesday':{'breakfast':'','lunch':'','dinner':''}},{'Wednesday':{'breakfast':'','lunch':'','dinner':''}},{'Thusday':{'breakfast':'','lunch':'','dinner':''}},{'Friday':{'breakfast':'','lunch':'','dinner':''}}]
+        }
+        var value   = $(elm).val();
+        var day     = $(elm).attr('data-day');
+        var time    = $(elm).attr('data-time');
+        if(value !== ''){
+            if(day == 'Saturday'){
+                dayCatering[0][day][time] = value;
+            }else if(day == 'Sunday'){
+                dayCatering[1][day][time] = value;
+            }else if(day == 'Monday'){
+                dayCatering[2][day][time] = value;
+            }else if(day == 'Tuesday'){
+                dayCatering[3][day][time] = value;
+            }else if(day == 'Wednesday'){
+                dayCatering[4][day][time] = value;
+            }else if(day == 'Thusday'){
+                dayCatering[5][day][time] = value;
+            }else if(day == 'Friday'){
+                dayCatering[6][day][time] = value;
+            }
+
+            socket.emit('updateCatering',{mess_id:mess_id,day_catering:dayCatering})
+        }
     }
 </script>
